@@ -157,7 +157,7 @@ $('#sform').addEventListener('submit', e => {
 });
 
 /* hash router: one page at a time, back button via the hash */
-const ROUTES = { '': 'home', home: 'home', top: 'home', about: 'home', follow: 'home', videos: 'videos', destinations: 'destinations', packs: 'packs', tools: 'calculator', calculator: 'calculator', survey: 'survey', shop: 'shop', deals: 'shop', collection: 'collection', cards: 'collection' };
+const ROUTES = { '': 'home', home: 'home', top: 'home', about: 'home', follow: 'home', videos: 'videos', destinations: 'destinations', packs: 'packs', tools: 'calculator', calculator: 'calculator', survey: 'survey', shop: 'shop', deals: 'shop', collection: 'vault', cards: 'vault', vault: 'vault' };
 function routeName() {
   const key = decodeURIComponent(location.hash.replace(/^#/, '')).replace(/^\//, '').split(/[?#]/)[0];
   return ROUTES[key] || 'home';

@@ -19,7 +19,7 @@
 <header class="nav" id="nav">
   <a href="#/" class="logo" data-nav="home">SOLO<span>TRAVEL</span>365</a>
   <nav class="links" id="links">
-    <a href="#/" data-nav="home">Home</a><a href="#/videos" data-nav="videos">Videos</a><a href="#/destinations" data-nav="destinations">Destinations</a><a href="#/packs" data-nav="packs">Packs</a><a href="#/collection" data-nav="collection">Collection</a><a href="#/shop" data-nav="shop">Shop</a><a href="#/calculator" data-nav="calculator">Calculator</a><a href="#/survey" data-nav="survey">Survey</a>
+    <a href="#/" data-nav="home">Home</a><a href="#/videos" data-nav="videos">Videos</a><a href="#/destinations" data-nav="destinations">Destinations</a><a href="#/packs" data-nav="packs">Packs</a><a href="#/vault" data-nav="vault">Vault</a><a href="#/shop" data-nav="shop">Shop</a><a href="#/calculator" data-nav="calculator">Calculator</a><a href="#/survey" data-nav="survey">Survey</a>
   </nav>
   <button type="button" class="btn btn-sm" data-open-pack>Open pack</button>
   <button class="burger" id="burger" aria-label="Menu"><span></span><span></span></button>
@@ -72,7 +72,7 @@
     <a class="btn" href="#/calculator">Calculator</a>
     <a class="btn" href="#/survey">Survey</a>
     <a class="btn" href="#/shop">Shop</a>
-    <a class="btn wide" href="#/collection">My collection</a>
+    <a class="btn wide" href="#/vault">The Vault</a>
   </nav>
 </section>
 <!-- ABOUT -->
@@ -261,13 +261,25 @@
 
 
 </div>
-<div class="page" data-page="collection" id="collection">
-<section class="section">
+<div class="page" data-page="vault" id="vault">
+<section class="section vault">
   <div class="sec-head">
     <p class="eyebrow reveal">Series 01</p>
-    <h2 class="reveal">My <span class="accent">collection</span></h2>
+    <h2 class="reveal">The <span class="accent">Vault</span></h2>
+    <p class="lead reveal">A binder for the set. Collected cards show the place. Empty sleeves stay locked.</p>
+  </div>
+  <div class="vault-progress">
+    <div class="vault-bar" aria-hidden="true"><i id="vaultFill"></i></div>
     <p class="col-count" id="colCount">0/25</p>
-    <p class="lead reveal">Twenty-five cards. Pulls are weighted. Uncollected slots stay a silhouette.</p>
+  </div>
+  <div class="vault-filters" id="vaultFilters" role="tablist" aria-label="Filter by rarity">
+    <button type="button" class="on" data-filter="all">All</button>
+    <button type="button" data-filter="backpacker">Common</button>
+    <button type="button" data-filter="explorer">Uncommon</button>
+    <button type="button" data-filter="globetrotter">Rare</button>
+    <button type="button" data-filter="voyager">Epic</button>
+    <button type="button" data-filter="legend">Legendary</button>
+    <button type="button" data-filter="passport">Ultra Rare</button>
   </div>
   <ul class="tier-legend" aria-label="Pull odds">
     <li class="tier-backpacker"><i class="swatch"></i> Backpacker – Common <b>55%</b></li>
@@ -277,7 +289,18 @@
     <li class="tier-legend"><i class="swatch"></i> Legend – Legendary <b>1.9%</b></li>
     <li class="tier-passport"><i class="swatch"></i> Golden Passport – Ultra Rare · 1 in 1000 <b>0.1%</b></li>
   </ul>
-  <div class="colgrid" id="colGrid"></div>
+  <div class="binder" id="colGrid"></div>
+  <aside class="prize-ladder" aria-label="Complete the set">
+    <p class="eyebrow">Complete the set</p>
+    <p class="soon">COMING SOON</p>
+    <ol>
+      <li><b>1st to complete Series 01</b><span>Free jumper / hoodie</span></li>
+      <li><b>2nd</b><span>T-shirt</span></li>
+      <li><b>Next few</b><span>Hats</span></li>
+      <li><b>Next few</b><span>Socks</span></li>
+    </ol>
+    <p class="fine">Prizes require an account to verify — coming soon.</p>
+  </aside>
 </section>
 </div>
 
@@ -318,7 +341,7 @@
   <a href="#/calculator" data-nav="calculator"><span>Σ</span>Calc</a>
   <a href="#/survey" data-nav="survey"><span>✓</span>Survey</a>
   <a href="#/shop" data-nav="shop"><span>🎒</span>Shop</a>
-  <a href="#/collection" data-nav="collection"><span>✦</span>Cards</a>
+  <a href="#/vault" data-nav="vault"><span>✦</span>Vault</a>
 </nav>
 
 <script>

@@ -50,19 +50,23 @@ function paint() {
   if (el) el.innerHTML = d ? `Last pull: <b>${esc(d.name)}</b>` : 'Pull the tab to open your first pack';
 }
 
+let vaultFilter = 'all';
 function renderCollection() {
   const have = new Set(owned());
   const count = $('#colCount');
   if (count) count.textContent = `${have.size}/25`;
+  const fill = $('#vaultFill');
+  if (fill) fill.style.width = (have.size / 25 * 100) + '%';
   const grid = $('#colGrid');
   if (!grid) return;
-  grid.innerHTML = CARDS.map(c => have.has(c.id)
+  const list = CARDS.filter(c => vaultFilter === 'all' || c.tier === vaultFilter);
+  grid.innerHTML = list.map(c => have.has(c.id)
     ? `<button type="button" class="tcard mini tier-${c.tier}" data-card="${c.id}" style="--hx:0px;--hy:0px">
         <span class="art" style="background-image:url(${c.img})"></span>
         <span class="holo"></span>
-        <span class="mini-name"><b>${esc(c.name)}</b><small>S01 · ${num(c.no)}/25</small></span>
+        <span class="mini-name"><b>${esc(c.name)}</b><small>${esc(TIERS[c.tier].rank)}</small><small>S01 · ${num(c.no)}/25</small></span>
       </button>`
-    : `<div class="tcard mini missing" aria-label="Uncollected card ${num(c.no)}"><span class="q">?</span><small>S01 · ${num(c.no)}</small></div>`
+    : `<div class="tcard mini locked" aria-label="Locked card ${num(c.no)}"><span class="lock" aria-hidden="true">🔒</span><small>S01 · ${num(c.no)}</small></div>`
   ).join('');
 }
 
@@ -140,19 +144,64 @@ function showCard(c, save) {
   bindCard(card);
 }
 
-let busy = false, dragging = false, prog = 0, startX = 0;
-function setP(v) {
-  prog = Math.max(0, Math.min(1, v));
-  if (pack) pack.style.setProperty('--p', prog.toFixed(4));
+const foil = pack && pack.querySelector('.pack-foil');
+const tear = pack && pack.querySelector('.pack-tear');
+const tab = pack && pack.querySelector('.pack-tab');
+const glow = pack && pack.querySelector('.pack-glow');
+const TAB_W = 72;
+let busy = false, dragging = false, prog = 0, originX = 0, travel = 1, packW = 230, anim = 0, eTrusted = false;
+function stopAnim() { if (anim) cancelAnimationFrame(anim); anim = 0; }
+function paintProgress(p) {
+  prog = p < 0 ? 0 : p > 1 ? 1 : p;
+  const visual = p < -0.03 ? -0.03 : p > 1 ? 1 : p;
+  const x = travel * visual;
+  if (tab) tab.style.transform = `translate3d(${x.toFixed(2)}px,0,0)`;
+  if (foil) foil.style.transform = `translate3d(${x.toFixed(2)}px,0,0)`;
+  if (tear) tear.style.clipPath = `inset(0 ${(Math.max(0, packW - Math.max(0, x))).toFixed(2)}px 0 0)`;
+  if (glow) glow.style.opacity = String(Math.max(0, Math.min(1, visual)));
 }
+function measure() {
+  packW = pack.clientWidth || 230;
+  travel = Math.max(48, packW - TAB_W);
+}
+function glide(to, ms, done) {
+  stopAnim();
+  const from = prog, t0 = performance.now();
+  const step = now => {
+    const t = Math.min(1, (now - t0) / ms);
+    const e = 1 - Math.pow(1 - t, 3);
+    paintProgress(from + (to - from) * e);
+    if (t < 1) anim = requestAnimationFrame(step);
+    else { anim = 0; done && done(); }
+  };
+  anim = requestAnimationFrame(step);
+}
+function springBack(done) {
+  stopAnim();
+  let x = prog, v = 0, last = performance.now();
+  const step = now => {
+    const dt = Math.min(0.032, (now - last) / 1000);
+    last = now;
+    v += ((0 - x) * 240 - v * 22) * dt;
+    x += v * dt;
+    paintProgress(x);
+    if (Math.abs(x) < 0.004 && Math.abs(v) < 0.05) { paintProgress(0); anim = 0; done && done(); return; }
+    anim = requestAnimationFrame(step);
+  };
+  anim = requestAnimationFrame(step);
+}
+function lockPage(on) { document.documentElement.classList.toggle('pull-lock', on); }
 function reset() {
-  busy = false; dragging = false;
+  busy = false; dragging = false; eTrusted = false;
+  stopAnim();
+  lockPage(false);
   if (!pack) return;
   pack.className = 'pack big';
+  pack.style.visibility = '';
   pack.style.display = '';
-  pack.classList.remove('spring');
-  setP(0);
-  if (hint) { hint.style.display = ''; hint.textContent = 'Drag the tab across'; }
+  measure();
+  paintProgress(0);
+  if (hint) { hint.style.visibility = ''; hint.style.display = ''; hint.textContent = 'Drag the tab across'; }
   if (res) { res.className = 'pk-result'; res.innerHTML = ''; }
   const spark = document.querySelector('.sparkburst');
   if (spark) spark.remove();
@@ -169,8 +218,8 @@ function view(c) {
   busy = true;
   pk.classList.add('open');
   pk.setAttribute('aria-hidden', 'false');
-  pack.style.display = 'none';
-  if (hint) hint.style.display = 'none';
+  pack.style.visibility = 'hidden';
+  if (hint) hint.style.visibility = 'hidden';
   showCard(c, false);
 }
 
@@ -188,54 +237,61 @@ function rollCard() {
 function finish() {
   if (busy) return;
   busy = true; dragging = false;
-  pack.classList.add('spring');
-  setP(1);
+  lockPage(false);
+  pack.classList.remove('dragging');
   if (hint) hint.textContent = '';
   const card = rollCard();
   localStorage.setItem(PACK_KEY, JSON.stringify({ at: Date.now(), last: card.id }));
   paint();
   if (eTrusted) { try { navigator.vibrate && navigator.vibrate(18); } catch (err) {} }
-  setTimeout(() => {
-    pack.style.display = 'none';
-    if (hint) hint.style.display = 'none';
-    showCard(card, true);
-    busy = false;
-  }, 520);
+  glide(1, 180, () => {
+    pack.classList.add('pack-gone');
+    setTimeout(() => {
+      pack.style.visibility = 'hidden';
+      if (hint) hint.style.visibility = 'hidden';
+      showCard(card, true);
+      busy = false;
+    }, 260);
+  });
 }
-let eTrusted = false;
 
+function beginPull(clientX, trusted, pointerId) {
+  if (busy || anim || !pk.classList.contains('open') || pack.style.visibility === 'hidden') return false;
+  dragging = true;
+  eTrusted = !!trusted;
+  measure();
+  originX = clientX - prog * travel;
+  pack.classList.add('dragging');
+  lockPage(true);
+  if (pointerId != null) { try { pack.setPointerCapture(pointerId); } catch (err) {} }
+  if (hint) hint.textContent = 'Keep pulling…';
+  return true;
+}
+function movePull(clientX) {
+  if (!dragging || busy) return;
+  paintProgress((clientX - originX) / travel);
+  if (prog >= 0.85) finish();
+}
+function endPull() {
+  if (!dragging || busy) return;
+  dragging = false;
+  pack.classList.remove('dragging');
+  lockPage(false);
+  if (prog >= 0.85) { finish(); return; }
+  springBack(() => { if (hint && !busy) hint.textContent = 'Drag the tab across'; });
+}
 if (pack) {
+  const onTab = e => !!(e.target.closest && e.target.closest('.pack-tab'));
   pack.addEventListener('pointerdown', e => {
-    if (busy || !pk.classList.contains('open') || pack.style.display === 'none') return;
-    const r = pack.getBoundingClientRect();
-    const y = e.clientY - r.top;
-    if (!e.target.closest('.pack-tab') && y > r.height * 0.24) return;
-    dragging = true;
-    eTrusted = e.isTrusted;
-    startX = e.clientX;
-    pack.classList.remove('spring');
-    pack.classList.add('dragging');
-    try { pack.setPointerCapture(e.pointerId); } catch (err) {}
-    if (hint) hint.textContent = 'Keep pulling…';
+    if (!onTab(e)) return;
+    if (!beginPull(e.clientX, e.isTrusted, e.pointerId)) return;
     e.preventDefault();
   });
-  pack.addEventListener('pointermove', e => {
-    if (!dragging || busy) return;
-    const r = pack.getBoundingClientRect();
-    setP((e.clientX - startX) / r.width);
-    if (prog >= 0.85) finish();
-  });
-  const release = () => {
-    if (!dragging || busy) return;
-    dragging = false;
-    pack.classList.remove('dragging');
-    if (prog >= 0.85) { finish(); return; }
-    pack.classList.add('spring');
-    setP(0);
-    if (hint) hint.textContent = 'Drag the tab across';
-  };
-  pack.addEventListener('pointerup', release);
-  pack.addEventListener('pointercancel', release);
+  pack.addEventListener('pointermove', e => { if (dragging) { movePull(e.clientX); e.preventDefault(); } });
+  pack.addEventListener('pointerup', endPull);
+  pack.addEventListener('pointercancel', endPull);
+  pack.addEventListener('touchmove', e => { if (dragging) e.preventDefault(); }, { passive: false });
+  pk.addEventListener('touchmove', e => { if (dragging) e.preventDefault(); }, { passive: false });
 }
 
 document.addEventListener('pointermove', e => {
@@ -264,9 +320,18 @@ document.addEventListener('click', e => {
 });
 if ($('#pkClose')) $('#pkClose').onclick = close;
 addEventListener('keydown', e => e.key === 'Escape' && pk && pk.classList.contains('open') && close());
+const filters = $('#vaultFilters');
+if (filters) filters.addEventListener('click', e => {
+  const b = e.target.closest('[data-filter]');
+  if (!b) return;
+  vaultFilter = b.dataset.filter;
+  filters.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
+  renderCollection();
+});
 renderCollection();
 paint();
 setInterval(paint, 250);
+window.__packProgress = () => prog;
 function onHome() {
   const h = location.hash.replace(/^#\/?/, '');
   return h === '' || h === 'home' || h === 'top';
