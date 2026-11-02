@@ -904,8 +904,16 @@ renderShelf();
 paint();
 setInterval(paint, 250);
 window.__collection = {
+  grantPack(item) {
+    const q = queue();
+    q.push(item || { type: 'journey', boost: null, packType: 'standard', label: 'Journey pack' });
+    saveQueue(q);
+    paint();
+  },
   snapshot() {
-    return { collection: collection(), queue: queue(), unlimited: unlimited(), pack: packState(), welcome: readWelcome() };
+    let journey = null;
+    try { journey = JSON.parse(localStorage.getItem('st365_journey_v1') || 'null'); } catch (err) { journey = null; }
+    return { collection: collection(), queue: queue(), unlimited: unlimited(), pack: packState(), welcome: readWelcome(), journey };
   },
   apply(state) {
     applyingCloud = true;
@@ -914,6 +922,10 @@ window.__collection = {
       if (state.queue) localStorage.setItem(QUEUE_KEY, JSON.stringify(state.queue));
       localStorage.setItem(UNLIM_KEY, state.unlimited ? '1' : '0');
       if (state.pack) localStorage.setItem(PACK_KEY, JSON.stringify(state.pack || {}));
+      if (state.journey) {
+        localStorage.setItem('st365_journey_v1', JSON.stringify(state.journey));
+        if (window.Journey && window.Journey.load) window.Journey.load(state.journey);
+      }
       renderShelf();
       renderRates();
       paint();
@@ -950,7 +962,7 @@ function maybeWelcome() {
   paintClaimBanner();
   const key = decodeURIComponent(location.hash.replace(/^#\/?/, '')).split(/[?#]/)[0];
   if (welcomeScheduled || /noPack|noWelcome/.test(location.search)) return;
-  if (key === 'account' || key === 'signin' || key === 'signup' || key === 'reset' || key === 'privacy' || key === 'terms') return;
+  if (key === 'account' || key === 'signin' || key === 'signup' || key === 'reset' || key === 'privacy' || key === 'terms' || key === 'play') return;
   if (!welcomeEligible()) return;
   welcomeScheduled = true;
   setTimeout(() => { welcomeScheduled = false; if (welcomeEligible()) openWelcome(); }, 450);

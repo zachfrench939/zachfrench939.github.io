@@ -44,6 +44,14 @@ The script prints the new code **once** in the terminal and prints an `insert` f
 - `--expires YYYY-MM-DD` is optional.
 - `--code` sets the plaintext yourself. Your shell history will keep it. The SQL still contains only the hash.
 
+## Solo Journey
+
+The Play page is an idle trip through the Series 01 destinations. Tapping, travelling, and the short challenges earn miles. The pack meter uses `milesPerPack` in `journey-config.js`.
+
+That number is tuned for about 15 minutes of active play: roughly 35 taps a minute, the walking income while the page is open, a challenge every few minutes, and the occasional event. Lower `milesPerPack` if you want a faster pack. Raise it if you want a slower one. The other two settings are `offlineRate` (share of transport income earned while the tab is closed) and `offlineCapMs` (how long that away-from-keyboard income can run, currently 3 hours).
+
+A filled meter adds a Journey pack to the same queue as code packs, so it skips the hourly cooldown and opens with the tear and rarity reveal. Progress is kept in this browser and, once you run `supabase/migrations/20261102210000_journey.sql`, it syncs with the signed-in account.
+
 ## Accounts and privacy
 
 This is a good-faith implementation for a UK individual site. It is not legal advice.
