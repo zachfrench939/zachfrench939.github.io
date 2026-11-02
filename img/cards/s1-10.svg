@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img">
+<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0.00" stop-color="#1b2744"/><stop offset="0.50" stop-color="#3a2a38"/><stop offset="1.00" stop-color="#6b1d2a"/></linearGradient></defs>
+<rect width="800" height="500" fill="url(#sky)"/>
+<radialGradient id="sun" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffd978"/><stop offset=".4" stop-color="#ffd978"/><stop offset="1" stop-color="#3a2a38" stop-opacity="0"/></radialGradient>
+  <circle cx="500" cy="70" r="46.800000000000004" fill="url(#sun)"/>
+  <circle cx="500" cy="70" r="18" fill="#ffd978"/><path d="M80 180 L130 280 L30 280 Z" fill="#8d1e2a"/><rect x="72" y="280" width="16" height="50" fill="#1b140f"/><path d="M200 180 L250 280 L150 280 Z" fill="#c9a15a"/><rect x="192" y="280" width="16" height="50" fill="#1b140f"/><path d="M340 180 L390 280 L290 280 Z" fill="#8d1e2a"/><rect x="332" y="280" width="16" height="50" fill="#1b140f"/><path d="M480 180 L530 280 L430 280 Z" fill="#c9a15a"/><rect x="472" y="280" width="16" height="50" fill="#1b140f"/><path d="M620 180 L670 280 L570 280 Z" fill="#8d1e2a"/><rect x="612" y="280" width="16" height="50" fill="#1b140f"/><rect y="340" width="800" height="102" fill="#120c18"/>
+<rect x="28" y="28" width="308" height="40" fill="#1b140f" opacity=".88"/>
+  <text x="42" y="56" fill="#f6edd6" font-family="Georgia, 'Times New Roman', serif" font-size="22" letter-spacing="3">CHRISTMAS MARKETS</text>
+<rect x="12" y="12" width="776" height="476" fill="none" stroke="#1b140f" stroke-opacity=".55" stroke-width="4"/>
+</svg>

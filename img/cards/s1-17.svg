@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img">
+<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0.00" stop-color="#5eb0d8"/><stop offset="0.50" stop-color="#f6e7c0"/><stop offset="1.00" stop-color="#147ea0"/></linearGradient></defs>
+<rect width="800" height="500" fill="url(#sky)"/>
+<radialGradient id="sun" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff"/><stop offset=".4" stop-color="#fff"/><stop offset="1" stop-color="#f6e7c0" stop-opacity="0"/></radialGradient>
+  <circle cx="200" cy="100" r="104" fill="url(#sun)"/>
+  <circle cx="200" cy="100" r="40" fill="#fff"/><rect x="617" y="300" width="6" height="40" fill="#3a2a1c"/><ellipse cx="620" cy="300" rx="28.000000000000004" ry="45" fill="#2f6f4a"/><rect x="697" y="320" width="6" height="28" fill="#3a2a1c"/><ellipse cx="700" cy="320" rx="19.6" ry="31.5" fill="#1f4d38"/><rect y="320" width="800" height="180" fill="#147ea0"/><path d="M0 338 C140 330, 260 348, 420 338 S 680 332, 800 338" fill="none" stroke="#f6e7c0" stroke-opacity="0.35" stroke-width="2"/><path d="M0 354 C140 346, 260 364, 420 354 S 680 348, 800 354" fill="none" stroke="#f6e7c0" stroke-opacity="0.31999999999999995" stroke-width="2"/><path d="M0 370 C140 362, 260 380, 420 370 S 680 364, 800 370" fill="none" stroke="#f6e7c0" stroke-opacity="0.29" stroke-width="2"/><path d="M0 386 C140 378, 260 396, 420 386 S 680 380, 800 386" fill="none" stroke="#f6e7c0" stroke-opacity="0.26" stroke-width="2"/><path d="M0 402 C140 394, 260 412, 420 402 S 680 396, 800 402" fill="none" stroke="#f6e7c0" stroke-opacity="0.22999999999999998" stroke-width="2"/><path d="M0 418 C140 410, 260 428, 420 418 S 680 412, 800 418" fill="none" stroke="#f6e7c0" stroke-opacity="0.19999999999999998" stroke-width="2"/><path d="M0 434 C140 426, 260 444, 420 434 S 680 428, 800 434" fill="none" stroke="#f6e7c0" stroke-opacity="0.16999999999999998" stroke-width="2"/>
+<rect x="28" y="28" width="212" height="40" fill="#1b140f" opacity=".88"/>
+  <text x="42" y="56" fill="#f6edd6" font-family="Georgia, 'Times New Roman', serif" font-size="22" letter-spacing="3">JANUARY SUN</text>
+<rect x="12" y="12" width="776" height="476" fill="none" stroke="#1b140f" stroke-opacity=".55" stroke-width="4"/>
+</svg>

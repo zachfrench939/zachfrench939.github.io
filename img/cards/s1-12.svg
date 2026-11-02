@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img">
+<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0.00" stop-color="#b7d98a"/><stop offset="0.50" stop-color="#e7f2c4"/><stop offset="1.00" stop-color="#3f7a32"/></linearGradient></defs>
+<rect width="800" height="500" fill="url(#sky)"/>
+<radialGradient id="sun" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff8d8"/><stop offset=".4" stop-color="#fff8d8"/><stop offset="1" stop-color="#e7f2c4" stop-opacity="0"/></radialGradient>
+  <circle cx="640" cy="80" r="67.60000000000001" fill="url(#sun)"/>
+  <circle cx="640" cy="80" r="26" fill="#fff8d8"/><path d="M0 160 Q400 120 800 170" fill="none" stroke="#5a8f3a" stroke-width="22"/><path d="M0 196 Q400 156 800 206" fill="none" stroke="#2f6a32" stroke-width="22"/><path d="M0 232 Q400 192 800 242" fill="none" stroke="#5a8f3a" stroke-width="22"/><path d="M0 268 Q400 228 800 278" fill="none" stroke="#2f6a32" stroke-width="22"/><path d="M0 304 Q400 264 800 314" fill="none" stroke="#5a8f3a" stroke-width="22"/><path d="M0 340 Q400 300 800 350" fill="none" stroke="#2f6a32" stroke-width="22"/><rect x="117" y="300" width="6" height="36" fill="#3a2a1c"/><ellipse cx="120" cy="300" rx="25.200000000000003" ry="40.5" fill="#145c32"/><path d="M560 80 C580 160, 600 160, 620 300" fill="none" stroke="#7eb6e0" stroke-width="8"/>
+<rect x="28" y="28" width="244" height="40" fill="#1b140f" opacity=".88"/>
+  <text x="42" y="56" fill="#f6edd6" font-family="Georgia, 'Times New Roman', serif" font-size="22" letter-spacing="3">BALI TERRACES</text>
+<rect x="12" y="12" width="776" height="476" fill="none" stroke="#1b140f" stroke-opacity=".55" stroke-width="4"/>
+</svg>

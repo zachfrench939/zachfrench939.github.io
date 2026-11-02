@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img">
+<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0.00" stop-color="#7ec8ea"/><stop offset="0.50" stop-color="#f6e3b0"/><stop offset="1.00" stop-color="#2f6f4a"/></linearGradient></defs>
+<rect width="800" height="500" fill="url(#sky)"/>
+<radialGradient id="sun" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff"/><stop offset=".4" stop-color="#fff"/><stop offset="1" stop-color="#f6e3b0" stop-opacity="0"/></radialGradient>
+  <circle cx="180" cy="100" r="88.4" fill="url(#sun)"/>
+  <circle cx="180" cy="100" r="34" fill="#fff"/><path d="M260 340 L400 120 L520 340 Z" fill="#5c4636"/><path d="M360 200 L400 120 L430 190 Z" fill="#f4f1ea"/><path d="M0 360 C200 330, 600 390, 800 340 L800 442 L0 442 Z" fill="#1a6f93"/>
+<rect x="28" y="28" width="164" height="40" fill="#1b140f" opacity=".88"/>
+  <text x="42" y="56" fill="#f6edd6" font-family="Georgia, 'Times New Roman', serif" font-size="22" letter-spacing="3">TENERIFE</text>
+<rect x="12" y="12" width="776" height="476" fill="none" stroke="#1b140f" stroke-opacity=".55" stroke-width="4"/>
+</svg>

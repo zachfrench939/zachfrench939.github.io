@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img">
+<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0.00" stop-color="#11402c"/><stop offset="0.50" stop-color="#3e8f55"/><stop offset="1.00" stop-color="#e7f2c4"/></linearGradient></defs>
+<rect width="800" height="500" fill="url(#sky)"/>
+
+    <radialGradient id="sun" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#e7ffb0"/><stop offset=".4" stop-color="#e7ffb0"/><stop offset="1" stop-color="#3e8f55" stop-opacity="0"/></radialGradient>
+  <circle cx="140" cy="80" r="67.60000000000001" fill="url(#sun)"/>
+  <circle cx="140" cy="80" r="26" fill="#e7ffb0"/>
+    <rect x="57" y="250" width="6" height="48" fill="#3a2a1c"/><ellipse cx="60" cy="250" rx="33.6" ry="54" fill="#0c2416"/><rect x="177" y="230" width="6" height="56" fill="#3a2a1c"/><ellipse cx="180" cy="230" rx="39.2" ry="63" fill="#145c32"/><rect x="297" y="250" width="6" height="64" fill="#3a2a1c"/><ellipse cx="300" cy="250" rx="44.800000000000004" ry="72" fill="#1f6b3a"/><rect x="437" y="230" width="6" height="48" fill="#3a2a1c"/><ellipse cx="440" cy="230" rx="33.6" ry="54" fill="#0c2416"/><rect x="577" y="250" width="6" height="56" fill="#3a2a1c"/><ellipse cx="580" cy="250" rx="39.2" ry="63" fill="#145c32"/><rect x="697" y="230" width="6" height="64" fill="#3a2a1c"/><ellipse cx="700" cy="230" rx="44.800000000000004" ry="72" fill="#1f6b3a"/>
+    <path d="M500 180 C520 240, 540 240, 560 320" fill="none" stroke="#9fd0ea" stroke-width="10"/>
+    <path d="M0 360 C200 330, 400 400, 800 340 L800 442 L0 442 Z" fill="#0e2a18"/>
+    <rect x="80" y="340" width="120" height="8" fill="#c4a574"/>
+<rect x="28" y="28" width="164" height="40" fill="#1b140f" opacity=".88"/>
+  <text x="42" y="56" fill="#f6edd6" font-family="Georgia, 'Times New Roman', serif" font-size="22" letter-spacing="3">DAINTREE</text>
+<rect x="12" y="12" width="776" height="476" fill="none" stroke="#1b140f" stroke-opacity=".55" stroke-width="4"/>
+</svg>

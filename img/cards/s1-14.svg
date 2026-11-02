@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img">
+<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0.00" stop-color="#7eb6e0"/><stop offset="0.50" stop-color="#f4fbff"/><stop offset="1.00" stop-color="#d5dde6"/></linearGradient></defs>
+<rect width="800" height="500" fill="url(#sky)"/>
+<radialGradient id="sun" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff"/><stop offset=".4" stop-color="#fff"/><stop offset="1" stop-color="#d5eefb" stop-opacity="0"/></radialGradient>
+  <circle cx="80" cy="70" r="62.400000000000006" fill="url(#sun)"/>
+  <circle cx="80" cy="70" r="24" fill="#fff"/><path d="M0 300 L120 140 L200 260 L320 60 L440 250 L560 90 L700 240 L800 160 L800 380 L0 380 Z" fill="#4d7594"/><path d="M280 140 L320 60 L360 140 Z" fill="#fff"/><path d="M520 160 L560 90 L600 160 Z" fill="#fff"/><rect x="57" y="320" width="6" height="28" fill="#3a2a1c"/><ellipse cx="60" cy="320" rx="19.6" ry="31.5" fill="#1e3a2c"/><rect x="40" y="300" width="90" height="10" fill="#c4503a"/>
+<rect x="28" y="28" width="196" height="40" fill="#1b140f" opacity=".88"/>
+  <text x="42" y="56" fill="#f6edd6" font-family="Georgia, 'Times New Roman', serif" font-size="22" letter-spacing="3">SWISS ALPS</text>
+<rect x="12" y="12" width="776" height="476" fill="none" stroke="#1b140f" stroke-opacity=".55" stroke-width="4"/>
+</svg>

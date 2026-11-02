@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img">
+<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0.00" stop-color="#1a1428"/><stop offset="0.50" stop-color="#3a2438"/><stop offset="1.00" stop-color="#6b1d2a"/></linearGradient></defs>
+<rect width="800" height="500" fill="url(#sky)"/>
+<line x1="120" y1="40" x2="120" y2="120" stroke="#e8b15a" stroke-width="3"/><rect x="102" y="120" width="36" height="48" rx="4" fill="#e8b15a"/><line x1="240" y1="40" x2="240" y2="130" stroke="#e8b15a" stroke-width="3"/><rect x="222" y="130" width="36" height="48" rx="4" fill="#c4473a"/><line x1="380" y1="40" x2="380" y2="140" stroke="#e8b15a" stroke-width="3"/><rect x="362" y="140" width="36" height="48" rx="4" fill="#e8b15a"/><line x1="520" y1="40" x2="520" y2="150" stroke="#e8b15a" stroke-width="3"/><rect x="502" y="150" width="36" height="48" rx="4" fill="#c4473a"/><line x1="660" y1="40" x2="660" y2="160" stroke="#e8b15a" stroke-width="3"/><rect x="642" y="160" width="36" height="48" rx="4" fill="#e8b15a"/><path d="M0 360 L800 300 L800 442 L0 442 Z" fill="#120c16"/>
+<rect x="28" y="28" width="116" height="40" fill="#1b140f" opacity=".88"/>
+  <text x="42" y="56" fill="#f6edd6" font-family="Georgia, 'Times New Roman', serif" font-size="22" letter-spacing="3">KYOTO</text>
+<rect x="12" y="12" width="776" height="476" fill="none" stroke="#1b140f" stroke-opacity=".55" stroke-width="4"/>
+</svg>

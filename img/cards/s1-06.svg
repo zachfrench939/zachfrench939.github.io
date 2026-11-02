@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img">
+<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0.00" stop-color="#f3b183"/><stop offset="0.50" stop-color="#f6d7b0"/><stop offset="1.00" stop-color="#e7c4a8"/></linearGradient></defs>
+<rect width="800" height="500" fill="url(#sky)"/>
+
+    <radialGradient id="sun" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff1d4"/><stop offset=".4" stop-color="#fff1d4"/><stop offset="1" stop-color="#f3b183" stop-opacity="0"/></radialGradient>
+  <circle cx="100" cy="90" r="78" fill="url(#sun)"/>
+  <circle cx="100" cy="90" r="30" fill="#fff1d4"/>
+    <ellipse cx="180" cy="70" rx="22" ry="30" fill="#e24b3a"/><path d="M174 100 L180 118 L186 100 Z" fill="#5a3a32"/><ellipse cx="300" cy="78" rx="22" ry="30" fill="#f6d98a"/><path d="M294 108 L300 126 L306 108 Z" fill="#5a3a32"/><ellipse cx="430" cy="86" rx="22" ry="30" fill="#c9846a"/><path d="M424 116 L430 134 L436 116 Z" fill="#5a3a32"/>
+    <path d="M80 300 C100 180, 140 180, 160 300 Z" fill="#c9846a"/><path d="M200 320 C230 140, 280 150, 300 320 Z" fill="#a86858"/><path d="M340 310 C360 200, 400 190, 430 310 Z" fill="#d7a48a"/>
+    <path d="M0 340 C200 300, 400 380, 800 320 L800 442 L0 442 Z" fill="#8d5a6a"/>
+    <line x1="0" y1="340" x2="800" y2="322" stroke="#5a3040" stroke-opacity=".13" stroke-width="1"/><line x1="0" y1="347" x2="800" y2="329" stroke="#5a3040" stroke-opacity=".13" stroke-width="1"/><line x1="0" y1="354" x2="800" y2="336" stroke="#5a3040" stroke-opacity=".13" stroke-width="1"/><line x1="0" y1="361" x2="800" y2="343" stroke="#5a3040" stroke-opacity=".13" stroke-width="1"/><line x1="0" y1="368" x2="800" y2="350" stroke="#5a3040" stroke-opacity=".13" stroke-width="1"/><line x1="0" y1="375" x2="800" y2="357" stroke="#5a3040" stroke-opacity=".13" stroke-width="1"/><line x1="0" y1="382" x2="800" y2="364" stroke="#5a3040" stroke-opacity=".13" stroke-width="1"/><line x1="0" y1="389" x2="800" y2="371" stroke="#5a3040" stroke-opacity=".13" stroke-width="1"/><line x1="0" y1="396" x2="800" y2="378" stroke="#5a3040" stroke-opacity=".13" stroke-width="1"/><line x1="0" y1="403" x2="800" y2="385" stroke="#5a3040" stroke-opacity=".13" stroke-width="1"/><line x1="0" y1="410" x2="800" y2="392" stroke="#5a3040" stroke-opacity=".13" stroke-width="1"/><line x1="0" y1="417" x2="800" y2="399" stroke="#5a3040" stroke-opacity=".13" stroke-width="1"/><line x1="0" y1="424" x2="800" y2="406" stroke="#5a3040" stroke-opacity=".13" stroke-width="1"/><line x1="0" y1="431" x2="800" y2="413" stroke="#5a3040" stroke-opacity=".13" stroke-width="1"/><line x1="0" y1="438" x2="800" y2="420" stroke="#5a3040" stroke-opacity=".13" stroke-width="1"/>
+<rect x="28" y="28" width="196" height="40" fill="#1b140f" opacity=".88"/>
+  <text x="42" y="56" fill="#f6edd6" font-family="Georgia, 'Times New Roman', serif" font-size="22" letter-spacing="3">CAPPADOCIA</text>
+<rect x="12" y="12" width="776" height="476" fill="none" stroke="#1b140f" stroke-opacity=".55" stroke-width="4"/>
+</svg>

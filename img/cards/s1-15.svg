@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img">
+<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0.00" stop-color="#f2b15a"/><stop offset="0.50" stop-color="#f6d59a"/><stop offset="1.00" stop-color="#c47a32"/></linearGradient></defs>
+<rect width="800" height="500" fill="url(#sky)"/>
+<radialGradient id="sun" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff1c4"/><stop offset=".4" stop-color="#fff1c4"/><stop offset="1" stop-color="#f2b15a" stop-opacity="0"/></radialGradient>
+  <circle cx="140" cy="110" r="93.60000000000001" fill="url(#sun)"/>
+  <circle cx="140" cy="110" r="36" fill="#fff1c4"/><path d="M0 340 C200 300, 500 390, 800 320 L800 442 L0 442 Z" fill="#6b4a28"/><path d="M520 340 L560 200 L600 340" fill="#2f4a28"/><ellipse cx="560" cy="190" rx="46" ry="18" fill="#1e3a22"/><ellipse cx="180" cy="360" rx="28" ry="12" fill="#3a2418"/><circle cx="200" cy="350" r="8" fill="#3a2418"/>
+<rect x="28" y="28" width="132" height="40" fill="#1b140f" opacity=".88"/>
+  <text x="42" y="56" fill="#f6edd6" font-family="Georgia, 'Times New Roman', serif" font-size="22" letter-spacing="3">SAFARI</text>
+<rect x="12" y="12" width="776" height="476" fill="none" stroke="#1b140f" stroke-opacity=".55" stroke-width="4"/>
+</svg>
