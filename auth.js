@@ -87,11 +87,10 @@
 
   async function pullRemote(uid) {
     const db = ensureClient();
-    const [col, pack, pref] = await Promise.all([
-      db.from('user_collections').select('cards').eq('user_id', uid).maybeSingle(),
-      db.from('user_pack_state').select('queue,unlimited,cooldown_at,last_card').eq('user_id', uid).maybeSingle(),
-      db.from('user_preferences').select('marketing_opt_in').eq('user_id', uid).maybeSingle()
-    ]);
+    const col = await db.from('user_collections').select('cards').eq('user_id', uid).maybeSingle();
+    let pack = await db.from('user_pack_state').select('queue,unlimited,cooldown_at,last_card,journey').eq('user_id', uid).maybeSingle();
+    if (pack.error) pack = await db.from('user_pack_state').select('queue,unlimited,cooldown_at,last_card').eq('user_id', uid).maybeSingle();
+    const pref = await db.from('user_preferences').select('marketing_opt_in').eq('user_id', uid).maybeSingle();
     if (col.error || pack.error) throw col.error || pack.error;
     return { col: col.data, pack: pack.data, pref: pref.data };
   }
@@ -101,16 +100,23 @@
     if (!db || !user || !window.__collection) return;
     const snap = window.__collection.snapshot();
     const at = snap.pack && snap.pack.at ? new Date(snap.pack.at).toISOString() : null;
-    const col = db.from('user_collections').upsert({ user_id: user.id, cards: snap.collection || {}, updated_at: new Date().toISOString() });
-    const pack = db.from('user_pack_state').upsert({
+    const col = await db.from('user_collections').upsert({ user_id: user.id, cards: snap.collection || {}, updated_at: new Date().toISOString() });
+    if (col.error) throw col.error;
+    const row = {
       user_id: user.id,
       queue: snap.queue || [],
       unlimited: !!snap.unlimited,
       cooldown_at: at,
       last_card: (snap.pack && snap.pack.last) || null,
+      journey: snap.journey || null,
       updated_at: new Date().toISOString()
-    });
-    await Promise.all([col, pack]);
+    };
+    let pack = await db.from('user_pack_state').upsert(row);
+    if (pack.error && Object.prototype.hasOwnProperty.call(row, 'journey')) {
+      delete row.journey;
+      pack = await db.from('user_pack_state').upsert(row);
+    }
+    if (pack.error) throw pack.error;
   }
 
   function onLocalChange() {
@@ -154,11 +160,15 @@
     const remoteAt = remote.pack && remote.pack.cooldown_at ? Date.parse(remote.pack.cooldown_at) : 0;
     const at = Math.max(localAt, remoteAt || 0);
     const last = at === remoteAt && remote.pack ? remote.pack.last_card : (local.pack && local.pack.last);
+    const remoteJourney = remote.pack && remote.pack.journey;
+    const journeyScore = j => !j ? -1 : (j.earned || 0) * 100000 + (j.meter || 0) + (j.miles || 0) + ((j.stamps || []).length * 40);
+    const journey = journeyScore(local.journey) >= journeyScore(remoteJourney) ? local.journey : remoteJourney;
     window.__collection.apply({
       collection: cards,
       queue,
       unlimited,
-      pack: { at: at || 0, last: last || '' }
+      pack: { at: at || 0, last: last || '' },
+      journey
     });
     try { await pushState(); } catch (err) {}
     try { await applySignupPrefs(); } catch (err) {}
