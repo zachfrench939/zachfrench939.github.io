@@ -41,6 +41,8 @@
 .claim-panel{background:#f6edd6;color:#1b2a4a;border:3px solid #1b2a4a;padding:14px;display:grid;gap:10px;box-shadow:6px 6px 0 #e8402c}
 .claim-panel h2,.claim-panel h3{font-family:'Archivo Black',sans-serif;font-size:1.25rem;margin:0}
 .claim-actions{display:flex;flex-wrap:wrap;gap:8px}
+.share-card{margin-top:8px}
+.share-status{min-height:1.2em;margin:4px 0 0;text-align:center;color:#f6edd6;font:700 .75rem var(--mono)}
 .mythic-sky{position:absolute;inset:0;pointer-events:none;opacity:0;background:repeating-conic-gradient(from 0deg,transparent 0 14deg,rgba(255,228,160,.28) 14deg 18deg),radial-gradient(circle,rgba(255,210,90,.28),transparent 62%);z-index:1}
 .pk.fx-mythic .mythic-sky{opacity:1}
 .pk-flash.flash-rare{background:radial-gradient(circle,#d7ecff 0,rgba(80,150,255,0) 62%)}
