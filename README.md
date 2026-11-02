@@ -33,12 +33,33 @@ node tools/generate-code.mjs --type boost --packs 1 --boost rare=3,ultra=8,mythi
 node tools/generate-code.mjs --type packs --packs 2 --expires 2026-12-31 --multi-use
 node tools/generate-code.mjs --type packs --packs 5 --max-uses 10
 node tools/generate-code.mjs --type unlimited --label "Crew"
+node tools/generate-code.mjs --type allcards --label "Full set"
 ```
 
 The script prints the new code **once** in the terminal and prints an `insert` for `pack_codes` (`hash`, `type`, `packs`, `pack_type`, `boost`, `label`, `expires_at`, `max_uses`). Paste that SQL into the Supabase SQL editor. Do not commit the plaintext code.
 
-- `--type` is `packs` (skip the cooldown, normal odds), `boost` (skip the cooldown and multiply the tier weights you pass), or `unlimited` (turn the cooldown off on that browser).
-- `--single-use` sets `max_uses` to 1. That is the default for `packs` and `boost`. `--multi-use` sets `max_uses` to null. `--max-uses N` sets a specific cap. `unlimited` defaults to no cap.
+- `--type` is `packs` (skip the cooldown, normal odds), `boost` (skip the cooldown and multiply the tier weights you pass), `unlimited` (turn the cooldown off on that browser), or `allcards` (add every card in the current released series, for example all 40 Series 01 cards, and do not start the hourly cooldown).
+- `--single-use` sets `max_uses` to 1. That is the default for `packs`, `boost`, and `allcards`. `--multi-use` sets `max_uses` to null. `--max-uses N` sets a specific cap. `unlimited` defaults to no cap.
 - `--pack-type` is `standard`, `boosted`, or `foil` (changes the wrapper).
 - `--expires YYYY-MM-DD` is optional.
 - `--code` sets the plaintext yourself. Your shell history will keep it. The SQL still contains only the hash.
+
+## Accounts and privacy
+
+This is a good-faith implementation for a UK individual site. It is not legal advice.
+
+Signed-out visitors keep using `localStorage`. Signing in merges that data into the account tables in `supabase/migrations/20261102180000_user_account_data.sql`. Run that SQL yourself in the Supabase SQL editor. It was not applied from this repo.
+
+`allcards` codes add every card in the current released series and do not start the hourly cooldown. The same is true of the one-time welcome pack, which stays pending on the device until the person signs in.
+
+Deleting saved rows uses `delete_my_data()`. Removing the auth user needs the Edge Function in `supabase/functions/delete-account/index.ts`, deployed with the Supabase CLI. Until then, delete removes the collection data and signs the person out, and the login email remains.
+
+Still for Zach to do:
+
+- Fill in the controller name and email on the Privacy notice and Terms pages.
+- Consider ICO data protection fee registration and the self-assessment, if they apply to you.
+- In Supabase Auth, set the site URL to `https://zachfrench939.github.io` and add redirect URLs for `https://zachfrench939.github.io` and `https://zachfrench939.github.io/#/account`.
+- Set the confirmation and password-reset email templates.
+- Turn on leaked-password protection and set the minimum password length to at least 8.
+- Decide whether email confirmation is required, and confirm the Supabase region and data-processing terms.
+- Run the migration SQL, and deploy `delete-account` if logins should be removable from the site.

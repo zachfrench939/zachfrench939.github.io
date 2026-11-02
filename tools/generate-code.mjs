@@ -6,6 +6,7 @@
 //   node tools/generate-code.mjs --type boost --packs 1 --boost rare=3,ultra=8,mythic=20 --pack-type boosted --label "Weekend boost"
 //   node tools/generate-code.mjs --type packs --packs 2 --expires 2026-12-31 --multi-use
 //   node tools/generate-code.mjs --type unlimited --label "Crew"
+//   node tools/generate-code.mjs --type allcards --label "Full set"
 //   node tools/generate-code.mjs --type packs --packs 5 --max-uses 10
 //
 // --code lets you choose the plaintext (it is printed, not written anywhere).
@@ -14,7 +15,7 @@
 import { createHash, randomBytes } from 'node:crypto';
 
 const TIERS = ['common', 'uncommon', 'rare', 'ultra', 'mythic'];
-const TYPES = ['packs', 'boost', 'unlimited'];
+const TYPES = ['packs', 'boost', 'unlimited', 'allcards'];
 const PACKS = ['standard', 'boosted', 'foil'];
 
 function args(argv) {
@@ -55,14 +56,15 @@ if (opt.help || opt.h) {
 
 let type = String(opt.type || '');
 if (type === 'extra') type = 'packs';
-if (!TYPES.includes(type)) die('--type must be packs, boost, or unlimited');
+if (!TYPES.includes(type)) die('--type must be packs, boost, unlimited, or allcards');
 
 const packType = String(opt['pack-type'] || (type === 'boost' ? 'boosted' : 'standard'));
 if (!PACKS.includes(packType)) die('--pack-type must be standard, boosted, or foil');
 
-let packs = type === 'unlimited' ? 0 : Number(opt.packs ?? 1);
-if (!Number.isInteger(packs) || packs < 0 || (type !== 'unlimited' && packs < 1) || packs > 100) {
-  die('--packs must be a whole number from 1 to 100 (0 only for unlimited)');
+const counted = type === 'packs' || type === 'boost';
+let packs = counted ? Number(opt.packs ?? 1) : 0;
+if (!Number.isInteger(packs) || packs < 0 || (counted && packs < 1) || packs > 100) {
+  die('--packs must be a whole number from 1 to 100 (0 for unlimited and allcards)');
 }
 
 let boost = null;
@@ -105,7 +107,7 @@ const code = opt.code ? String(opt.code).trim() : randomCode();
 if (!code || code.length > 80) die('Code must be 1–80 characters');
 
 const hash = createHash('sha256').update(code).digest('hex');
-const label = opt.label ? String(opt.label).slice(0, 80) : (type === 'unlimited' ? 'Unlimited packs' : type === 'boost' ? 'Boosted pack' : 'Extra packs');
+const label = opt.label ? String(opt.label).slice(0, 80) : (type === 'allcards' ? 'Full set' : type === 'unlimited' ? 'Unlimited packs' : type === 'boost' ? 'Boosted pack' : 'Extra packs');
 const boostSql = boost ? `${sqlString(JSON.stringify(boost))}::jsonb` : 'null';
 const expiresSql = expires ? `${sqlString(expires)}::timestamptz` : 'null';
 const maxSql = maxUses == null ? 'null' : String(maxUses);
