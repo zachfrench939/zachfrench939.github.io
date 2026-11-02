@@ -42,6 +42,7 @@
     <div class="hero-cta reveal">
       <button type="button" class="btn magnetic" data-open-pack>Open a destination pack</button>
       <a href="#/videos" class="btn btn-ghost magnetic">Watch the latest</a>
+      <p class="pack-timer" data-countdown>Pack ready</p>
     </div>
   </div>
   <a href="#/videos" class="scroll-cue" aria-label="Scroll"><span></span></a>
@@ -135,10 +136,11 @@
 <div class="page" data-page="packs">
 <!-- PACKS -->
 <section class="section packs" id="packs">
-  <div class="sec-head"><p class="eyebrow reveal">Gate 01 · Daily drop</p><h2 class="reveal">Destination <span class="accent">packs</span></h2>
-  <p class="lead reveal">Swipe across the foil to rip a pack. 1 free pack a day.</p></div>
+  <div class="sec-head"><p class="eyebrow reveal">Gate 01 · Every 2 hours</p><h2 class="reveal">Destination <span class="accent">packs</span></h2>
+  <p class="lead reveal">Drag the pull tab across the top. One pack every 2 hours.</p></div>
   <div class="pack-slot reveal">
     <button type="button" class="pack mini" data-open-pack aria-label="Open a destination pack"><span class="pack-top"></span><span class="pack-body"><small>Solo Travel 365</small><b>Destination<br>Pack</b><em>Series 01 · 25 cards</em></span></button>
+    <p class="pack-timer" data-countdown>Pack ready</p>
     <div class="last" id="lastPull"></div>
   </div>
 </section>
@@ -268,12 +270,12 @@
     <p class="lead reveal">Twenty-five cards. Pulls are weighted. Uncollected slots stay a silhouette.</p>
   </div>
   <ul class="tier-legend" aria-label="Pull odds">
-    <li class="tier-backpacker"><i class="swatch"></i> Backpacker <b>55%</b></li>
-    <li class="tier-explorer"><i class="swatch"></i> Explorer <b>25%</b></li>
-    <li class="tier-globetrotter"><i class="swatch"></i> Globetrotter <b>12%</b></li>
-    <li class="tier-voyager"><i class="swatch"></i> Voyager <b>6%</b></li>
-    <li class="tier-legend"><i class="swatch"></i> Legend <b>1.9%</b></li>
-    <li class="tier-passport"><i class="swatch"></i> Golden Passport · ultra rare · 1 in 1000 <b>0.1%</b></li>
+    <li class="tier-backpacker"><i class="swatch"></i> Backpacker – Common <b>55%</b></li>
+    <li class="tier-explorer"><i class="swatch"></i> Explorer – Uncommon <b>25%</b></li>
+    <li class="tier-globetrotter"><i class="swatch"></i> Globetrotter – Rare <b>12%</b></li>
+    <li class="tier-voyager"><i class="swatch"></i> Voyager – Epic <b>6%</b></li>
+    <li class="tier-legend"><i class="swatch"></i> Legend – Legendary <b>1.9%</b></li>
+    <li class="tier-passport"><i class="swatch"></i> Golden Passport – Ultra Rare · 1 in 1000 <b>0.1%</b></li>
   </ul>
   <div class="colgrid" id="colGrid"></div>
 </section>
@@ -294,8 +296,15 @@
 <div class="pk" id="pk" aria-hidden="true">
   <button class="pk-close" id="pkClose" aria-label="Close">✕</button>
   <div class="pk-stage" id="pkStage">
-    <p class="pk-hint" id="pkHint">Swipe across to rip</p>
-    <button type="button" class="pack big" id="pkPack" aria-label="Swipe across the top to rip the pack"><span class="pack-top"></span><span class="pack-body"><small>Solo Travel 365</small><b>Destination<br>Pack</b><em>Series 01 · 25 cards</em></span><span class="pack-foil" id="pkFoil"></span><svg class="pack-tear" id="pkTear" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"></svg></button>
+    <p class="pk-hint" id="pkHint">Drag the tab across</p>
+    <button type="button" class="pack big" id="pkPack" style="--p:0" aria-label="Drag the pull tab across the top">
+      <span class="pack-glow" aria-hidden="true"></span>
+      <span class="pack-top"></span>
+      <span class="pack-body"><small>Solo Travel 365</small><b>Destination<br>Pack</b><em>Series 01 · 25 cards</em></span>
+      <span class="pack-foil" aria-hidden="true"></span>
+      <svg class="pack-tear" viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true"><path d="M0 11 L5 6 L10 14 L16 5 L22 15 L29 6 L36 14 L43 4 L50 13 L57 6 L64 15 L71 5 L78 14 L85 6 L92 13 L100 8"/></svg>
+      <span class="pack-tab" id="pkTab">PULL</span>
+    </button>
     <div class="pk-result" id="pkResult"></div>
   </div>
 </div>
