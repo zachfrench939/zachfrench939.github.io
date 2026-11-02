@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img">
+<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7eb6e0"/><stop offset=".55" stop-color="#e8f4fb"/><stop offset="1" stop-color="#7eb6e0"/></linearGradient></defs>
+<rect width="640" height="640" fill="url(#sky)"/>
+<radialGradient id="sun" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff4d2"/><stop offset="1" stop-color="#7eb6e0" stop-opacity="0"/></radialGradient>
+  <circle cx="520" cy="90" r="67.2" fill="url(#sun)"/><circle cx="520" cy="90" r="28" fill="#fff4d2"/>
+    <path d="M0 352 L96 204.8 L179.20000000000002 307.2 L268.8 179.20000000000002 L352 320 L448 192 L544 294.40000000000003 L640 230.39999999999998 L640 460.79999999999995 L0 460.79999999999995 Z" fill="#c5d4e0"/>
+    <rect y="435.20000000000005" width="640" height="204.8" fill="#1d4e68"/>
+<rect x="24" y="24" width="111" height="36" fill="#1b140f" opacity=".9"/>
+  <text x="36" y="48" fill="#f6edd6" font-family="Georgia, 'Times New Roman', serif" font-size="20" letter-spacing="2">CABLE</text>
+<rect x="10" y="10" width="620" height="620" fill="none" stroke="#1b140f" stroke-opacity=".55" stroke-width="4"/>
+</svg>

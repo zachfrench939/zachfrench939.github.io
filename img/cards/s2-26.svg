@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img">
+<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f2b56b"/><stop offset=".55" stop-color="#e07a4a"/><stop offset="1" stop-color="#f2b56b"/></linearGradient></defs>
+<rect width="800" height="500" fill="url(#sky)"/>
+<radialGradient id="sun" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff4d2"/><stop offset="1" stop-color="#f2b56b" stop-opacity="0"/></radialGradient>
+  <circle cx="615" cy="84" r="72" fill="url(#sun)"/><circle cx="615" cy="84" r="30" fill="#fff4d2"/>
+    <path d="M0 250 C240 210, 480 290, 800 230 L800 310 L0 330 Z" fill="#f6e2c0"/>
+    <rect y="300" width="800" height="200" fill="#1d4e68"/>
+    <path d="M120 290 l18 -26 h10 l-8 26 z" fill="#f4efe6"/>
+<rect x="24" y="24" width="96" height="36" fill="#1b140f" opacity=".9"/>
+  <text x="36" y="48" fill="#f6edd6" font-family="Georgia, 'Times New Roman', serif" font-size="20" letter-spacing="2">BAKU</text>
+<rect x="10" y="10" width="780" height="480" fill="none" stroke="#1b140f" stroke-opacity=".55" stroke-width="4"/>
+</svg>

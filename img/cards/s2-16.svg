@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img">
+<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7eb6e0"/><stop offset=".55" stop-color="#e8f4fb"/><stop offset="1" stop-color="#7eb6e0"/></linearGradient></defs>
+<rect width="800" height="500" fill="url(#sky)"/>
+<radialGradient id="sun" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff4d2"/><stop offset="1" stop-color="#7eb6e0" stop-opacity="0"/></radialGradient>
+  <circle cx="145" cy="90" r="67.2" fill="url(#sun)"/><circle cx="145" cy="90" r="28" fill="#fff4d2"/>
+    <path d="M0 275 L120 160 L224.00000000000003 240 L336 140 L440.00000000000006 250 L560 150 L680 230 L800 180 L800 360 L0 360 Z" fill="#c5d4e0"/>
+    <rect y="340" width="800" height="160" fill="#1d4e68"/>
+<rect x="24" y="24" width="126" height="36" fill="#1b140f" opacity=".9"/>
+  <text x="36" y="48" fill="#f6edd6" font-family="Georgia, 'Times New Roman', serif" font-size="20" letter-spacing="2">ATHENS</text>
+<rect x="10" y="10" width="780" height="480" fill="none" stroke="#1b140f" stroke-opacity=".55" stroke-width="4"/>
+</svg>

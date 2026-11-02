@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img">
+<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f0a35a"/><stop offset=".55" stop-color="#f3d2a4"/><stop offset="1" stop-color="#f0a35a"/></linearGradient></defs>
+<rect width="800" height="500" fill="url(#sky)"/>
+<radialGradient id="sun" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff1c4"/><stop offset="1" stop-color="#f0a35a" stop-opacity="0"/></radialGradient>
+  <circle cx="568" cy="88" r="76.8" fill="url(#sun)"/><circle cx="568" cy="88" r="32" fill="#fff1c4"/>
+    <path d="M0 310 C160 200, 360 350, 560 240 C680 190, 800 250, 800 250 L800 500 L0 500 Z" fill="#c45b3e"/>
+    <path d="M0 375 C240 330, 480 410, 800 350 L800 500 L0 500 Z" fill="#c47a3a"/>
+<rect x="24" y="24" width="141" height="36" fill="#1b140f" opacity=".9"/>
+  <text x="36" y="48" fill="#f6edd6" font-family="Georgia, 'Times New Roman', serif" font-size="20" letter-spacing="2">YEREVAN</text>
+<rect x="10" y="10" width="780" height="480" fill="none" stroke="#1b140f" stroke-opacity=".55" stroke-width="4"/>
+</svg>
