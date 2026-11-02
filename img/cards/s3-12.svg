@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img">
+<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0e1830"/><stop offset=".55" stop-color="#24385c"/><stop offset="1" stop-color="#0e1830"/></linearGradient></defs>
+<rect width="640" height="640" fill="url(#sky)"/>
+<radialGradient id="sun" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffe7a8"/><stop offset="1" stop-color="#24385c" stop-opacity="0"/></radialGradient>
+  <circle cx="436" cy="179.20000000000002" r="43.199999999999996" fill="url(#sun)"/><circle cx="436" cy="179.20000000000002" r="18" fill="#ffe7a8"/>
+    <path d="M0 288 C128 192, 256 352, 416 217.60000000000002 C512 140.8, 640 256, 640 256 L640 448 L0 460.79999999999995 Z" fill="#142033"/>
+    <rect y="422.40000000000003" width="640" height="217.60000000000002" fill="#070d18"/>
+    <rect x="128" y="371.2" width="16" height="28" fill="#ffd27a" opacity=".85"/><rect x="288" y="371.2" width="16" height="28" fill="#ffd27a" opacity=".85"/><rect x="448" y="371.2" width="16" height="28" fill="#ffd27a" opacity=".85"/>
+<rect x="24" y="24" width="96" height="36" fill="#1b140f" opacity=".9"/>
+  <text x="36" y="48" fill="#f6edd6" font-family="Georgia, 'Times New Roman', serif" font-size="20" letter-spacing="2">SOUK</text>
+<rect x="10" y="10" width="620" height="620" fill="none" stroke="#1b140f" stroke-opacity=".55" stroke-width="4"/>
+</svg>

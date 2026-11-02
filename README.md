@@ -2,7 +2,7 @@
 
 Static site for [zachfrench939.github.io](https://zachfrench939.github.io). No build step: GitHub Pages serves these files as they are.
 
-Series 01 is a set of 40 boarding-pass cards. Pull rates live in `odds.js`. Each series is a folder-level pair of `series/sN.js` (data + card template) and `series/sN.css`. Series 02 (passport) and Series 03 (fridge magnet) are coming-soon placeholders. To add a series, copy one of those pairs, push an object onto `window.SERIES`, and add the stylesheet and script tags in `index.html`.
+Series 01 is 40 boarding-pass cards. Series 02 is 40 passport pages and Series 03 is 40 fridge magnets. Each series has its own frame and lithographs in `img/cards/`. Pull rates for every series live in `odds.js`. A series is `series/sN.js` plus `series/sN.css`, registered on `window.SERIES`.
 
 Packs open once an hour unless a code says otherwise. The Vault stores the collection in this browser's `localStorage`.
 

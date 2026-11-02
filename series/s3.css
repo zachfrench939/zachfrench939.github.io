@@ -1,8 +1,25 @@
-.tcard.theme-magnet{width:min(260px,74vw);aspect-ratio:1;margin:0 auto}
-.tcard.theme-magnet .tcard-face,.tcard.theme-magnet .tcard-back{border-radius:18px;background:#fff;color:#1b2a4a;border:8px solid #fff;box-shadow:0 10px 0 rgba(27,42,74,.18),inset 0 0 0 2px #d9d3c7;overflow:hidden}
-.tcard.theme-magnet .tcard-face{display:flex;flex-direction:column;background:linear-gradient(160deg,#fff 0 30%,transparent 30%),linear-gradient(200deg,#ff8a5b,#e8402c 42%,#1b2a4a)}
-.mag-art{flex:1;margin:8px;border-radius:8px;background:radial-gradient(circle at 30% 30%,#fff,#9fd0ea 28%,#1f6b8a 70%)}
-.tcard.theme-magnet h3{font-family:'Archivo Black',sans-serif;font-size:1.2rem;padding:0 10px;color:#fff}
-.tcard.theme-magnet .tcard-face p,.tcard.theme-magnet .tcard-face span{padding:0 10px 8px;color:#fff;font:700 .68rem 'Space Mono',monospace;text-transform:uppercase}
-.tcard.theme-magnet .tcard-back{padding:16px;display:flex;flex-direction:column;gap:10px;background:#fff;color:#1b2a4a}
-.soon-wrap .tcard-inner{transform:rotateY(180deg)}
+/* Series 03 — fridge magnet */
+.tcard.theme-magnet{width:min(300px,86vw);aspect-ratio:auto;height:auto;margin:0 auto;perspective:900px}
+.tcard.theme-magnet .tcard-inner{position:relative;display:grid;height:auto}
+.tcard.theme-magnet .tcard-face,
+.tcard.theme-magnet .tcard-back{grid-area:1/1;position:relative;inset:auto;height:auto;overflow:visible;border-radius:22px;background:#fff;color:#1b2a4a;border:10px solid #fff;box-shadow:0 10px 0 rgba(27,42,74,.16),inset 0 0 0 2px #d9d3c7}
+.tcard.theme-magnet .tcard-face{display:flex;flex-direction:column;gap:4px;padding:8px 8px 10px}
+.mag-art{border-radius:12px;overflow:hidden;background:#1b140f;aspect-ratio:1;border:2px solid #1b2a4a}
+.mag-art img{width:100%;height:100%;object-fit:contain;display:block}
+.tcard.theme-magnet .rarity-badge{margin:6px 4px 0}
+.mag-name{font-family:'Archivo Black',sans-serif;font-size:1.15rem;line-height:1;margin:2px 6px 0;color:#1b2a4a}
+.tcard.theme-magnet .tcard-face p,.tcard.theme-magnet .tcard-face span{margin:0 6px;color:#1b2a4a;font:700 .68rem 'Space Mono',monospace;text-transform:uppercase}
+.tcard.theme-magnet.tier-rare .tcard-face{box-shadow:0 10px 0 rgba(26,76,120,.25),inset 0 0 0 3px #1a4c78}
+.tcard.theme-magnet.tier-ultra .tcard-face{box-shadow:0 10px 0 rgba(184,134,11,.35),inset 0 0 0 3px #b8860b,0 0 16px rgba(212,175,55,.45)}
+.tcard.theme-magnet.tier-mythic .tcard-face{box-shadow:0 10px 0 rgba(226,182,87,.4),inset 0 0 0 3px #e2b657,0 0 18px rgba(255,196,80,.6)}
+.tcard.theme-magnet .tcard-back{padding:16px;display:flex;flex-direction:column;gap:6px;background:#fffaf0}
+.pk .tcard.theme-magnet{width:min(100%,280px,78vw,calc((100dvh - 16rem) * .8))}
+.shelf-card.theme-magnet{width:92px;height:120px}
+.shelf-card.theme-magnet .spine{background:#fff;color:#1b2a4a;border:6px solid #fff;border-radius:12px;box-shadow:0 4px 0 rgba(27,42,74,.18),inset 0 0 0 1px #d9d3c7}
+.shelf-card.theme-magnet.tier-mythic .spine{box-shadow:0 0 12px rgba(255,196,80,.7),inset 0 0 0 2px #e2b657}
+.shelf-card.theme-magnet.is-locked .spine{background:#152033;color:#8ea0b8;border-color:#152033;box-shadow:none}
+.shelf-card.theme-magnet .spine-art{display:block;height:58%;background:#d9c7a4 center/cover no-repeat;border-radius:6px}
+.shelf-card.theme-magnet.is-locked .spine-art{background:repeating-linear-gradient(135deg,#152033 0 6px,#1b2942 6px 12px)}
+.shelf-card.theme-magnet .spine-meta{display:flex;flex-direction:column;justify-content:flex-end;height:42%;padding:3px 4px 4px}
+.shelf-card.theme-magnet .spine-meta b{font-family:'Archivo Black',sans-serif;font-size:.58rem;line-height:1.05;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.shelf-card.theme-magnet .spine-meta small{font:700 .52rem 'Space Mono',monospace}
