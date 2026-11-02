@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="ui.css">
 <link rel="stylesheet" href="series/s1.css">
 <link rel="stylesheet" href="series/s2.css">
-<link rel="stylesheet" href="series/s3.css">
+<link rel="stylesheet" href="account.css">
 </head>
 <body>
 <a class="skip" href="#top">Skip to content</a>
@@ -24,11 +24,17 @@
 <header class="nav" id="nav">
   <a href="#/" class="logo" data-nav="home">SOLO<span>TRAVEL</span>365</a>
   <nav class="links" id="links">
-    <a href="#/" data-nav="home">Home</a><a href="#/videos" data-nav="videos">Videos</a><a href="#/destinations" data-nav="destinations">Destinations</a><a href="#/packs" data-nav="packs">Packs</a><a href="#/vault" data-nav="vault">Vault</a><a href="#/shop" data-nav="shop">Shop</a><a href="#/calculator" data-nav="calculator">Calculator</a><a href="#/survey" data-nav="survey">Survey</a>
+    <a href="#/" data-nav="home">Home</a><a href="#/videos" data-nav="videos">Videos</a><a href="#/destinations" data-nav="destinations">Destinations</a><a href="#/packs" data-nav="packs">Packs</a><a href="#/vault" data-nav="vault">Vault</a><a href="#/shop" data-nav="shop">Shop</a><a href="#/calculator" data-nav="calculator">Calculator</a><a href="#/survey" data-nav="survey">Survey</a><a href="#/account" data-nav="account" data-auth-label>Sign in</a>
   </nav>
   <button type="button" class="btn btn-sm" data-open-pack>Open pack</button>
   <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="links"><span></span><span></span></button>
 </header>
+<div class="claim-banner" id="claimBanner" hidden>
+  <p id="claimBannerText"></p>
+  <a class="btn btn-sm" href="#/signup">Sign up</a>
+  <a class="btn btn-sm btn-ghost" href="#/signin">Log in</a>
+  <button type="button" class="text-btn" id="claimBannerHide">Close</button>
+</div>
 
 <main id="top">
 <div class="page on" data-page="home" id="home">
@@ -142,7 +148,7 @@
 <!-- PACKS -->
 <section class="section packs" id="packs">
   <div class="sec-head"><p class="eyebrow reveal">Gate 01 · Every hour</p><h2 class="reveal">Destination <span class="accent">packs</span></h2>
-  <p class="lead reveal">Drag the zipper across the top, or tap the pack. One pack every hour.</p></div>
+  <p class="lead reveal">Drag the top strip up to tear the pack open, or tap it. One pack every hour. A first visit includes one welcome pack that does not start the cooldown.</p></div>
   <div class="series-switch" id="seriesSwitch" role="tablist" aria-label="Series"></div>
   <div class="pack-slot reveal">
     <button type="button" class="pack mini" data-open-pack aria-label="Open a destination pack"><span class="zip-top" aria-hidden="true"></span><span class="zip-track" aria-hidden="true"><span class="zip-teeth"></span><span class="zip-gap"></span><span class="zip-pull"></span></span><span class="pack-body"><small>Solo Travel 365</small><b>Destination<br>Pack</b><em class="pack-series">Series 01 · 40 cards</em></span></button>
@@ -311,11 +317,151 @@
 </section>
 </div>
 
+</div>
+
+<div class="page" data-page="account" id="account">
+<section class="section auth-page">
+  <div class="sec-head">
+    <p class="eyebrow">Gate · Account</p>
+    <h2>Your <span class="accent">boarding pass</span></h2>
+    <p class="lead">Sign in to keep your cards on your account. The site still works if you do not.</p>
+  </div>
+
+  <form class="card auth-card" id="formSignIn" data-auth-panel="signin">
+    <h3>Log in</h3>
+    <p id="welcomeHint" hidden>Welcome cards are saved on this device. Logging in adds them to your collection.</p>
+    <label for="signinEmail">Email <input id="signinEmail" name="email" type="email" autocomplete="username" required></label>
+    <label for="signinPassword">Password <input id="signinPassword" name="password" type="password" autocomplete="current-password" minlength="8" required></label>
+    <p class="form-help">At least 8 characters.</p>
+    <p class="form-error" id="signinError" role="alert"></p>
+    <button class="btn" type="submit">Log in</button>
+    <div class="auth-links">
+      <button type="button" class="text-btn" data-auth-jump="signup">Create an account</button>
+      <button type="button" class="text-btn" data-auth-jump="reset">Forgot password</button>
+    </div>
+  </form>
+
+  <form class="card auth-card" id="formSignUp" data-auth-panel="signup" hidden>
+    <h3>Sign up</h3>
+    <p>Creating an account is what adds welcome cards to your collection. You can use the site without one.</p>
+    <label for="signupEmail">Email <input id="signupEmail" name="email" type="email" autocomplete="username" required></label>
+    <label for="signupPassword">Password <input id="signupPassword" name="password" type="password" autocomplete="new-password" minlength="8" required></label>
+    <label for="signupPassword2">Confirm password <input id="signupPassword2" name="password2" type="password" autocomplete="new-password" minlength="8" required></label>
+    <p class="form-help">At least 8 characters. A mix of letters and numbers is harder to guess. We never store or log your password. Supabase keeps a hash of it.</p>
+    <label class="check" for="signupAge"><input id="signupAge" type="checkbox"> <span>I confirm I am 13 or over. In the UK, 13 is the age you can agree to an online service yourself. Please do not sign up if you are younger.</span></label>
+    <label class="check" for="signupTerms"><input id="signupTerms" type="checkbox"> <span>I agree to the <a href="#/terms">Terms of use</a> and I have read the <a href="#/privacy">Privacy notice</a>.</span></label>
+    <label class="check" for="signupMarketing"><input id="signupMarketing" type="checkbox"> <span>Optional: send me occasional emails about new packs and videos. Leave this unticked if you do not want them. You can turn it off later.</span></label>
+    <p class="form-error" id="signupError" role="alert"></p>
+    <button class="btn" type="submit">Create account</button>
+    <button type="button" class="text-btn" data-auth-jump="signin">I already have an account</button>
+  </form>
+
+  <form class="card auth-card" id="formReset" data-auth-panel="reset" hidden>
+    <h3>Reset password</h3>
+    <label for="resetEmail">Email <input id="resetEmail" type="email" autocomplete="username" required></label>
+    <p class="form-error" id="resetError" role="status"></p>
+    <button class="btn" type="submit">Send reset link</button>
+    <button type="button" class="text-btn" data-auth-jump="signin">Back to log in</button>
+  </form>
+
+  <form class="card auth-card" id="formNewPassword" data-auth-panel="newpass" hidden>
+    <h3>Choose a new password</h3>
+    <label for="newPassword">New password <input id="newPassword" type="password" autocomplete="new-password" minlength="8" required></label>
+    <label for="newPassword2">Confirm new password <input id="newPassword2" type="password" autocomplete="new-password" minlength="8" required></label>
+    <p class="form-help">At least 8 characters.</p>
+    <p class="form-error" id="newPassError" role="alert"></p>
+    <button class="btn" type="submit">Update password</button>
+  </form>
+
+  <div class="card auth-card" id="panelSettings" data-auth-panel="settings" hidden>
+    <h3>Account</h3>
+    <p>Signed in as <strong id="settingsEmail"></strong></p>
+    <button type="button" class="btn btn-ghost" id="signOutBtn">Sign out</button>
+    <div class="settings-block">
+      <label class="check" for="settingsMarketing"><input id="settingsMarketing" type="checkbox"> <span>Occasional emails about new packs and videos. Untick to stop them.</span></label>
+      <p class="form-error" id="settingsNotice" role="status"></p>
+    </div>
+    <div class="settings-block">
+      <h3>Your data</h3>
+      <p>Download a copy of the account details and card collection we hold, or delete that saved data.</p>
+      <button type="button" class="btn" id="downloadData">Download my data</button>
+      <label class="check" for="deleteConfirm"><input id="deleteConfirm" type="checkbox"> <span>I understand this deletes my saved collection and pack data from my account.</span></label>
+      <button type="button" class="btn danger-btn" id="deleteData">Delete my account data</button>
+      <p class="form-help">Deleting the login itself needs an extra step the site owner deploys. You will be told if that part is still outstanding.</p>
+      <p class="form-error" id="deleteError" role="alert"></p>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="page" data-page="privacy" id="privacy">
+<section class="section legal">
+  <p class="eyebrow">Privacy notice</p>
+  <h2>Privacy notice</h2>
+  <p>This notice explains how Solo Travel 365 handles personal information. It is written for people in the UK and is meant to meet the UK GDPR, the Data Protection Act 2018, and PECR. It is not legal advice.</p>
+  <div class="legal-placeholder">
+    <p><strong>Controller name:</strong> [Zach — replace this with your full name before you rely on this notice]</p>
+    <p><strong>Controller email:</strong> [Zach — replace this with the email people should use for privacy requests]</p>
+    <p>The channel inbox solotravel365socials@gmail.com is a public contact on this site. Use the controller email above for data-protection requests once it is filled in.</p>
+  </div>
+  <h3>What we collect</h3>
+  <ul>
+    <li>Email address, if you create an account.</li>
+    <li>Your password is sent only to Supabase Auth, which stores a hash. This website does not store or log the password.</li>
+    <li>Card collection, pack queue, cooldown, and whether unlimited packs are on, if you are signed in.</li>
+    <li>Whether you confirmed you are 13 or over, and the time you accepted the Terms.</li>
+    <li>Marketing preference, only if you tick the optional box.</li>
+    <li>A random id in this browser, used so a pack code can be checked. It is not your name.</li>
+  </ul>
+  <p>You can use the packs, videos, calculator, and survey without an account. That information stays in this browser until you clear it. The survey answers are stored only on this device.</p>
+  <h3>Why</h3>
+  <ul>
+    <li>Account, collection, and pack sync: to provide the account you asked for (contract).</li>
+    <li>Age confirmation and terms timestamp: to keep the service for people who can agree to it (contract and legal obligation).</li>
+    <li>Strictly necessary storage (sign-in session, collection, cooldown, code id): so the site can function. Under PECR this does not need a consent banner.</li>
+    <li>Marketing emails: consent, and only if you tick the separate box. You can withdraw that consent in account settings.</li>
+  </ul>
+  <h3>How long</h3>
+  <p>Account data is kept until you delete it or ask us to. Data stored only in this browser stays until you clear the site data. Marketing preference is kept until you turn it off or delete the account.</p>
+  <h3>Who else is involved</h3>
+  <p>Supabase hosts the account database and authentication. GitHub Pages hosts the website files. GitHub Pages does not receive your password or collection. Those requests go from your browser to Supabase. Supabase and GitHub may process information outside the UK. The controller should confirm the Supabase project region and put the right contract in place (such as the UK International Data Transfer Addendum or the provider’s standard clauses).</p>
+  <h3>Your rights</h3>
+  <p>You can ask for a copy of your data, corrections, deletion, restriction, or to object. You can download a copy and delete saved account data from the account page. You can complain to the Information Commissioner’s Office at <a href="https://ico.org.uk" target="_blank" rel="noopener">ico.org.uk</a>.</p>
+  <p><a href="#/terms">Terms of use</a> · <a href="#/account">Account</a></p>
+</section>
+</div>
+
+<div class="page" data-page="terms" id="terms">
+<section class="section legal">
+  <p class="eyebrow">Terms of use</p>
+  <h2>Terms of use</h2>
+  <p>Solo Travel 365 is a free fan-style travel site. These terms are a plain summary for people using the site. They are not a substitute for legal advice.</p>
+  <div class="legal-placeholder">
+    <p><strong>Operator:</strong> [Zach — replace this with your name]</p>
+    <p><strong>Contact:</strong> [Zach — replace this with your contact email]</p>
+  </div>
+  <h3>Using the site</h3>
+  <p>You can watch videos, open packs, and use the tools without an account. If you create an account you must be 13 or over. You are responsible for the password and for the activity on the account.</p>
+  <h3>Cards and codes</h3>
+  <p>Cards are a collection game on this site. Pack odds are shown on the Packs page. A “Mythic prize: coming soon” line is a placeholder, not an offer of a prize. Codes you are given may add packs or cards. Do not share a code you were told to keep private.</p>
+  <h3>Accounts</h3>
+  <p>Creating an account is what saves welcome cards into your collection. You can decline an account and keep using the site. You can download your data or delete saved account data from the account page.</p>
+  <h3>Acceptable use</h3>
+  <p>Do not misuse the site, attempt to break the pack system, or use it in a way that harms other people.</p>
+  <h3>Liability</h3>
+  <p>The site is provided as available. Travel prices, routes, and video links can change. To the extent the law allows, the operator is not liable for loss arising from use of a free hobby site. Nothing here limits liability that cannot legally be limited.</p>
+  <h3>Law</h3>
+  <p>These terms are governed by the law of England and Wales.</p>
+  <p><a href="#/privacy">Privacy notice</a></p>
+</section>
+</div>
+
 </main>
 
 <footer class="foot">
   <div class="logo">SOLO<span>TRAVEL</span>365</div>
   <p>© <span id="yr"></span> Solo Travel 365 · <a href="mailto:solotravel365socials@gmail.com">solotravel365socials@gmail.com</a></p>
+  <p>This site only stores what it needs on your device: a sign-in session if you create an account, your card collection, and the pack cooldown. No analytics. <a href="#/privacy">Privacy notice</a> · <a href="#/terms">Terms of use</a></p>
   <p class="credits">Photos: video stills from Solo Travel 365. Lofoten hero by Johannes Groll (CC0); Aurora in Abisko by Pavel.shyshkouski, Cappadocia by Benh LIEU SONG, Passo Pordoi by Bops92, Moonlight in the Sahara by Sergey Pesterev (all <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>); Reine i Lofoten by Jörg Hempel (CC BY-SA 2.0 de), via Wikimedia Commons. Exchange rates by <a href="https://www.exchangerate-api.com" target="_blank" rel="noopener">ExchangeRate-API</a>.</p>
 </footer>
 
@@ -327,11 +473,13 @@
   <button class="pk-close" id="pkClose" aria-label="Close">✕</button>
   <button type="button" class="pk-mute" id="pkMute" aria-pressed="false">Sound on</button>
   <div class="pk-stage" id="pkStage">
-    <p class="pk-hint" id="pkHint">Drag the zipper across, or tap the pack</p>
-    <div class="pack big" id="pkPack" style="--p:0" role="slider" tabindex="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Unzip the destination pack">
-      <span class="zip-top" aria-hidden="true"></span>
-      <span class="zip-track" aria-hidden="true"><span class="zip-teeth"></span><span class="zip-gap"></span><span class="zip-pull" id="pkTab"></span></span>
+    <p class="pk-hint" id="pkHint">Drag the top strip up to tear it off, or tap the pack</p>
+    <div class="mythic-sky" id="mythicSky" aria-hidden="true"></div>
+    <div class="pack big tear-pack" id="pkPack" style="--p:0" role="slider" tabindex="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Tear open the destination pack">
+      <div class="tear-glow" id="tearGlow" aria-hidden="true"></div>
+      <div class="tear-rag" id="tearRag" aria-hidden="true"></div>
       <span class="pack-body"><small>Solo Travel 365</small><b>Destination<br>Pack</b><em class="pack-series">Series 01 · 40 cards</em></span>
+      <div class="tear-flap" id="tearFlap">TEAR</div>
     </div>
     <div class="pk-result" id="pkResult"></div>
   </div>
@@ -347,8 +495,10 @@
   <a href="#/survey" data-nav="survey"><span>✓</span>Survey</a>
   <a href="#/shop" data-nav="shop"><span>🎒</span>Shop</a>
   <a href="#/vault" data-nav="vault"><span>✦</span>Vault</a>
+  <a href="#/account" data-nav="account"><span>●</span><span data-auth-label>Sign in</span></a>
 </nav>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.js"></script>
 <script src="odds.js"></script>
 <script src="codes.js"></script>
 <script src="series/s1.js"></script>
@@ -356,6 +506,7 @@
 <script src="series/s3.js"></script>
 <script src="data.js"></script>
 <script src="packs.js"></script>
+<script src="auth.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
