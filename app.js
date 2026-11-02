@@ -155,4 +155,33 @@ $('#sform').addEventListener('submit', e => {
   $('#sThanks').textContent = `Thanks! Saved${entry.dest ? ` · next stop vote: ${entry.dest}` : ''}. Follow along to see if it wins.`;
   e.target.querySelector('.btn').textContent = 'Picks saved ✓';
 });
+
+/* hash router: one page at a time, back button via the hash */
+const ROUTES = { '': 'home', home: 'home', top: 'home', about: 'home', follow: 'home', videos: 'videos', destinations: 'destinations', packs: 'packs', tools: 'calculator', calculator: 'calculator', survey: 'survey', shop: 'shop', deals: 'shop', collection: 'collection', cards: 'collection' };
+function routeName() {
+  const key = decodeURIComponent(location.hash.replace(/^#/, '')).replace(/^\//, '').split(/[?#]/)[0];
+  return ROUTES[key] || 'home';
+}
+function applyRoute() {
+  const name = routeName();
+  $$('.page').forEach(p => {
+    const on = p.dataset.page === name;
+    p.classList.toggle('on', on);
+    if (!on) return;
+    $$('.reveal', p).forEach(el => {
+      if (el.classList.contains('in')) return;
+      el.classList.add('in');
+      $$('.count', el).forEach(countUp);
+    });
+  });
+  $$('[data-nav]').forEach(a => a.classList.toggle('on', a.dataset.nav === name));
+  nav.classList.remove('open');
+  const root = document.documentElement;
+  const prev = root.style.scrollBehavior;
+  root.style.scrollBehavior = 'auto';
+  scrollTo(0, 0);
+  root.style.scrollBehavior = prev;
+}
+addEventListener('hashchange', applyRoute);
+applyRoute();
 })();

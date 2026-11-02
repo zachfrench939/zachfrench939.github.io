@@ -17,15 +17,16 @@
 <div class="progress" aria-hidden="true"></div>
 
 <header class="nav" id="nav">
-  <a href="#top" class="logo">SOLO<span>TRAVEL</span>365</a>
+  <a href="#/" class="logo" data-nav="home">SOLO<span>TRAVEL</span>365</a>
   <nav class="links" id="links">
-    <a href="#videos">Videos</a><a href="#destinations">Destinations</a><a href="#packs">Packs</a><a href="#deals">Deals</a><a href="#shop">Shop</a><a href="#tools">Calculator</a><a href="#survey">Survey</a><a href="#about">About</a>
+    <a href="#/" data-nav="home">Home</a><a href="#/videos" data-nav="videos">Videos</a><a href="#/destinations" data-nav="destinations">Destinations</a><a href="#/packs" data-nav="packs">Packs</a><a href="#/collection" data-nav="collection">Collection</a><a href="#/shop" data-nav="shop">Shop</a><a href="#/calculator" data-nav="calculator">Calculator</a><a href="#/survey" data-nav="survey">Survey</a>
   </nav>
   <button type="button" class="btn btn-sm" data-open-pack>Open pack</button>
   <button class="burger" id="burger" aria-label="Menu"><span></span><span></span></button>
 </header>
 
 <main id="top">
+<div class="page on" data-page="home" id="home">
 <!-- HERO -->
 <section class="hero">
   <div class="stamp hero-stamp" aria-hidden="true">SOLO<br>TRAVEL<br><b>365</b></div>
@@ -40,10 +41,10 @@
     <p class="hero-sub reveal">No face, just places. A new Short every day.</p>
     <div class="hero-cta reveal">
       <button type="button" class="btn magnetic" data-open-pack>Open a destination pack</button>
-      <a href="#videos" class="btn btn-ghost magnetic">Watch the latest</a>
+      <a href="#/videos" class="btn btn-ghost magnetic">Watch the latest</a>
     </div>
   </div>
-  <a href="#videos" class="scroll-cue" aria-label="Scroll"><span></span></a>
+  <a href="#/videos" class="scroll-cue" aria-label="Scroll"><span></span></a>
 </section>
 
 <div class="marquee" aria-hidden="true"><div class="track">
@@ -59,6 +60,45 @@
   <div class="stat reveal"><b class="count" data-to="4">0</b><span>platforms, one feed</span></div>
 </section>
 
+<section class="section home-intro">
+  <p class="eyebrow reveal">The channel</p>
+  <h2 class="reveal">No face. <span class="accent">Just places.</span></h2>
+  <p class="lead reveal">Itineraries you can copy, hidden gems off the usual route, and a new Short every day.</p>
+  <nav class="home-go reveal" aria-label="Site pages">
+    <a class="btn" href="#/packs">Packs</a>
+    <a class="btn" href="#/videos">Videos</a>
+    <a class="btn" href="#/destinations">Destinations</a>
+    <a class="btn" href="#/calculator">Calculator</a>
+    <a class="btn" href="#/survey">Survey</a>
+    <a class="btn" href="#/shop">Shop</a>
+    <a class="btn wide" href="#/collection">My collection</a>
+  </nav>
+</section>
+<!-- ABOUT -->
+<section class="section about" id="about">
+  <div class="about-img reveal"><img src="img/v_6pF15VIiB8Y.jpg" alt="Positano at golden hour, from a Solo Travel 365 Short" loading="lazy"></div>
+  <div class="about-copy">
+    <p class="eyebrow reveal">05 / Behind the lens</p>
+    <h2 class="reveal">No face.<br><span class="accent">Just places.</span></h2>
+    <p class="reveal">Solo Travel 365 is a faceless travel channel, so the destination is always the main character. Expect itineraries you can actually copy, hidden gems off the usual route, and practical tips for travelling on your own.</p>
+    <p class="reveal">Based in the UK, posting a new Short every day across TikTok, YouTube, Instagram and Facebook.</p>
+    <p class="reveal">UGC & collabs: <a href="mailto:solotravel365socials@gmail.com">solotravel365socials@gmail.com</a></p>
+  </div>
+</section>
+
+<!-- FOLLOW -->
+<section class="section follow" id="follow">
+  <h2 class="big-cta reveal">FOLLOW THE<br>JOURNEY</h2>
+  <div class="socials">
+    <a class="soc reveal magnetic" href="https://www.tiktok.com/@solotravel365" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M16.6 5.8A4.3 4.3 0 0 1 15.5 3h-3.1v12.4a2.6 2.6 0 1 1-2.6-2.6c.3 0 .5 0 .8.1V9.7a5.8 5.8 0 1 0 5 5.7V9.1a7.4 7.4 0 0 0 4.4 1.4V7.4a4.3 4.3 0 0 1-3.4-1.6z"/></svg><b>TikTok</b><small>@solotravel365</small></a>
+    <a class="soc reveal magnetic" href="https://www.youtube.com/@Solotravel_365" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.7 15V9l5.8 3z"/></svg><b>YouTube</b><small>@Solotravel_365</small></a>
+    <a class="soc reveal magnetic" href="https://www.instagram.com/solotravel365_" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zM17.3 5.5a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4zM12 2.2c-2.7 0-3 0-4 .1-3.6.2-5.6 2.2-5.8 5.8-.1 1-.1 1.3-.1 4s0 3 .1 4c.2 3.6 2.2 5.6 5.8 5.8 1 .1 1.3.1 4 .1s3 0 4-.1c3.6-.2 5.6-2.2 5.8-5.8.1-1 .1-1.3.1-4s0-3-.1-4c-.2-3.6-2.2-5.6-5.8-5.8-1-.1-1.3-.1-4-.1z"/></svg><b>Instagram</b><small>@solotravel365_</small></a>
+    <a class="soc reveal magnetic" href="https://www.facebook.com/profile.php?id=61595566026031" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M13.5 21.9v-7.7h2.6l.4-3h-3V9.3c0-.9.3-1.5 1.5-1.5h1.6V5.1a21 21 0 0 0-2.3-.1c-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6v7.7A10 10 0 1 1 13.5 21.9z"/></svg><b>Facebook</b><small>Follow on Facebook</small></a>
+    <a class="soc reveal magnetic" href="https://linktr.ee/solotravel365" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M13.7 5.9 17.4 2l2.1 2.2-3.9 3.7h5.5v3h-5.5l3.9 3.8-2.1 2.1-5.3-5.3-5.3 5.3-2.1-2.1 3.9-3.8H3.1v-3h5.5L4.7 4.2 6.8 2l3.7 3.9V.4h3.2zm-3.2 10.5h3.2v7.2h-3.2z"/></svg><b>All links</b><small>linktr.ee/solotravel365</small></a>
+  </div>
+</section>
+</div>
+<div class="page" data-page="videos">
 <!-- VIDEOS -->
 <section class="section" id="videos">
   <div class="sec-head">
@@ -69,6 +109,8 @@
   <div class="vgrid" id="vgrid"></div>
 </section>
 
+</div>
+<div class="page" data-page="destinations">
 <!-- DESTINATIONS -->
 <section class="section" id="destinations">
   <div class="sec-head">
@@ -89,16 +131,20 @@
   </div>
 </section>
 
+</div>
+<div class="page" data-page="packs">
 <!-- PACKS -->
 <section class="section packs" id="packs">
   <div class="sec-head"><p class="eyebrow reveal">Gate 01 · Daily drop</p><h2 class="reveal">Destination <span class="accent">packs</span></h2>
-  <p class="lead reveal">Tear one open to find your next trip. 1 free pack a day.</p></div>
+  <p class="lead reveal">Swipe across the foil to rip a pack. 1 free pack a day.</p></div>
   <div class="pack-slot reveal">
-    <button type="button" class="pack mini" data-open-pack aria-label="Open a destination pack"><span class="pack-top"></span><span class="pack-body"><small>Solo Travel 365</small><b>Destination<br>Pack</b><em>Series 01 · 10 places</em></span></button>
+    <button type="button" class="pack mini" data-open-pack aria-label="Open a destination pack"><span class="pack-top"></span><span class="pack-body"><small>Solo Travel 365</small><b>Destination<br>Pack</b><em>Series 01 · 25 cards</em></span></button>
     <div class="last" id="lastPull"></div>
   </div>
 </section>
 
+</div>
+<div class="page" data-page="shop">
 <!-- DEALS -->
 <section class="section deals" id="deals">
   <div class="sec-head"><p class="eyebrow reveal">Gate 02 · Perks</p><h2 class="reveal">Travel <span class="accent">deals</span></h2>
@@ -120,6 +166,8 @@
   <div class="merch reveal"><div class="stamp">MERCH<br>SOON<br><b>✦</b></div><b>Merch coming soon</b><p>Print-on-demand tees, stickers & luggage tags. Placeholder block.</p></div>
 </section>
 
+</div>
+<div class="page" data-page="calculator">
 <!-- TRAVEL CALCULATOR -->
 <section class="section tools" id="tools">
   <div class="sec-head">
@@ -180,6 +228,8 @@
   <div class="slot ad reveal" data-slot="ad-banner">Ad slot · 728×90 banner (desktop) / 320×100 (mobile)</div>
 </section>
 
+</div>
+<div class="page" data-page="survey">
 <!-- SURVEY -->
 <section class="section survey" id="survey">
   <div class="sec-head">
@@ -206,29 +256,29 @@
   </form>
 </section>
 
-<!-- ABOUT -->
-<section class="section about" id="about">
-  <div class="about-img reveal"><img src="img/v_6pF15VIiB8Y.jpg" alt="Positano at golden hour, from a Solo Travel 365 Short" loading="lazy"></div>
-  <div class="about-copy">
-    <p class="eyebrow reveal">05 / Behind the lens</p>
-    <h2 class="reveal">No face.<br><span class="accent">Just places.</span></h2>
-    <p class="reveal">Solo Travel 365 is a faceless travel channel, so the destination is always the main character. Expect itineraries you can actually copy, hidden gems off the usual route, and practical tips for travelling on your own.</p>
-    <p class="reveal">Based in the UK, posting a new Short every day across TikTok, YouTube, Instagram and Facebook.</p>
-    <p class="reveal">UGC & collabs: <a href="mailto:solotravel365socials@gmail.com">solotravel365socials@gmail.com</a></p>
-  </div>
-</section>
 
-<!-- FOLLOW -->
-<section class="section follow" id="follow">
-  <h2 class="big-cta reveal">FOLLOW THE<br>JOURNEY</h2>
-  <div class="socials">
-    <a class="soc reveal magnetic" href="https://www.tiktok.com/@solotravel365" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M16.6 5.8A4.3 4.3 0 0 1 15.5 3h-3.1v12.4a2.6 2.6 0 1 1-2.6-2.6c.3 0 .5 0 .8.1V9.7a5.8 5.8 0 1 0 5 5.7V9.1a7.4 7.4 0 0 0 4.4 1.4V7.4a4.3 4.3 0 0 1-3.4-1.6z"/></svg><b>TikTok</b><small>@solotravel365</small></a>
-    <a class="soc reveal magnetic" href="https://www.youtube.com/@Solotravel_365" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.7 15V9l5.8 3z"/></svg><b>YouTube</b><small>@Solotravel_365</small></a>
-    <a class="soc reveal magnetic" href="https://www.instagram.com/solotravel365_" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zM17.3 5.5a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4zM12 2.2c-2.7 0-3 0-4 .1-3.6.2-5.6 2.2-5.8 5.8-.1 1-.1 1.3-.1 4s0 3 .1 4c.2 3.6 2.2 5.6 5.8 5.8 1 .1 1.3.1 4 .1s3 0 4-.1c3.6-.2 5.6-2.2 5.8-5.8.1-1 .1-1.3.1-4s0-3-.1-4c-.2-3.6-2.2-5.6-5.8-5.8-1-.1-1.3-.1-4-.1z"/></svg><b>Instagram</b><small>@solotravel365_</small></a>
-    <a class="soc reveal magnetic" href="https://www.facebook.com/profile.php?id=61595566026031" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M13.5 21.9v-7.7h2.6l.4-3h-3V9.3c0-.9.3-1.5 1.5-1.5h1.6V5.1a21 21 0 0 0-2.3-.1c-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6v7.7A10 10 0 1 1 13.5 21.9z"/></svg><b>Facebook</b><small>Follow on Facebook</small></a>
-    <a class="soc reveal magnetic" href="https://linktr.ee/solotravel365" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M13.7 5.9 17.4 2l2.1 2.2-3.9 3.7h5.5v3h-5.5l3.9 3.8-2.1 2.1-5.3-5.3-5.3 5.3-2.1-2.1 3.9-3.8H3.1v-3h5.5L4.7 4.2 6.8 2l3.7 3.9V.4h3.2zm-3.2 10.5h3.2v7.2h-3.2z"/></svg><b>All links</b><small>linktr.ee/solotravel365</small></a>
+
+</div>
+<div class="page" data-page="collection" id="collection">
+<section class="section">
+  <div class="sec-head">
+    <p class="eyebrow reveal">Series 01</p>
+    <h2 class="reveal">My <span class="accent">collection</span></h2>
+    <p class="col-count" id="colCount">0/25</p>
+    <p class="lead reveal">Twenty-five cards. Pulls are weighted. Uncollected slots stay a silhouette.</p>
   </div>
+  <ul class="tier-legend" aria-label="Pull odds">
+    <li class="tier-backpacker"><i class="swatch"></i> Backpacker <b>55%</b></li>
+    <li class="tier-explorer"><i class="swatch"></i> Explorer <b>25%</b></li>
+    <li class="tier-globetrotter"><i class="swatch"></i> Globetrotter <b>12%</b></li>
+    <li class="tier-voyager"><i class="swatch"></i> Voyager <b>6%</b></li>
+    <li class="tier-legend"><i class="swatch"></i> Legend <b>1.9%</b></li>
+    <li class="tier-passport"><i class="swatch"></i> Golden Passport · ultra rare · 1 in 1000 <b>0.1%</b></li>
+  </ul>
+  <div class="colgrid" id="colGrid"></div>
 </section>
+</div>
+
 </main>
 
 <footer class="foot">
@@ -244,19 +294,22 @@
 <div class="pk" id="pk" aria-hidden="true">
   <button class="pk-close" id="pkClose" aria-label="Close">✕</button>
   <div class="pk-stage" id="pkStage">
-    <p class="pk-hint" id="pkHint">Tap the pack to tear it open</p>
-    <button type="button" class="pack big" id="pkPack" aria-label="Tear open pack"><span class="pack-top"></span><span class="pack-body"><small>Solo Travel 365</small><b>Destination<br>Pack</b><em>Series 01 · 10 places</em></span></button>
-    <div class="pk-spin" id="pkSpin"></div>
+    <p class="pk-hint" id="pkHint">Swipe across to rip</p>
+    <button type="button" class="pack big" id="pkPack" aria-label="Swipe across the top to rip the pack"><span class="pack-top"></span><span class="pack-body"><small>Solo Travel 365</small><b>Destination<br>Pack</b><em>Series 01 · 25 cards</em></span><span class="pack-foil" id="pkFoil"></span><svg class="pack-tear" id="pkTear" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"></svg></button>
     <div class="pk-result" id="pkResult"></div>
   </div>
 </div>
 
 <!-- MOBILE ACTION BAR -->
-<nav class="abar" aria-label="Quick actions">
-  <button type="button" data-open-pack><span>🎴</span>Open a pack</button>
-  <a href="#tools"><span>🧮</span>Calculator</a>
-  <a href="#shop"><span>🎒</span>Shop</a>
-  <a href="#follow"><span>✈︎</span>Follow</a>
+<nav class="tabs" aria-label="Pages">
+  <a href="#/" data-nav="home"><span>⌂</span>Home</a>
+  <a href="#/packs" data-nav="packs"><span>🎴</span>Packs</a>
+  <a href="#/videos" data-nav="videos"><span>▶</span>Videos</a>
+  <a href="#/destinations" data-nav="destinations"><span>✈</span>Places</a>
+  <a href="#/calculator" data-nav="calculator"><span>Σ</span>Calc</a>
+  <a href="#/survey" data-nav="survey"><span>✓</span>Survey</a>
+  <a href="#/shop" data-nav="shop"><span>🎒</span>Shop</a>
+  <a href="#/collection" data-nav="collection"><span>✦</span>Cards</a>
 </nav>
 
 <script>
