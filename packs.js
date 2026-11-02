@@ -584,8 +584,8 @@ function revealCards(list, spec) {
   const els = [...res.querySelectorAll('.reveal-slot')];
   const n = els.length;
   els.forEach((el, i) => {
-    const spread = (i - (n - 1) / 2) * (n > 1 ? 8 : 0);
-    const x = (i - (n - 1) / 2) * (n > 1 ? 42 : 0);
+    const spread = 0;
+    const x = 0;
     const card = el.querySelector('.tcard');
     if (reduce) {
       el.style.opacity = '1';
