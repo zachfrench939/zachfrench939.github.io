@@ -1,0 +1,13 @@
+.tcard.theme-passport{width:min(320px,88vw);aspect-ratio:3/4;margin:0 auto}
+.tcard.theme-passport .tcard-face,.tcard.theme-passport .tcard-back{border-radius:8px;background:#f6f1e4;color:#1a2744;border:2px solid #1a2744;overflow:hidden}
+.tcard.theme-passport .tcard-face{padding:14px;display:flex;flex-direction:column;gap:8px;background-image:repeating-linear-gradient(transparent,transparent 27px,rgba(27,42,74,.08) 28px)}
+.tcard.theme-passport header{display:flex;justify-content:space-between;font:700 .68rem 'Space Mono',monospace;text-transform:uppercase}
+.tcard.theme-passport h3{font-family:'Archivo Black',sans-serif;font-size:1.4rem}
+.pp-photo{height:34%;border:2px dashed #1a2744;background:linear-gradient(160deg,#d7e6c4,#8eb4a0 40%,#1a2744);position:relative}
+.pp-class{font:700 .75rem 'Space Mono',monospace;text-transform:uppercase;color:#8a1e2a}
+.pp-mrz{margin-top:auto;font:700 .62rem/1.3 'Space Mono',monospace;letter-spacing:.04em;word-break:break-all}
+.pp-stamp{position:absolute;right:22px;bottom:28%;width:84px;height:84px;border:3px solid #b42316;color:#b42316;border-radius:50%;display:grid;place-items:center;text-align:center;transform:rotate(-12deg);font:700 .62rem 'Space Mono',monospace;text-transform:uppercase;opacity:.85}
+.tcard.theme-passport .tcard-back{padding:16px;display:flex;flex-direction:column;gap:10px}
+.soon-wrap{display:grid;justify-items:center;gap:10px}
+.soon-wrap .tcard-inner{transform:rotateY(180deg)}
+.soon-note{font:700 .75rem 'Space Mono',monospace;text-transform:uppercase;text-align:center}
