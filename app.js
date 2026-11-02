@@ -24,16 +24,42 @@ const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','
 $('#vgrid').innerHTML = (window.VIDEOS || []).map(([id, t, tag], i) =>
   `<button class="vcard reveal tilt" style="--d:${(i % 4) * 0.08}s" data-id="${id}" aria-label="Play: ${esc(t)}">
      <img src="img/v_${id}.jpg" alt="" loading="lazy"><span class="play"></span>
-     <span class="vt"><small>${esc(tag)}</small><h3>${esc(t)}</h3><i class="bc"></i></span></button>`).join('');
+     <span class="vt"><small>${esc(tag)}</small><p class="vt-title">${esc(t)}</p><i class="bc"></i></span></button>`).join('');
 const modal = $('#modal'), frame = $('#mframe');
 $('#vgrid').addEventListener('click', e => {
   const c = e.target.closest('.vcard'); if (!c) return;
   frame.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${c.dataset.id}?autoplay=1&rel=0&playsinline=1" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen title="Solo Travel 365 Short"></iframe>`;
-  modal.classList.add('open'); modal.setAttribute('aria-hidden', 'false');
+  modal._return = document.activeElement;
+  modal.inert = false;
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden', 'false');
+  modal.setAttribute('role', 'dialog');
+  modal.setAttribute('aria-modal', 'true');
+  modal.setAttribute('aria-label', 'Video');
+  $('#mclose').focus();
 });
-const closeM = () => { modal.classList.remove('open'); modal.setAttribute('aria-hidden', 'true'); setTimeout(() => frame.innerHTML = '', 350); };
+const closeM = () => {
+  if (!modal.classList.contains('open')) return;
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden', 'true');
+  modal.removeAttribute('role');
+  modal.removeAttribute('aria-modal');
+  modal.inert = true;
+  const back = modal._return;
+  modal._return = null;
+  setTimeout(() => { frame.innerHTML = ''; if (back && back.focus && document.contains(back)) back.focus(); }, 350);
+};
 $('#mclose').onclick = closeM; modal.onclick = e => { if (e.target === modal) closeM(); };
-addEventListener('keydown', e => e.key === 'Escape' && closeM());
+addEventListener('keydown', e => { if (e.key === 'Escape') closeM(); });
+modal.addEventListener('keydown', e => {
+  if (e.key !== 'Tab' || !modal.classList.contains('open')) return;
+  const items = [...modal.querySelectorAll('button, a[href], iframe, [tabindex]')].filter(el => !el.disabled && el.tabIndex >= 0 && el.getClientRects().length);
+  if (!items.length) return;
+  const first = items[0];
+  const last = items[items.length - 1];
+  if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+});
 
 /* reveal + counters */
 const io = new IntersectionObserver(es => es.forEach(e => {

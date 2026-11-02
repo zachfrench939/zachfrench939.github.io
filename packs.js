@@ -183,7 +183,7 @@ function renderRates() {
     return `<li class="tier-${t.id}"><i class="swatch" aria-hidden="true"></i><span><b><span class="ricon" aria-hidden="true">${rarityIcon(t.id)}</span> ${esc(t.name)}${esc(klass)}</b><small>${typeof count === 'number' ? count + ' in the set' : 'Set size ' + (s.size || 40)} · each about ${each}</small></span><b class="odds">${pct(t.weight, totalW)}</b></li>`;
   }).join('');
   const extra = spec.fromQueue && spec.boost ? '<p class="fine">The percentages above include the odds boost on your next special pack. Base rates return after it.</p>' : '';
-  box.innerHTML = `<h3>Pull rates</h3><p class="fine">Every pack rolls one rarity, then a random card of that rarity. The name and symbol show the rarity. Colour is extra. Ultra Rare and Mythic use the same weights in every series.</p><ul>${rows}</ul>${extra}`;
+  box.innerHTML = `<h2>Pull rates</h2><p class="fine">Every pack rolls one rarity, then a random card of that rarity. The name and symbol show the rarity. Colour is extra. Ultra Rare and Mythic use the same weights in every series.</p><ul>${rows}</ul>${extra}`;
 }
 function renderPrize() {
   const s = series();
@@ -425,10 +425,16 @@ function resetZip() {
   document.querySelectorAll('.sparkburst,.pk-flash').forEach(el => el.remove());
   paintClaimBanner();
 }
+let packReturn = null;
 function openOverlay() {
   if (!pk) return;
+  packReturn = document.activeElement;
+  pk.inert = false;
   pk.classList.add('open');
   pk.setAttribute('aria-hidden', 'false');
+  pk.setAttribute('role', 'dialog');
+  pk.setAttribute('aria-modal', 'true');
+  pk.setAttribute('aria-labelledby', 'pkHint');
 }
 function open() {
   if (!ready()) return;
@@ -445,7 +451,20 @@ function openWelcome() {
   if (hint) hint.textContent = hintText();
   if (pack) pack.focus({ preventScroll: true });
 }
-function close() { if (pk) { pk.classList.remove('open'); pk.setAttribute('aria-hidden', 'true'); } paint(); paintClaimBanner(); }
+function close() {
+  if (pk) {
+    pk.classList.remove('open');
+    pk.setAttribute('aria-hidden', 'true');
+    pk.removeAttribute('role');
+    pk.removeAttribute('aria-modal');
+    pk.inert = true;
+  }
+  paint();
+  paintClaimBanner();
+  const back = packReturn;
+  packReturn = null;
+  if (back && back.focus && document.contains(back)) back.focus();
+}
 
 function sparks(n) {
   if (!stage || reduce) return;
@@ -549,7 +568,7 @@ function revealCards(list, spec) {
     </div>`;
   }).join('');
   const claim = welcome ? `<div class="claim-panel" id="claimPanel">
-      <h3>Sign up to keep these cards</h3>
+      <h2>Sign up to keep these cards</h2>
       <p>Creating an account is how these cards join your collection. They stay on this device until you sign up or log in, including if you leave and come back. You can keep using the rest of the site without an account.</p>
       <div class="claim-actions">
         <a class="btn" href="#/signup">Sign up</a>
@@ -800,6 +819,15 @@ document.addEventListener('click', e => {
 });
 if ($('#pkClose')) $('#pkClose').onclick = close;
 addEventListener('keydown', e => { if (e.key === 'Escape' && pk && pk.classList.contains('open')) close(); });
+if (pk) pk.addEventListener('keydown', e => {
+  if (e.key !== 'Tab' || !pk.classList.contains('open')) return;
+  const items = [...pk.querySelectorAll('button, a[href], input, select, textarea, [tabindex]')].filter(el => !el.disabled && el.tabIndex >= 0 && el.getClientRects().length);
+  if (!items.length) return;
+  const first = items[0];
+  const last = items[items.length - 1];
+  if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+});
 
 const muteBtn = $('#pkMute');
 function paintMute() {

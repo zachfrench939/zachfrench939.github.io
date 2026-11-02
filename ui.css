@@ -4,7 +4,7 @@
 :focus-visible{outline:3px solid #e8402c;outline-offset:3px}
 .series-switch{display:flex;gap:8px;overflow-x:auto;margin:0 0 16px;scrollbar-width:none}
 .series-switch::-webkit-scrollbar{display:none}
-.series-switch button{flex:0 0 auto;border:2px solid var(--line);background:var(--card);color:var(--text);font:700 .68rem var(--mono);text-transform:uppercase;padding:8px 10px;border-radius:4px;cursor:pointer}
+.series-switch button{flex:0 0 auto;border:2px solid var(--line);background:var(--card);color:var(--text);font:700 .68rem var(--mono);text-transform:uppercase;padding:8px 10px;border-radius:4px;cursor:pointer;min-height:44px}
 .series-switch button.on{background:var(--line);color:var(--bg)}
 .pack.big,.pack.mini{overflow:visible;touch-action:none}
 .pack.big .pack-body,.pack.mini .pack-body{align-content:end;padding:54px 12px 16%}
@@ -31,7 +31,7 @@
 .code-row input{flex:1;min-width:0}
 .code-row .btn{flex:none}
 .pull-rates{margin-top:28px;border:2px solid var(--line);background:var(--card);border-radius:8px;padding:14px;box-shadow:4px 4px 0 var(--line)}
-.pull-rates h3{font-family:'Archivo Black',sans-serif;font-size:1.3rem;margin-bottom:6px}
+.pull-rates h2,.pull-rates h3{font-family:'Archivo Black',sans-serif;font-size:1.3rem;margin-bottom:6px}
 .pull-rates ul{list-style:none;display:grid;gap:8px;margin-top:10px}
 .pull-rates li{display:flex;align-items:center;gap:8px}
 .pull-rates .swatch{width:14px;height:14px;border:2px solid var(--line);flex:none;background:#8a6a3b}

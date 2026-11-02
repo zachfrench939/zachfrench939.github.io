@@ -2,10 +2,10 @@
 .claim-banner{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0;padding:10px var(--pad);background:#fff6e0;border-bottom:2px solid var(--line);color:var(--text)}
 .claim-banner[hidden],.auth-card[hidden]{display:none !important}
 .claim-banner p{flex:1 1 220px;margin:0;font-size:.92rem}
-.text-btn{background:none;border:0;color:var(--text);font:700 .8rem var(--mono);text-decoration:underline;cursor:pointer;padding:8px}
+.text-btn{background:none;border:0;color:var(--text);font:700 .8rem var(--mono);text-decoration:underline;cursor:pointer;padding:8px 4px;min-height:44px;display:inline-flex;align-items:center}
 .auth-page{max-width:720px}
 .auth-card{display:grid;gap:14px}
-.auth-card h3{font-family:'Archivo Black',sans-serif;font-size:1.4rem}
+.auth-card h2,.auth-card h3{font-family:'Archivo Black',sans-serif;font-size:1.4rem}
 .auth-card p{margin:0}
 .check{display:flex;gap:10px;align-items:flex-start;font:600 .92rem/1.4 Inter,system-ui,sans-serif;color:var(--text);text-transform:none}
 .check input{width:22px;height:22px;margin-top:2px;flex:none;accent-color:#1b2a4a}
@@ -15,7 +15,7 @@
 .danger-btn{background:#fff;color:#8d1d14;border:2px solid #8d1d14;box-shadow:4px 4px 0 #8d1d14}
 .legal{max-width:760px;display:grid;gap:12px}
 .legal h2{font-size:clamp(2rem,6vw,3rem)}
-.legal h3{font-family:'Archivo Black',sans-serif;font-size:1.15rem;margin-top:8px}
+.legal h2,.legal h3{font-family:'Archivo Black',sans-serif;font-size:1.15rem;margin-top:8px}
 .legal-placeholder{border:2px dashed #8d1d14;background:#fff6e8;padding:12px 14px}
 .legal a{color:#8d1d14}
 .tear-pack{perspective:900px}
@@ -39,7 +39,7 @@
 .reveal-slot.tier-mythic .tcard{box-shadow:0 0 42px rgba(255,220,120,.95)}
 .pull-summary{text-align:center;color:#f6edd6;font:700 .85rem var(--mono);margin:0}
 .claim-panel{background:#f6edd6;color:#1b2a4a;border:3px solid #1b2a4a;padding:14px;display:grid;gap:10px;box-shadow:6px 6px 0 #e8402c}
-.claim-panel h3{font-family:'Archivo Black',sans-serif;font-size:1.25rem;margin:0}
+.claim-panel h2,.claim-panel h3{font-family:'Archivo Black',sans-serif;font-size:1.25rem;margin:0}
 .claim-actions{display:flex;flex-wrap:wrap;gap:8px}
 .mythic-sky{position:absolute;inset:0;pointer-events:none;opacity:0;background:repeating-conic-gradient(from 0deg,transparent 0 14deg,rgba(255,228,160,.28) 14deg 18deg),radial-gradient(circle,rgba(255,210,90,.28),transparent 62%);z-index:1}
 .pk.fx-mythic .mythic-sky{opacity:1}
