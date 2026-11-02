@@ -48,7 +48,7 @@
 .hit-banner.tier-mythic b{background:linear-gradient(90deg,#fff6c8,#fff,#f6b4ff,#9ad7ff,#fff6c8);-webkit-background-clip:text;background-clip:text;color:transparent}
 .pk-flash.flash-mythic{background:radial-gradient(circle,#fff6c8 0,rgba(255,210,120,.0) 62%)}
 .pk-flash.flash-ultra{background:radial-gradient(circle,#fff 0,rgba(255,215,120,.0) 60%)}
-.pk-mute{position:absolute;top:14px;left:14px;z-index:4;min-height:46px;padding:0 12px;border-radius:999px;border:2px solid var(--bg);background:transparent;color:var(--bg);font:700 .72rem var(--mono);cursor:pointer}
+.pk-mute{position:absolute;top:max(8px, env(safe-area-inset-top));left:max(8px, env(safe-area-inset-left));z-index:5;min-height:44px;padding:0 12px;border-radius:999px;border:2px solid var(--bg);background:transparent;color:var(--bg);font:700 .72rem var(--mono);cursor:pointer}
 .vault-tools{display:grid;gap:10px;margin-bottom:8px}
 .sort-label{display:flex;align-items:center;gap:8px;font:700 .68rem var(--mono);text-transform:uppercase}
 .sort-label select{max-width:220px}
