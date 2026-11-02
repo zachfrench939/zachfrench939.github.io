@@ -1,0 +1,61 @@
+/* Account, tear-open pack, rarity reveal */
+.claim-banner{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0;padding:10px var(--pad);background:#fff6e0;border-bottom:2px solid var(--line);color:var(--text)}
+.claim-banner[hidden],.auth-card[hidden]{display:none !important}
+.claim-banner p{flex:1 1 220px;margin:0;font-size:.92rem}
+.text-btn{background:none;border:0;color:var(--text);font:700 .8rem var(--mono);text-decoration:underline;cursor:pointer;padding:8px}
+.auth-page{max-width:720px}
+.auth-card{display:grid;gap:14px}
+.auth-card h3{font-family:'Archivo Black',sans-serif;font-size:1.4rem}
+.auth-card p{margin:0}
+.check{display:flex;gap:10px;align-items:flex-start;font:600 .92rem/1.4 Inter,system-ui,sans-serif;color:var(--text);text-transform:none}
+.check input{width:22px;height:22px;margin-top:2px;flex:none;accent-color:#1b2a4a}
+.form-error{color:#8d1d14;font-weight:700;min-height:1.2em}
+.form-help{color:#3e4654}
+.auth-links{display:flex;flex-wrap:wrap;gap:12px}
+.danger-btn{background:#fff;color:#8d1d14;border:2px solid #8d1d14;box-shadow:4px 4px 0 #8d1d14}
+.legal{max-width:760px;display:grid;gap:12px}
+.legal h2{font-size:clamp(2rem,6vw,3rem)}
+.legal h3{font-family:'Archivo Black',sans-serif;font-size:1.15rem;margin-top:8px}
+.legal-placeholder{border:2px dashed #8d1d14;background:#fff6e8;padding:12px 14px}
+.legal a{color:#8d1d14}
+.tear-pack{perspective:900px}
+.tear-glow{position:absolute;left:8%;right:8%;top:36px;height:84px;z-index:2;pointer-events:none;opacity:0;background:radial-gradient(ellipse at 50% 40%,#fff8d8 0%,rgba(255,186,70,.75) 42%,transparent 74%);will-change:opacity}
+.tear-rag{position:absolute;left:0;right:0;top:64px;height:28px;z-index:4;pointer-events:none;opacity:.15;background:repeating-linear-gradient(90deg,#fff6d2 0 8px,#e8402c 8px 14px);clip-path:polygon(0 70%,4% 10%,8% 80%,12% 16%,16% 74%,20% 8%,24% 86%,28% 20%,32% 78%,36% 12%,40% 84%,44% 18%,48% 90%,52% 14%,56% 80%,60% 10%,64% 76%,68% 18%,72% 88%,76% 12%,80% 74%,84% 20%,88% 82%,92% 8%,96% 70%,100% 16%,100% 100%,0 100%);will-change:opacity}
+.tear-flap{position:absolute;left:-2px;right:-2px;top:-2px;height:92px;z-index:6;pointer-events:none;transform-origin:50% 100%;will-change:transform,opacity;background:linear-gradient(180deg,#ffc7a8,#e8402c 62%,#b42316);border:3px solid #1b2a4a;border-bottom:0;border-radius:12px 12px 0 0;display:grid;place-items:center;color:#fff;font:700 .68rem 'Space Mono',monospace;letter-spacing:.14em;clip-path:polygon(0 0,100% 0,100% 62%,97% 96%,94% 60%,91% 100%,88% 58%,85% 98%,82% 64%,79% 100%,76% 56%,73% 96%,70% 62%,67% 100%,64% 58%,61% 98%,58% 64%,55% 100%,52% 56%,49% 94%,46% 62%,43% 100%,40% 58%,37% 96%,34% 66%,31% 100%,28% 60%,25% 98%,22% 64%,19% 100%,16% 58%,13% 96%,10% 66%,7% 100%,4% 60%,0 94%)}
+.tear-pack .pack-body{clip-path:polygon(0 20%,3% 16%,6% 23%,9% 15%,12% 22%,15% 16%,18% 24%,21% 15%,24% 22%,27% 16%,30% 23%,33% 15%,36% 22%,39% 16%,42% 24%,45% 15%,48% 22%,51% 16%,54% 23%,57% 15%,60% 22%,63% 16%,66% 24%,69% 15%,72% 22%,75% 16%,78% 23%,81% 15%,84% 22%,87% 16%,90% 24%,93% 15%,96% 22%,100% 17%,100% 100%,0 100%)}
+.reveal-fan{display:flex;justify-content:center;align-items:flex-end;gap:10px;width:100%;perspective:900px}
+.reveal-fan.multi .rarity-banner{font-size:.95rem;letter-spacing:.06em;margin-bottom:4px}
+.reveal-slot{width:min(280px,78vw);opacity:0}
+.reveal-fan.multi .reveal-slot{width:min(190px,34vw);margin:0 -18px}
+.rarity-banner{margin:0 0 8px;text-align:center;font-family:'Archivo Black',sans-serif;font-size:clamp(1.3rem,4vw,2rem);letter-spacing:.12em;text-transform:uppercase;line-height:1}
+.rarity-banner.tier-common{color:#f0e2c4}
+.rarity-banner.tier-uncommon{color:#b6f0cc;text-shadow:0 0 16px #1f6b45}
+.rarity-banner.tier-rare{color:#b9dcff;text-shadow:0 0 18px #1a4c78}
+.rarity-banner.tier-ultra{color:#ffe7a3;text-shadow:0 0 20px #e2b657}
+.rarity-banner.tier-mythic{color:#fff;text-shadow:0 0 12px #fff,0 0 28px #ffd56a}
+.reveal-slot.tier-uncommon .tcard{box-shadow:0 0 22px rgba(70,190,120,.55)}
+.reveal-slot.tier-rare .tcard{box-shadow:0 0 26px rgba(80,160,255,.72)}
+.reveal-slot.tier-ultra .tcard{box-shadow:0 0 32px rgba(255,196,70,.9)}
+.reveal-slot.tier-mythic .tcard{box-shadow:0 0 42px rgba(255,220,120,.95)}
+.pull-summary{text-align:center;color:#f6edd6;font:700 .85rem var(--mono);margin:0}
+.claim-panel{background:#f6edd6;color:#1b2a4a;border:3px solid #1b2a4a;padding:14px;display:grid;gap:10px;box-shadow:6px 6px 0 #e8402c}
+.claim-panel h3{font-family:'Archivo Black',sans-serif;font-size:1.25rem;margin:0}
+.claim-actions{display:flex;flex-wrap:wrap;gap:8px}
+.mythic-sky{position:absolute;inset:0;pointer-events:none;opacity:0;background:repeating-conic-gradient(from 0deg,transparent 0 14deg,rgba(255,228,160,.28) 14deg 18deg),radial-gradient(circle,rgba(255,210,90,.28),transparent 62%);z-index:1}
+.pk.fx-mythic .mythic-sky{opacity:1}
+.pk-flash.flash-rare{background:radial-gradient(circle,#d7ecff 0,rgba(80,150,255,0) 62%)}
+.rarity-badge{display:flex;justify-content:space-between;gap:8px;margin:0;padding:4px 8px;background:#6d5428;color:#fff;font:700 .68rem 'Space Mono',monospace;letter-spacing:.08em;text-transform:uppercase}
+.tcard.tier-uncommon .rarity-badge{background:#1f6b45}
+.tcard.tier-rare .rarity-badge{background:#1a4c78}
+.tcard.tier-ultra .rarity-badge{background:#8a6a12;color:#fff8dc}
+.tcard.tier-mythic .rarity-badge{background:#1b2a4a;color:#ffe08a}
+.ricon{font-style:normal}
+.shelf-card .spine-meta small{display:block}
+.settings-block{display:grid;gap:8px;padding-top:8px;border-top:2px dashed var(--line)}
+@media (prefers-reduced-motion:no-preference){
+  .pk.fx-mythic .mythic-sky{animation:spinRays 14s linear infinite}
+}
+@keyframes spinRays{to{transform:rotate(1turn)}}
+@media (max-width:700px){
+  .reveal-fan.multi .reveal-slot{width:min(150px,40vw);margin:0 -28px}
+}

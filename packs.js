@@ -8,6 +8,7 @@ const PACK_KEY = 'st365_pack_v2';
 const COL_KEY = 'st365_collection_v2';
 const QUEUE_KEY = 'st365_pack_queue';
 const UNLIM_KEY = 'st365_unlimited';
+const WELCOME_KEY = 'st365_welcome_v1';
 const SERIES_KEY = 'st365_series';
 const MUTE_KEY = 'st365_mute';
 const COOLDOWN = 60 * 60 * 1000;
@@ -26,10 +27,54 @@ function collection() {
   }
   return col;
 }
-const saveCol = col => localStorage.setItem(COL_KEY, JSON.stringify(col));
+const saveCol = col => { localStorage.setItem(COL_KEY, JSON.stringify(col)); if (!applyingCloud) notifyCloud(); };
 const queue = () => { const q = read(QUEUE_KEY, []); return Array.isArray(q) ? q : []; };
-const saveQueue = q => localStorage.setItem(QUEUE_KEY, JSON.stringify(q));
+const saveQueue = q => { localStorage.setItem(QUEUE_KEY, JSON.stringify(q)); if (!applyingCloud) notifyCloud(); };
 const unlimited = () => localStorage.getItem(UNLIM_KEY) === '1';
+let applyingCloud = false;
+function notifyCloud() { try { if (window.Auth && window.Auth.onLocalChange) window.Auth.onLocalChange(); } catch (err) {} }
+const RARITY_ICON = { common: '●', uncommon: '◆', rare: '★', ultra: '✦', mythic: '✶' };
+const RARITY_NAME = { common: 'Common', uncommon: 'Uncommon', rare: 'Rare', ultra: 'Ultra Rare', mythic: 'Mythic' };
+const rarityName = id => RARITY_NAME[id] || id;
+const rarityIcon = id => RARITY_ICON[id] || '●';
+function readWelcome() { const w = read(WELCOME_KEY, null); return w && typeof w === 'object' ? w : null; }
+function saveWelcome(w) { localStorage.setItem(WELCOME_KEY, JSON.stringify(w)); }
+function welcomeEligible() {
+  const w = readWelcome();
+  if (w && (w.opened || (w.pending && w.pending.length))) return false;
+  try { if (window.Auth && window.Auth.user()) return false; } catch (err) {}
+  const col = collection();
+  if (Object.values(col).some(a => Array.isArray(a) && a.length)) return false;
+  if (packState().at) return false;
+  return true;
+}
+function paintClaimBanner() {
+  const el = $('#claimBanner');
+  if (!el) return;
+  const w = readWelcome();
+  const modal = document.querySelector('.claim-panel');
+  const modalOpen = modal && pk && pk.classList.contains('open');
+  const show = !!(w && w.pending && w.pending.length && !w.claimed && !w.bannerHidden && !modalOpen);
+  el.hidden = !show;
+  const text = $('#claimBannerText');
+  if (show && text) {
+    const n = w.pending.length;
+    text.textContent = `${n} welcome card${n === 1 ? '' : 's'} saved on this device. Sign up or log in to add them to your collection. The rest of the site works without an account.`;
+  }
+}
+function claimWelcomeInto(col) {
+  const w = readWelcome();
+  if (!w || w.claimed || !w.pending || !w.pending.length) return col;
+  const key = w.series || 's1';
+  const next = { ...col };
+  const have = new Set(next[key] || []);
+  w.pending.forEach(id => have.add(id));
+  next[key] = [...have];
+  w.claimed = true;
+  saveWelcome(w);
+  paintClaimBanner();
+  return next;
+}
 let seriesId = localStorage.getItem(SERIES_KEY) || (SERIES[0] && SERIES[0].id) || 's1';
 const series = () => SERIES.find(s => s.id === seriesId) || SERIES[0];
 const liveCards = s => ((s || series()).cards || []).filter(c => !c.preview);
@@ -135,10 +180,10 @@ function renderRates() {
     const count = cards.filter(c => c.rarity === t.id).length || (s.status === 'live' ? 0 : '—');
     const klass = s.classes && s.classes[t.id] ? ` · ${s.classes[t.id]}` : '';
     const each = typeof count === 'number' && count ? oneIn(t.weight, totalW, count) : '—';
-    return `<li class="tier-${t.id}"><i class="swatch"></i><span><b>${esc(t.name)}${esc(klass)}</b><small>${typeof count === 'number' ? count + ' in the set' : 'Set size ' + (s.size || 40)} · each about ${each}</small></span><b class="odds">${pct(t.weight, totalW)}</b></li>`;
+    return `<li class="tier-${t.id}"><i class="swatch" aria-hidden="true"></i><span><b><span class="ricon" aria-hidden="true">${rarityIcon(t.id)}</span> ${esc(t.name)}${esc(klass)}</b><small>${typeof count === 'number' ? count + ' in the set' : 'Set size ' + (s.size || 40)} · each about ${each}</small></span><b class="odds">${pct(t.weight, totalW)}</b></li>`;
   }).join('');
   const extra = spec.fromQueue && spec.boost ? '<p class="fine">The percentages above include the odds boost on your next special pack. Base rates return after it.</p>' : '';
-  box.innerHTML = `<h3>Pull rates</h3><p class="fine">Every pack rolls one rarity with these odds, then a random card of that rarity. Ultra Rare and Mythic are the same weights in every series.</p><ul>${rows}</ul>${extra}`;
+  box.innerHTML = `<h3>Pull rates</h3><p class="fine">Every pack rolls one rarity, then a random card of that rarity. The name and symbol show the rarity. Colour is extra. Ultra Rare and Mythic use the same weights in every series.</p><ul>${rows}</ul>${extra}`;
 }
 function renderPrize() {
   const s = series();
@@ -209,7 +254,7 @@ function renderShelf() {
 }
 
 const pk = $('#pk'), pack = $('#pkPack'), res = $('#pkResult'), hint = $('#pkHint'), stage = $('#pkStage');
-let busy = false, dragging = false, prog = 0, originX = 0, travel = 1, anim = 0, opening = null, gestured = false, lastStep = 0;
+let busy = false, dragging = false, prog = 0, originX = 0, originY = 0, travel = 1, anim = 0, opening = null, gestured = false, lastStep = 0;
 let audioCtx = null, muted = localStorage.getItem(MUTE_KEY) === '1';
 
 function audio() {
@@ -296,21 +341,31 @@ function buzz(ms) {
   if (!gestured) return;
   try { if (navigator.vibrate) navigator.vibrate(ms); } catch (err) {}
 }
-function paintZip(p, play) {
+function paintTear(p, play) {
+  const prev = prog;
   prog = p < 0 ? 0 : p > 1 ? 1 : p;
+  const flap = document.getElementById('tearFlap');
+  const glow = document.getElementById('tearGlow');
+  const rag = document.getElementById('tearRag');
+  if (flap) {
+    flap.style.transform = `translate3d(${(-10 * prog).toFixed(2)}px, ${(-36 * prog).toFixed(2)}px, 0) rotateX(${(70 * prog).toFixed(2)}deg) rotateZ(${(-12 * prog).toFixed(2)}deg)`;
+  }
+  if (glow) glow.style.opacity = String(Math.min(1, prog * 1.2));
+  if (rag) rag.style.opacity = String(Math.min(1, 0.12 + prog * 0.88));
   if (pack) {
     pack.style.setProperty('--p', prog.toFixed(4));
     pack.setAttribute('aria-valuenow', String(Math.round(prog * 100)));
   }
   if (play && !reduce) {
-    const step = Math.floor(prog * 22);
+    const step = Math.floor(prog * 28);
     if (step > lastStep) {
-      zipperTick(0.35 + prog * 0.65);
-      buzz(8);
+      zipperTick(Math.min(1, 0.2 + prog * 0.7 + Math.abs(prog - prev) * 6));
+      buzz(prog > 0.7 ? 12 : 7);
       lastStep = step;
     }
   }
 }
+function paintZip(p, play) { paintTear(p, play); }
 function stopAnim() { if (anim) cancelAnimationFrame(anim); anim = 0; }
 function glide(to, ms) {
   stopAnim();
@@ -341,21 +396,34 @@ function springBack() {
   };
   anim = requestAnimationFrame(step);
 }
-function hintText() { return reduce ? 'Tap the pack to open' : 'Drag the zipper across, or tap the pack'; }
+function hintText() { return reduce ? 'Tap the pack to open' : 'Drag the top strip up to tear it off, or tap the pack'; }
 function lockPage(on) { document.documentElement.classList.toggle('pull-lock', on); }
 function resetZip() {
   busy = false; dragging = false; lastStep = 0;
   stopAnim();
   lockPage(false);
+  const flap = document.getElementById('tearFlap');
+  if (flap) { flap.getAnimations().forEach(a => a.cancel()); flap.style.opacity = '1'; flap.style.transform = ''; }
+  const glow = document.getElementById('tearGlow');
+  if (glow) glow.style.opacity = '0';
+  const rag = document.getElementById('tearRag');
+  if (rag) rag.style.opacity = '';
+  const sky = document.getElementById('mythicSky');
+  if (sky) sky.style.opacity = '0';
+  if (pk) pk.classList.remove('fx-common', 'fx-uncommon', 'fx-rare', 'fx-ultra', 'fx-mythic', 'shake');
   if (pack) {
+    pack.getAnimations().forEach(a => a.cancel());
     pack.classList.remove('pack-gone', 'dragging');
     pack.style.visibility = '';
     pack.style.display = '';
-    paintZip(0, false);
+    pack.style.opacity = '';
+    pack.style.transform = '';
+    paintTear(0, false);
   }
   if (hint) { hint.hidden = false; hint.textContent = hintText(); }
   if (res) { res.className = 'pk-result'; res.innerHTML = ''; }
   document.querySelectorAll('.sparkburst,.pk-flash').forEach(el => el.remove());
+  paintClaimBanner();
 }
 function openOverlay() {
   if (!pk) return;
@@ -369,7 +437,15 @@ function open() {
   openOverlay();
   if (pack) pack.focus({ preventScroll: true });
 }
-function close() { if (pk) { pk.classList.remove('open'); pk.setAttribute('aria-hidden', 'true'); } paint(); }
+function openWelcome() {
+  if (!welcomeEligible()) return;
+  opening = { welcome: true, boost: null, fromQueue: false, packType: 'standard', label: 'Welcome pack' };
+  resetZip();
+  openOverlay();
+  if (hint) hint.textContent = hintText();
+  if (pack) pack.focus({ preventScroll: true });
+}
+function close() { if (pk) { pk.classList.remove('open'); pk.setAttribute('aria-hidden', 'true'); } paint(); paintClaimBanner(); }
 
 function sparks(n) {
   if (!stage || reduce) return;
@@ -402,62 +478,182 @@ function bindCard(card) {
     card.classList.toggle('show');
   });
 }
-function showCard(c, save) {
-  const s = series();
-  if (!s || !res || !c) return;
-  const have = ownedSet(s);
-  let note = 'Tap the card to flip it. The watch link opens the video.';
-  if (save) {
-    const isNew = !have.has(c.cid);
-    have.add(c.cid);
-    const col = collection();
-    col[s.id] = [...have];
-    saveCol(col);
-    note = `${isNew ? 'New card · in the Vault' : 'Already in the Vault'}. Tap to flip.`;
-    const spec = opening || nextSpec();
-    const prev = packState();
-    const stampCooldown = !spec.fromQueue && !unlimited();
-    localStorage.setItem(PACK_KEY, JSON.stringify({ at: stampCooldown ? Date.now() : (prev.at || 0), last: c.cid }));
-    if (spec.fromQueue) saveQueue(queue().slice(1));
-    renderShelf();
-    renderRates();
-    paint();
-  }
-  const ctx = { className: (s.classes && s.classes[c.rarity]) || c.rarity, total: liveCards(s).length || s.size || 40 };
-  const banner = save && (c.rarity === 'ultra' || c.rarity === 'mythic')
-    ? `<p class="hit-banner tier-${c.rarity}"><i>${c.rarity === 'mythic' ? 'Mythic' : 'Ultra Rare'}</i><b>${esc(ctx.className)}</b></p>` : '';
-  res.innerHTML = banner + s.renderCard(c, ctx) + `<p class="pull-note">${note}</p>`;
-  res.classList.add('on');
-  if (save && c.rarity === 'mythic') { res.classList.add('hit-mythic'); flash('mythic'); sparks(36); chime(); buzz([40, 30, 40, 30, 90]); }
-  else if (save && c.rarity === 'ultra') { res.classList.add('hit-ultra'); flash('ultra'); sparks(22); buzz([24, 40, 24, 70]); }
-  const card = res.querySelector('.tcard');
-  if (!card) return;
-  card.classList.add('deal');
-  card.addEventListener('animationend', () => card.classList.remove('deal'), { once: true });
-  requestAnimationFrame(() => requestAnimationFrame(() => card.classList.add('show')));
-  bindCard(card);
+function mythSound() {
+  chime();
+  if (muted || reduce) return;
+  const ctx = audio();
+  if (!ctx) return;
+  const o = ctx.createOscillator();
+  o.type = 'sawtooth';
+  const t = ctx.currentTime;
+  o.frequency.setValueAtTime(160, t);
+  o.frequency.exponentialRampToValueAtTime(640, t + 0.85);
+  const f = ctx.createBiquadFilter();
+  f.type = 'lowpass';
+  f.frequency.value = 1200;
+  const g = ctx.createGain();
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(0.045, t + 0.06);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + 1.15);
+  o.connect(f).connect(g).connect(ctx.destination);
+  o.start(t); o.stop(t + 1.2);
 }
-function finish() {
+function shakeStage() {
+  if (!stage || reduce) return;
+  stage.animate([
+    { transform: 'translate3d(0,0,0)' },
+    { transform: 'translate3d(-8px,2px,0)' },
+    { transform: 'translate3d(7px,-3px,0)' },
+    { transform: 'translate3d(-4px,1px,0)' },
+    { transform: 'translate3d(0,0,0)' }
+  ], { duration: 460, easing: 'linear' });
+}
+function celebrate(c, big) {
+  if (pk) pk.classList.add('fx-' + c.rarity);
+  if (!big) return;
+  if (c.rarity === 'uncommon') buzz(14);
+  else if (c.rarity === 'rare') { flash('rare'); buzz([16, 22, 16]); }
+  else if (c.rarity === 'ultra') { flash('ultra'); sparks(28); shakeStage(); buzz([30, 36, 30, 36, 90]); }
+  else if (c.rarity === 'mythic') {
+    const sky = document.getElementById('mythicSky');
+    if (sky) sky.style.opacity = '1';
+    if (pk) pk.classList.add('fx-mythic');
+    flash('mythic'); sparks(40); shakeStage(); mythSound();
+    buzz([40, 28, 40, 28, 70, 28, 90, 40, 160]);
+  }
+}
+function rollUnique(pool, n, boost) {
+  const picked = [];
+  const used = new Set();
+  let guard = 0;
+  while (picked.length < n && pool.length && guard++ < 80) {
+    const c = rollCard(pool, boost);
+    if (!c || used.has(c.cid)) continue;
+    used.add(c.cid);
+    picked.push(c);
+  }
+  return picked.length ? picked : pool.slice(0, n);
+}
+function revealCards(list, spec) {
+  const s = series();
+  if (!s || !res || !list.length) return;
+  const welcome = !!(spec && spec.welcome);
+  const viewing = !!(spec && spec.view);
+  const summary = list.map(c => `${rarityIcon(c.rarity)} ${rarityName(c.rarity)}`).join(', ');
+  const total = liveCards(s).length || s.size || 40;
+  const slots = list.map(c => {
+    const ctx = { className: (s.classes && s.classes[c.rarity]) || rarityName(c.rarity), total };
+    return `<div class="reveal-slot tier-${c.rarity}">
+      <p class="rarity-banner tier-${c.rarity}"><span aria-hidden="true">${rarityIcon(c.rarity)}</span> ${esc(rarityName(c.rarity))}</p>
+      ${s.renderCard(c, ctx)}
+    </div>`;
+  }).join('');
+  const claim = welcome ? `<div class="claim-panel" id="claimPanel">
+      <h3>Sign up to keep these cards</h3>
+      <p>Creating an account is how these cards join your collection. They stay on this device until you sign up or log in, including if you leave and come back. You can keep using the rest of the site without an account.</p>
+      <div class="claim-actions">
+        <a class="btn" href="#/signup">Sign up</a>
+        <a class="btn btn-ghost" href="#/signin">Log in</a>
+        <button type="button" class="text-btn" id="claimLater">Not now</button>
+      </div>
+    </div>` : '';
+  const note = welcome
+    ? 'Not in your collection yet. Sign up or log in to claim them.'
+    : (viewing ? 'Tap a card to flip it. The watch link opens the video.' : 'In your collection. Tap a card to flip it.');
+  res.innerHTML = `<p class="pull-summary">You pulled ${esc(summary)}.</p><div class="reveal-fan${list.length > 1 ? ' multi' : ''}">${slots}</div><p class="pull-note">${note}</p>${claim}`;
+  res.classList.add('on');
+  const els = [...res.querySelectorAll('.reveal-slot')];
+  const n = els.length;
+  els.forEach((el, i) => {
+    const spread = (i - (n - 1) / 2) * (n > 1 ? 8 : 0);
+    const x = (i - (n - 1) / 2) * (n > 1 ? 42 : 0);
+    const card = el.querySelector('.tcard');
+    if (reduce) {
+      el.style.opacity = '1';
+      el.style.transform = `translate3d(${x}px,0,0) rotate(${spread}deg)`;
+      if (card) card.classList.add('show');
+    } else {
+      el.animate([
+        { transform: `translate3d(${x}px, 120px, 0) rotate(${spread}deg) scale(.9)`, opacity: 0 },
+        { transform: `translate3d(${x}px, 0, 0) rotate(${spread}deg) scale(1)`, opacity: 1 }
+      ], { duration: 760, delay: 90 + i * 180, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'forwards' });
+      if (card) setTimeout(() => card.classList.add('show'), 90 + i * 180);
+    }
+    setTimeout(() => celebrate(list[i], !viewing), reduce ? 0 : 90 + i * 180);
+    if (card) bindCard(card);
+  });
+  const later = $('#claimLater');
+  if (later) later.addEventListener('click', () => {
+    const w = readWelcome() || {};
+    w.dismissed = true;
+    saveWelcome(w);
+    close();
+    paintClaimBanner();
+  });
+  res.querySelectorAll('a[href^="#/"]').forEach(a => a.addEventListener('click', () => {
+    const w = readWelcome();
+    if (w && !w.claimed) { w.dismissed = true; saveWelcome(w); }
+    close();
+  }));
+}
+function showCard(c, save) { revealCards([c], save ? {} : { view: true }); }
+function rememberPull(card, spec) {
+  const s = series();
+  const have = ownedSet(s);
+  have.add(card.cid);
+  const col = collection();
+  col[s.id] = [...have];
+  saveCol(col);
+  const prev = packState();
+  const stamp = !spec.fromQueue && !unlimited() && !spec.welcome;
+  localStorage.setItem(PACK_KEY, JSON.stringify({ at: stamp ? Date.now() : (prev.at || 0), last: card.cid }));
+  if (!applyingCloud) notifyCloud();
+  if (spec.fromQueue) saveQueue(queue().slice(1));
+  renderShelf();
+  renderRates();
+  paint();
+}
+function finishReveal() {
   if (busy) return;
   const s = series();
-  const cards = s ? liveCards(s) : [];
-  if (!cards.length) return;
+  const pool = s ? liveCards(s) : [];
+  if (!pool.length) return;
   busy = true; dragging = false;
   lockPage(false);
   ripSound();
-  buzz(18);
   const spec = opening || nextSpec();
-  const card = rollCard(cards, spec.boost);
+  const welcome = !!spec.welcome;
+  const pulled = welcome ? rollUnique(pool, 3, null) : [rollCard(pool, spec.boost)];
+  if (welcome) {
+    saveWelcome({ opened: true, series: s.id, pending: pulled.map(c => c.cid), dismissed: false, bannerHidden: false, claimed: false });
+  } else {
+    rememberPull(pulled[0], spec);
+  }
   if (hint) hint.textContent = '';
-  const reveal = () => {
-    if (pack) { pack.classList.add('pack-gone'); pack.style.visibility = 'hidden'; pack.style.display = 'none'; }
-    if (hint) hint.hidden = true;
-    showCard(card, true);
-    busy = false;
-  };
-  if (reduce) { paintZip(1, false); if (pack) pack.style.display = 'none'; reveal(); return; }
-  glideDone(reveal);
+  const go = () => { fadePack(); revealCards(pulled, spec); busy = false; };
+  if (reduce) { paintTear(1, false); go(); return; }
+  flyFlap(go);
 }
+function fadePack() {
+  if (!pack) return;
+  if (reduce) { pack.style.visibility = 'hidden'; pack.style.display = 'none'; return; }
+  const anim = pack.animate([
+    { opacity: 1, transform: 'translate3d(0,0,0) scale(1)' },
+    { opacity: 0, transform: 'translate3d(0,28px,0) scale(.96)' }
+  ], { duration: 540, delay: 60, easing: 'cubic-bezier(.2,.7,.2,1)', fill: 'forwards' });
+  anim.onfinish = () => { pack.style.visibility = 'hidden'; pack.style.display = 'none'; };
+}
+function flyFlap(done) {
+  const flap = document.getElementById('tearFlap');
+  if (!flap || reduce) { done && done(); return; }
+  const current = flap.style.transform || 'translate3d(0,-36px,0) rotateX(70deg) rotateZ(-12deg)';
+  const anim = flap.animate([
+    { transform: current, opacity: 1 },
+    { transform: 'translate3d(-42px, -72vh, 0) rotateX(82deg) rotateZ(-28deg)', opacity: 0 }
+  ], { duration: 720, easing: 'cubic-bezier(.15,.75,.2,1)', fill: 'forwards' });
+  anim.onfinish = () => { if (done) done(); };
+}
+function finish() { finishReveal(); }
 function glideDone(done) {
   stopAnim();
   const from = prog, t0 = performance.now();
@@ -470,54 +666,61 @@ function glideDone(done) {
   anim = requestAnimationFrame(step);
 }
 function measure() { travel = Math.max(80, (pack ? pack.clientWidth : 230) - 28); }
-function beginPull(clientX, pointerId) {
+function beginPull(clientX, clientY, pointerId) {
   if (busy || !pk || !pk.classList.contains('open') || (pack && pack.style.visibility === 'hidden')) return;
   gestured = true;
   dragging = true;
   audio();
   measure();
   originX = clientX - prog * travel;
+  originY = clientY + prog * 150;
   if (pack) {
     pack.classList.add('dragging');
     if (pointerId != null) { try { pack.setPointerCapture(pointerId); } catch (err) {} }
   }
   lockPage(true);
-  if (hint) hint.textContent = 'Keep unzipping…';
+  if (hint) hint.textContent = 'Keep tearing…';
 }
-function movePull(clientX) {
+function movePull(clientX, clientY) {
   if (!dragging || busy) return;
-  paintZip((clientX - originX) / travel, true);
-  if (prog >= 0.97) finish();
+  const right = (clientX - originX) / travel;
+  const up = (originY - clientY) / 150;
+  paintTear(Math.max(right, up), true);
+  if (prog >= 0.55) finish();
 }
 function endPull(tap) {
   if (!dragging || busy) return;
   dragging = false;
   if (pack) pack.classList.remove('dragging');
   lockPage(false);
-  if (tap || prog >= 0.97) { if (prog >= 0.97) finish(); else { gestured = true; audio(); if (reduce) finish(); else glide(1, 820); } return; }
+  if (tap || prog >= 0.55) {
+    if (prog >= 0.55) finish();
+    else { gestured = true; audio(); if (reduce) finish(); else glide(1, 880); }
+    return;
+  }
   springBack();
 }
 if (pack) {
-  let downX = 0, moved = 0, active = false;
+  let downX = 0, downY = 0, moved = 0, active = false;
   pack.addEventListener('pointerdown', e => {
     if (busy) return;
-    active = true; downX = e.clientX; moved = 0;
-    beginPull(e.clientX, e.pointerId);
+    active = true; downX = e.clientX; downY = e.clientY; moved = 0;
+    beginPull(e.clientX, e.clientY, e.pointerId);
     e.preventDefault();
   });
   pack.addEventListener('pointermove', e => {
     if (!active || !dragging) return;
-    moved = Math.max(moved, Math.abs(e.clientX - downX));
-    movePull(e.clientX);
+    moved = Math.max(moved, Math.hypot(e.clientX - downX, e.clientY - downY));
+    movePull(e.clientX, e.clientY);
     e.preventDefault();
   });
-  const up = () => { if (!active) return; const tap = moved < 8; active = false; endPull(tap); };
+  const up = () => { if (!active) return; const tap = moved < 10; active = false; endPull(tap); };
   pack.addEventListener('pointerup', up);
   pack.addEventListener('pointercancel', () => { active = false; if (dragging) { dragging = false; springBack(); } });
   pack.addEventListener('keydown', e => {
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); gestured = true; audio(); if (reduce) finish(); else glide(1, 820); }
-    if (e.key === 'ArrowRight') { e.preventDefault(); gestured = true; audio(); paintZip(prog + 0.08, true); if (prog >= 0.97) finish(); }
-    if (e.key === 'ArrowLeft') { e.preventDefault(); paintZip(prog - 0.08, false); }
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); gestured = true; audio(); if (reduce) finish(); else glide(1, 880); }
+    if (e.key === 'ArrowUp' || e.key === 'ArrowRight') { e.preventDefault(); gestured = true; audio(); paintTear(prog + 0.08, true); if (prog >= 0.55) finish(); }
+    if (e.key === 'ArrowDown' || e.key === 'ArrowLeft') { e.preventDefault(); paintTear(prog - 0.08, false); }
   });
 }
 
@@ -529,7 +732,7 @@ function viewCard(c) {
   if (pack) { pack.style.visibility = 'hidden'; pack.style.display = 'none'; }
   if (hint) hint.hidden = true;
   opening = null;
-  showCard(c, false);
+  revealCards([c], { view: true });
   busy = false;
 }
 
@@ -643,8 +846,34 @@ if (codeForm) codeForm.addEventListener('submit', async e => {
   const result = await window.CodeGate.redeem(input.value);
   if (!result.ok) { if (codeMsg) codeMsg.textContent = REASONS[result.reason] || 'That code is not valid.'; return; }
   const entry = result.entry || {};
+  if (entry.type === 'allcards') {
+    let target = series();
+    let cards = target ? liveCards(target) : [];
+    if (!cards.length) {
+      target = SERIES.find(s => s.status === 'live' && liveCards(s).length) || target;
+      cards = target ? liveCards(target) : [];
+    }
+    if (!target || !cards.length) {
+      if (codeMsg) codeMsg.textContent = 'That code is for a full set, and there is no released series to fill yet.';
+      input.value = '';
+      return;
+    }
+    const col = collection();
+    const have = new Set(col[target.id] || []);
+    const before = have.size;
+    cards.forEach(c => have.add(c.cid));
+    col[target.id] = [...have];
+    saveCol(col);
+    renderShelf();
+    paint();
+    const added = have.size - before;
+    if (codeMsg) codeMsg.textContent = `All ${cards.length} ${target.name} cards are in your collection${added ? ` · ${added} new` : ''}. This did not use your hourly cooldown.`;
+    input.value = '';
+    return;
+  }
   if (entry.type === 'unlimited') {
     localStorage.setItem(UNLIM_KEY, '1');
+    notifyCloud();
     if (codeMsg) codeMsg.textContent = entry.label ? `${entry.label}. Cooldown is off on this browser.` : 'Cooldown is off on this browser.';
   } else {
     const q = queue();
@@ -674,10 +903,64 @@ renderPrize();
 renderShelf();
 paint();
 setInterval(paint, 250);
-window.__pack = { open, view: viewCard, ready, remain, series: () => seriesId };
-function onHome() {
-  const h = location.hash.replace(/^#\/?/, '');
-  return h === '' || h === 'home' || h === 'top';
+window.__collection = {
+  snapshot() {
+    return { collection: collection(), queue: queue(), unlimited: unlimited(), pack: packState(), welcome: readWelcome() };
+  },
+  apply(state) {
+    applyingCloud = true;
+    try {
+      if (state.collection) localStorage.setItem(COL_KEY, JSON.stringify(state.collection));
+      if (state.queue) localStorage.setItem(QUEUE_KEY, JSON.stringify(state.queue));
+      localStorage.setItem(UNLIM_KEY, state.unlimited ? '1' : '0');
+      if (state.pack) localStorage.setItem(PACK_KEY, JSON.stringify(state.pack || {}));
+      renderShelf();
+      renderRates();
+      paint();
+      paintClaimBanner();
+    } finally { applyingCloud = false; }
+  },
+  claimWelcome() {
+    const before = collection();
+    const next = claimWelcomeInto(before);
+    if (next === before) return false;
+    saveCol(next);
+    renderShelf();
+    paint();
+    return true;
+  },
+  clearPlay() {
+    applyingCloud = true;
+    try {
+      localStorage.removeItem(COL_KEY);
+      localStorage.removeItem(QUEUE_KEY);
+      localStorage.removeItem(UNLIM_KEY);
+      localStorage.removeItem(PACK_KEY);
+      localStorage.removeItem(WELCOME_KEY);
+      renderShelf();
+      renderRates();
+      paint();
+      paintClaimBanner();
+    } finally { applyingCloud = false; }
+  }
+};
+window.__pack = { open, openWelcome, maybeWelcome, view: viewCard, ready, remain, series: () => seriesId };
+let welcomeScheduled = false;
+function maybeWelcome() {
+  paintClaimBanner();
+  const key = decodeURIComponent(location.hash.replace(/^#\/?/, '')).split(/[?#]/)[0];
+  if (welcomeScheduled || /noPack|noWelcome/.test(location.search)) return;
+  if (key === 'account' || key === 'signin' || key === 'signup' || key === 'reset' || key === 'privacy' || key === 'terms') return;
+  if (!welcomeEligible()) return;
+  welcomeScheduled = true;
+  setTimeout(() => { welcomeScheduled = false; if (welcomeEligible()) openWelcome(); }, 450);
 }
-if (onHome() && ready() && !packState().at && !/noPack/.test(location.search)) setTimeout(open, 900);
+const hideBanner = $('#claimBannerHide');
+if (hideBanner) hideBanner.addEventListener('click', () => {
+  const w = readWelcome();
+  if (w) { w.bannerHidden = true; w.dismissed = true; saveWelcome(w); }
+  paintClaimBanner();
+});
+paintClaimBanner();
+setTimeout(() => { if (!window.Auth) maybeWelcome(); }, 1200);
 })();

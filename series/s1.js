@@ -6,6 +6,8 @@
 (() => {
   const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const num = n => String(n).padStart(2, '0');
+  const MARK = { common: '●', uncommon: '◆', rare: '★', ultra: '✦', mythic: '✶' };
+  const RANK = { common: 'Common', uncommon: 'Uncommon', rare: 'Rare', ultra: 'Ultra Rare', mythic: 'Mythic' };
   const CARDS = [
     { no: 1, rarity: 'mythic', name: 'Positano Cliffside', country: 'Italy', type: 'Coast', videoId: '6pF15VIiB8Y', kind: 'short', title: 'positano at golden hour hits different', why: 'Pastel cliffs that glow at golden hour.', when: 'April–June and September', budget: '£110–170', from: 'LHR', to: 'NAP', dos: ['Walk the cliff path', 'Stay for the last light'], art: ['cliffs', '#f6c98a', '#e27a3a', '#d85a4a', '#3d6f8f', '#fff4df'] },
     { no: 2, rarity: 'ultra', name: 'Northern Lights Chase', country: 'Arctic Europe', type: 'Arctic', videoId: 'xndt8ebd04M', kind: 'short', title: '4 Places to See the Northern Lights in Europe This Winter', why: 'A winter sky worth losing sleep for.', when: 'December–March', budget: '£100–160', from: 'LHR', to: 'TOS', dos: ['Get away from town lights', 'Stay up past midnight'], art: ['aurora', '#071427', '#123a4a', '#0c1c18', '#1d6b4a', '#b6ff9a'] },
@@ -176,6 +178,7 @@
         </div>
         <div class="tcard-face">
           <header class="pass-head"><span>✈ Solo Travel 365</span><b>Boarding pass</b></header>
+          <p class="rarity-badge"><span aria-hidden="true">${MARK[c.rarity] || '●'}</span> ${esc(RANK[c.rarity] || c.rarity)}</p>
           <p class="pass-class"><i>Class</i> <strong>${esc(klass)}</strong></p>
           <div class="pass-art"><img src="${artUri(c)}" alt="" width="320" height="200"><span class="foil" aria-hidden="true"></span></div>
           <h3 class="pass-name">${esc(c.name)}</h3>
@@ -205,12 +208,12 @@
   function renderShelf(c, owned, ctx) {
     const klass = (ctx && ctx.className) || '';
     if (!owned) {
-      return `<button type="button" class="shelf-card theme-pass tier-${c.rarity} is-locked" data-cid="${c.cid}" aria-label="Locked card ${num(c.no)} of 40">
-        <span class="spine"><span class="spine-art"></span><span class="spine-meta"><b>Locked</b><small>${num(c.no)}</small></span></span>
+      return `<button type="button" class="shelf-card theme-pass tier-${c.rarity} is-locked" data-cid="${c.cid}" aria-label="Locked card ${num(c.no)}, ${esc(RANK[c.rarity] || c.rarity)}">
+        <span class="spine"><span class="spine-art"></span><span class="spine-meta"><b>Locked</b><small>${MARK[c.rarity] || '●'} ${esc(RANK[c.rarity] || '')}</small><small>${num(c.no)}</small></span></span>
       </button>`;
     }
     return `<button type="button" class="shelf-card theme-pass tier-${c.rarity} is-owned" data-cid="${c.cid}" aria-label="${esc(c.name)}, ${esc(klass)}">
-      <span class="spine"><span class="spine-art" style="background-image:url(${artUri(c)})"></span><span class="spine-meta"><b>${esc(c.name)}</b><small>${num(c.no)}</small></span></span>
+      <span class="spine"><span class="spine-art" style="background-image:url(${artUri(c)})"></span><span class="spine-meta"><b>${esc(c.name)}</b><small>${MARK[c.rarity] || '●'} ${esc(RANK[c.rarity] || klass)}</small><small>${num(c.no)}</small></span></span>
     </button>`;
   }
 
