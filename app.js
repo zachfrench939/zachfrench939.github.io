@@ -6,8 +6,18 @@ $('#yr').textContent = new Date().getFullYear();
 
 /* nav */
 const nav = $('#nav');
-$('#burger').onclick = () => nav.classList.toggle('open');
-$$('#links a').forEach(a => a.onclick = () => nav.classList.remove('open'));
+const burger = $('#burger');
+burger.onclick = () => {
+  const open = nav.classList.toggle('open');
+  burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+};
+$$('#links a').forEach(a => a.onclick = () => { nav.classList.remove('open'); burger.setAttribute('aria-expanded', 'false'); });
+document.addEventListener('click', e => {
+  const a = e.target.closest('[data-affiliate-placeholder]');
+  if (!a) return;
+  const href = a.getAttribute('href');
+  if (!href || href === '#') e.preventDefault();
+});
 
 /* videos */
 const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -174,8 +184,14 @@ function applyRoute() {
       $$('.count', el).forEach(countUp);
     });
   });
-  $$('[data-nav]').forEach(a => a.classList.toggle('on', a.dataset.nav === name));
+  $$('[data-nav]').forEach(a => {
+    const on = a.dataset.nav === name;
+    a.classList.toggle('on', on);
+    if (on) a.setAttribute('aria-current', 'page');
+    else a.removeAttribute('aria-current');
+  });
   nav.classList.remove('open');
+  if (burger) burger.setAttribute('aria-expanded', 'false');
   const root = document.documentElement;
   const prev = root.style.scrollBehavior;
   root.style.scrollBehavior = 'auto';

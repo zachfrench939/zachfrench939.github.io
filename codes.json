@@ -1,0 +1,14 @@
+{
+  "codes": [
+    {
+      "hash": "296a8eed261133f7588afdb1bda2b6e3e04f83dbbe22a9be306329ee45a43393",
+      "type": "unlimited",
+      "packs": 0,
+      "packType": "standard",
+      "boost": null,
+      "expires": null,
+      "singleUse": false,
+      "label": "Unlimited packs"
+    }
+  ]
+}

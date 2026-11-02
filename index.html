@@ -3,7 +3,7 @@
 <head>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✈️</text></svg>">
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Solo Travel 365 · Hidden gems, itineraries & tips</title>
 <meta name="description" content="Faceless solo travel: itineraries, hidden gems and tips. A new Short every day. Plus a free trip budget calculator and currency converter.">
 <meta name="theme-color" content="#f3ecdf">
@@ -11,8 +11,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="v2.css">
+<link rel="stylesheet" href="ui.css">
+<link rel="stylesheet" href="series/s1.css">
+<link rel="stylesheet" href="series/s2.css">
+<link rel="stylesheet" href="series/s3.css">
 </head>
 <body>
+<a class="skip" href="#top">Skip to content</a>
 <div class="grain" aria-hidden="true"></div>
 <div class="progress" aria-hidden="true"></div>
 
@@ -22,7 +27,7 @@
     <a href="#/" data-nav="home">Home</a><a href="#/videos" data-nav="videos">Videos</a><a href="#/destinations" data-nav="destinations">Destinations</a><a href="#/packs" data-nav="packs">Packs</a><a href="#/vault" data-nav="vault">Vault</a><a href="#/shop" data-nav="shop">Shop</a><a href="#/calculator" data-nav="calculator">Calculator</a><a href="#/survey" data-nav="survey">Survey</a>
   </nav>
   <button type="button" class="btn btn-sm" data-open-pack>Open pack</button>
-  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span></button>
+  <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="links"><span></span><span></span></button>
 </header>
 
 <main id="top">
@@ -136,13 +141,24 @@
 <div class="page" data-page="packs">
 <!-- PACKS -->
 <section class="section packs" id="packs">
-  <div class="sec-head"><p class="eyebrow reveal">Gate 01 · Every 2 hours</p><h2 class="reveal">Destination <span class="accent">packs</span></h2>
-  <p class="lead reveal">Drag the pull tab across the top. One pack every 2 hours.</p></div>
+  <div class="sec-head"><p class="eyebrow reveal">Gate 01 · Every hour</p><h2 class="reveal">Destination <span class="accent">packs</span></h2>
+  <p class="lead reveal">Drag the zipper across the top, or tap the pack. One pack every hour.</p></div>
+  <div class="series-switch" id="seriesSwitch" role="tablist" aria-label="Series"></div>
   <div class="pack-slot reveal">
-    <button type="button" class="pack mini" data-open-pack aria-label="Open a destination pack"><span class="pack-top"></span><span class="pack-body"><small>Solo Travel 365</small><b>Destination<br>Pack</b><em>Series 01 · 25 cards</em></span></button>
+    <button type="button" class="pack mini" data-open-pack aria-label="Open a destination pack"><span class="zip-top" aria-hidden="true"></span><span class="zip-track" aria-hidden="true"><span class="zip-teeth"></span><span class="zip-gap"></span><span class="zip-pull"></span></span><span class="pack-body"><small>Solo Travel 365</small><b>Destination<br>Pack</b><em class="pack-series">Series 01 · 40 cards</em></span></button>
     <p class="pack-timer" data-countdown>Pack ready</p>
+    <p class="queue-note" id="queueNote"></p>
     <div class="last" id="lastPull"></div>
   </div>
+  <form class="code-form reveal" id="codeForm">
+    <label for="codeInput">Pack code</label>
+    <div class="code-row">
+      <input id="codeInput" name="code" autocomplete="off" spellcheck="false" maxlength="80" placeholder="Enter a code" inputmode="text">
+      <button class="btn" type="submit">Redeem</button>
+    </div>
+    <p class="fine" id="codeMsg" role="status"></p>
+  </form>
+  <section class="pull-rates reveal" id="pullRates" aria-label="Pull rates"></section>
 </section>
 
 </div>
@@ -264,42 +280,33 @@
 <div class="page" data-page="vault" id="vault">
 <section class="section vault">
   <div class="sec-head">
-    <p class="eyebrow reveal">Series 01</p>
+    <p class="eyebrow reveal">Your collection</p>
     <h2 class="reveal">The <span class="accent">Vault</span></h2>
-    <p class="lead reveal">A binder for the set. Collected cards show the place. Empty sleeves stay locked.</p>
+    <p class="lead reveal">Swipe across the shelf. Cards under your finger fan out. Tap one you own to open it.</p>
   </div>
+  <div class="series-switch" id="seriesSwitchVault" role="tablist" aria-label="Series"></div>
   <div class="vault-progress">
     <div class="vault-bar" aria-hidden="true"><i id="vaultFill"></i></div>
-    <p class="col-count" id="colCount">0/25</p>
+    <p class="col-count" id="colCount">0/40</p>
   </div>
-  <div class="vault-filters" id="vaultFilters" role="tablist" aria-label="Filter by rarity">
-    <button type="button" class="on" data-filter="all">All</button>
-    <button type="button" data-filter="backpacker">Common</button>
-    <button type="button" data-filter="explorer">Uncommon</button>
-    <button type="button" data-filter="globetrotter">Rare</button>
-    <button type="button" data-filter="voyager">Epic</button>
-    <button type="button" data-filter="legend">Legendary</button>
-    <button type="button" data-filter="passport">Ultra Rare</button>
+  <div class="vault-tools">
+    <div class="vault-filters" id="vaultFilters" role="tablist" aria-label="Filter by rarity"></div>
+    <label class="sort-label">Sort
+      <select id="vaultSort">
+        <option value="number">Number</option>
+        <option value="name">Name</option>
+        <option value="rarity">Rarity</option>
+        <option value="owned">Collected first</option>
+      </select>
+    </label>
   </div>
-  <ul class="tier-legend" aria-label="Pull odds">
-    <li class="tier-backpacker"><i class="swatch"></i> Backpacker – Common <b>55%</b></li>
-    <li class="tier-explorer"><i class="swatch"></i> Explorer – Uncommon <b>25%</b></li>
-    <li class="tier-globetrotter"><i class="swatch"></i> Globetrotter – Rare <b>12%</b></li>
-    <li class="tier-voyager"><i class="swatch"></i> Voyager – Epic <b>6%</b></li>
-    <li class="tier-legend"><i class="swatch"></i> Legend – Legendary <b>1.9%</b></li>
-    <li class="tier-passport"><i class="swatch"></i> Golden Passport – Ultra Rare · 1 in 1000 <b>0.1%</b></li>
-  </ul>
-  <div class="binder" id="colGrid"></div>
-  <aside class="prize-ladder" aria-label="Complete the set">
-    <p class="eyebrow">Complete the set</p>
-    <p class="soon">COMING SOON</p>
-    <ol>
-      <li><b>1st to complete Series 01</b><span>Free jumper / hoodie</span></li>
-      <li><b>2nd</b><span>T-shirt</span></li>
-      <li><b>Next few</b><span>Hats</span></li>
-      <li><b>Next few</b><span>Socks</span></li>
-    </ol>
-    <p class="fine">Prizes require an account to verify — coming soon.</p>
+  <div class="shelf" id="shelf">
+    <div class="shelf-track" id="shelfTrack"></div>
+  </div>
+  <p class="fine shelf-help">Drag or hover across the cards. Locked cards stay as silhouettes until you pull them.</p>
+  <aside class="prize-ladder" id="mythicPrizeBox" hidden>
+    <p class="eyebrow">Mythic</p>
+    <p id="mythicPrize"></p>
   </aside>
 </section>
 </div>
@@ -318,16 +325,14 @@
 <!-- PACK OVERLAY -->
 <div class="pk" id="pk" aria-hidden="true">
   <button class="pk-close" id="pkClose" aria-label="Close">✕</button>
+  <button type="button" class="pk-mute" id="pkMute" aria-pressed="false">Sound on</button>
   <div class="pk-stage" id="pkStage">
-    <p class="pk-hint" id="pkHint">Drag the tab across</p>
-    <button type="button" class="pack big" id="pkPack" style="--p:0" aria-label="Drag the pull tab across the top">
-      <span class="pack-glow" aria-hidden="true"></span>
-      <span class="pack-top"></span>
-      <span class="pack-body"><small>Solo Travel 365</small><b>Destination<br>Pack</b><em>Series 01 · 25 cards</em></span>
-      <span class="pack-foil" aria-hidden="true"></span>
-      <svg class="pack-tear" viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true"><path d="M0 11 L5 6 L10 14 L16 5 L22 15 L29 6 L36 14 L43 4 L50 13 L57 6 L64 15 L71 5 L78 14 L85 6 L92 13 L100 8"/></svg>
-      <span class="pack-tab" id="pkTab">PULL</span>
-    </button>
+    <p class="pk-hint" id="pkHint">Drag the zipper across, or tap the pack</p>
+    <div class="pack big" id="pkPack" style="--p:0" role="slider" tabindex="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Unzip the destination pack">
+      <span class="zip-top" aria-hidden="true"></span>
+      <span class="zip-track" aria-hidden="true"><span class="zip-teeth"></span><span class="zip-gap"></span><span class="zip-pull" id="pkTab"></span></span>
+      <span class="pack-body"><small>Solo Travel 365</small><b>Destination<br>Pack</b><em class="pack-series">Series 01 · 40 cards</em></span>
+    </div>
     <div class="pk-result" id="pkResult"></div>
   </div>
 </div>
@@ -344,9 +349,11 @@
   <a href="#/vault" data-nav="vault"><span>✦</span>Vault</a>
 </nav>
 
-<script>
-document.addEventListener('gesturestart', function (e) { e.preventDefault(); }, { passive: false });
-</script>
+<script src="odds.js"></script>
+<script src="codes.js"></script>
+<script src="series/s1.js"></script>
+<script src="series/s2.js"></script>
+<script src="series/s3.js"></script>
 <script src="data.js"></script>
 <script src="packs.js"></script>
 <script src="app.js"></script>

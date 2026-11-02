@@ -1,0 +1,8 @@
+.tcard.theme-magnet{width:min(260px,74vw);aspect-ratio:1;margin:0 auto}
+.tcard.theme-magnet .tcard-face,.tcard.theme-magnet .tcard-back{border-radius:18px;background:#fff;color:#1b2a4a;border:8px solid #fff;box-shadow:0 10px 0 rgba(27,42,74,.18),inset 0 0 0 2px #d9d3c7;overflow:hidden}
+.tcard.theme-magnet .tcard-face{display:flex;flex-direction:column;background:linear-gradient(160deg,#fff 0 30%,transparent 30%),linear-gradient(200deg,#ff8a5b,#e8402c 42%,#1b2a4a)}
+.mag-art{flex:1;margin:8px;border-radius:8px;background:radial-gradient(circle at 30% 30%,#fff,#9fd0ea 28%,#1f6b8a 70%)}
+.tcard.theme-magnet h3{font-family:'Archivo Black',sans-serif;font-size:1.2rem;padding:0 10px;color:#fff}
+.tcard.theme-magnet .tcard-face p,.tcard.theme-magnet .tcard-face span{padding:0 10px 8px;color:#fff;font:700 .68rem 'Space Mono',monospace;text-transform:uppercase}
+.tcard.theme-magnet .tcard-back{padding:16px;display:flex;flex-direction:column;gap:10px;background:#fff;color:#1b2a4a}
+.soon-wrap .tcard-inner{transform:rotateY(180deg)}
