@@ -1,0 +1,38 @@
+{
+ "hero": {
+  "title": "File:Lofoten, Norway (Unsplash).jpg",
+  "artist": "Johannes Groll followhansi",
+  "license": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Lofoten,_Norway_(Unsplash).jpg"
+ },
+ "aurora": {
+  "title": "File:Aurora in Abisko near Tornetr\u00e4sk.jpg",
+  "artist": "Pavel.shyshkouski",
+  "license": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Aurora_in_Abisko_near_Tornetr%C3%A4sk.jpg"
+ },
+ "cappadocia": {
+  "title": "File:Cappadocia Aerial View Landscape.jpg",
+  "artist": "Benh LIEU SONG (Flickr)",
+  "license": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Cappadocia_Aerial_View_Landscape.jpg"
+ },
+ "dolomites": {
+  "title": "File:Passo Pordoi-bops 01.jpg",
+  "artist": "Bops92",
+  "license": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Passo_Pordoi-bops_01.jpg"
+ },
+ "sahara": {
+  "title": "File:Moonlight in the Sahara.jpg",
+  "artist": "Sergey Pesterev",
+  "license": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Moonlight_in_the_Sahara.jpg"
+ },
+ "lofoten2": {
+  "title": "File:Reine i Lofoten LC0148.jpg",
+  "artist": "J\u00f6rg Hempel",
+  "license": "CC BY-SA 2.0 de",
+  "page": "https://commons.wikimedia.org/wiki/File:Reine_i_Lofoten_LC0148.jpg"
+ }
+}
