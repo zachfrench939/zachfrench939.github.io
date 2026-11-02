@@ -78,5 +78,6 @@
     }
   }
 
+  window.SUPABASE_PUBLIC = { url: SUPABASE_URL, key: SUPABASE_KEY };
   window.CodeGate = { redeem, sha256, clientId };
 })();
