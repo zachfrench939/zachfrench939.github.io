@@ -553,6 +553,49 @@ function rollUnique(pool, n, boost) {
   }
   return picked.length ? picked : pool.slice(0, n);
 }
+function shareCaption(name, rarity) {
+  return `I pulled ${rarity} ${name} on Solo Travel 365.`;
+}
+function shareUrl() {
+  return location.origin + location.pathname + '#/vault';
+}
+async function copyShare(value) {
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(value);
+      return true;
+    }
+  } catch (err) {}
+  const field = document.createElement('textarea');
+  field.value = value;
+  field.setAttribute('readonly', '');
+  field.style.position = 'fixed';
+  field.style.left = '-999px';
+  document.body.appendChild(field);
+  field.select();
+  let ok = false;
+  try { ok = document.execCommand('copy'); } catch (err) { ok = false; }
+  field.remove();
+  return ok;
+}
+async function shareCard(btn) {
+  const name = btn.dataset.shareName || 'a card';
+  const rarity = btn.dataset.shareRarity || '';
+  const text = shareCaption(name, rarity);
+  const url = shareUrl();
+  const status = btn.parentElement && btn.parentElement.querySelector('.share-status');
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: 'Solo Travel 365', text, url });
+      if (status) status.textContent = '';
+      return;
+    } catch (err) {
+      if (err && err.name === 'AbortError') return;
+    }
+  }
+  const copied = await copyShare(`${text} ${url}`);
+  if (status) status.textContent = copied ? 'Link copied.' : 'Copy this link: ' + url;
+}
 function revealCards(list, spec) {
   const s = series();
   if (!s || !res || !list.length) return;
@@ -565,6 +608,8 @@ function revealCards(list, spec) {
     return `<div class="reveal-slot tier-${c.rarity}">
       <p class="rarity-banner tier-${c.rarity}"><span aria-hidden="true">${rarityIcon(c.rarity)}</span> ${esc(rarityName(c.rarity))}</p>
       ${s.renderCard(c, ctx)}
+      <button type="button" class="btn btn-ghost share-card" data-share-name="${esc(c.name)}" data-share-rarity="${esc(rarityName(c.rarity))}">Share this card</button>
+      <p class="share-status" role="status"></p>
     </div>`;
   }).join('');
   const claim = welcome ? `<div class="claim-panel" id="claimPanel">
@@ -581,6 +626,7 @@ function revealCards(list, spec) {
     : (viewing ? 'Tap a card to flip it. The watch link opens the video.' : 'In your collection. Tap a card to flip it.');
   res.innerHTML = `<p class="pull-summary">You pulled ${esc(summary)}.</p><div class="reveal-fan${list.length > 1 ? ' multi' : ''}">${slots}</div><p class="pull-note">${note}</p>${claim}`;
   res.classList.add('on');
+  res.querySelectorAll('.share-card').forEach(btn => btn.addEventListener('click', () => shareCard(btn)));
   const els = [...res.querySelectorAll('.reveal-slot')];
   const n = els.length;
   els.forEach((el, i) => {
