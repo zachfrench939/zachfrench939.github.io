@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img">
+<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0.00" stop-color="#c45a3a"/><stop offset="0.50" stop-color="#e8a06a"/><stop offset="1.00" stop-color="#6b2430"/></linearGradient></defs>
+<rect width="800" height="500" fill="url(#sky)"/>
+<radialGradient id="sun" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffe1a8"/><stop offset=".4" stop-color="#ffe1a8"/><stop offset="1" stop-color="#e8a06a" stop-opacity="0"/></radialGradient>
+  <circle cx="100" cy="80" r="72.8" fill="url(#sun)"/>
+  <circle cx="100" cy="80" r="28" fill="#ffe1a8"/><rect x="360" y="80" width="36" height="220" fill="#f3d2a4"/><path d="M360 80 L378 40 L396 80 Z" fill="#c9a15a"/><path d="M80 220 L140 300 L60 300 Z" fill="#8d1e2a"/><path d="M180 220 L240 300 L160 300 Z" fill="#e6b15a"/><path d="M500 220 L560 300 L480 300 Z" fill="#8d1e2a"/><path d="M620 220 L680 300 L600 300 Z" fill="#e6b15a"/><rect y="320" width="800" height="122" fill="#6b2430"/>
+<rect x="28" y="28" width="180" height="40" fill="#1b140f" opacity=".88"/>
+  <text x="42" y="56" fill="#f6edd6" font-family="Georgia, 'Times New Roman', serif" font-size="22" letter-spacing="3">MARRAKECH</text>
+<rect x="12" y="12" width="776" height="476" fill="none" stroke="#1b140f" stroke-opacity=".55" stroke-width="4"/>
+</svg>

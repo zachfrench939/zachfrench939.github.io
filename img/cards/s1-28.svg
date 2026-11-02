@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img">
+<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0.00" stop-color="#8eb8c8"/><stop offset="0.50" stop-color="#d5e4ea"/><stop offset="1.00" stop-color="#1a3d4a"/></linearGradient></defs>
+<rect width="800" height="500" fill="url(#sky)"/>
+<radialGradient id="sun" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff"/><stop offset=".4" stop-color="#fff"/><stop offset="1" stop-color="#d5e4ea" stop-opacity="0"/></radialGradient>
+  <circle cx="120" cy="80" r="62.400000000000006" fill="url(#sun)"/>
+  <circle cx="120" cy="80" r="24" fill="#fff"/><path d="M200 340 L280 80 L340 340 Z" fill="#3d5a4a"/><path d="M360 360 L460 40 L540 360 Z" fill="#2c4a3c"/><path d="M560 330 L620 120 L680 330 Z" fill="#1e3a32"/><rect y="300" width="800" height="200" fill="#1a3d4a"/><path d="M0 318 C140 310, 260 328, 420 318 S 680 312, 800 318" fill="none" stroke="#fff" stroke-opacity="0.35" stroke-width="2"/><path d="M0 334 C140 326, 260 344, 420 334 S 680 328, 800 334" fill="none" stroke="#fff" stroke-opacity="0.31999999999999995" stroke-width="2"/><path d="M0 350 C140 342, 260 360, 420 350 S 680 344, 800 350" fill="none" stroke="#fff" stroke-opacity="0.29" stroke-width="2"/><path d="M0 366 C140 358, 260 376, 420 366 S 680 360, 800 366" fill="none" stroke="#fff" stroke-opacity="0.26" stroke-width="2"/><path d="M0 382 C140 374, 260 392, 420 382 S 680 376, 800 382" fill="none" stroke="#fff" stroke-opacity="0.22999999999999998" stroke-width="2"/><path d="M0 398 C140 390, 260 408, 420 398 S 680 392, 800 398" fill="none" stroke="#fff" stroke-opacity="0.19999999999999998" stroke-width="2"/><path d="M0 414 C140 406, 260 424, 420 414 S 680 408, 800 414" fill="none" stroke="#fff" stroke-opacity="0.16999999999999998" stroke-width="2"/><path d="M60 360 L120 300 L130 370 Z" fill="#6b3a2a"/><path d="M40 368 H200 L180 392 H60 Z" fill="#3a2418"/>
+<rect x="28" y="28" width="148" height="40" fill="#1b140f" opacity=".88"/>
+  <text x="42" y="56" fill="#f6edd6" font-family="Georgia, 'Times New Roman', serif" font-size="22" letter-spacing="3">HA LONG</text>
+<rect x="12" y="12" width="776" height="476" fill="none" stroke="#1b140f" stroke-opacity=".55" stroke-width="4"/>
+</svg>

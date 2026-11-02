@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img">
+<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0.00" stop-color="#e7b48a"/><stop offset="0.50" stop-color="#f6ddc4"/><stop offset="1.00" stop-color="#c4714a"/></linearGradient></defs>
+<rect width="800" height="500" fill="url(#sky)"/>
+<path d="M0 0 H220 V442 H0 Z" fill="#a86858"/><path d="M580 0 H800 V442 H580 Z" fill="#8d4e3a"/><path d="M260 200 H540 V380 H260 Z" fill="#f3d2a4"/><path d="M300 200 L400 90 L500 200 Z" fill="#e7b48a"/><rect x="360" y="230" width="80" height="110" fill="#6b3a32"/><circle cx="400" cy="160" r="28" fill="#c4714a"/>
+<rect x="28" y="28" width="116" height="40" fill="#1b140f" opacity=".88"/>
+  <text x="42" y="56" fill="#f6edd6" font-family="Georgia, 'Times New Roman', serif" font-size="22" letter-spacing="3">PETRA</text>
+<rect x="12" y="12" width="776" height="476" fill="none" stroke="#1b140f" stroke-opacity=".55" stroke-width="4"/>
+</svg>

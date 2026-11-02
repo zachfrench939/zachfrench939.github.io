@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img">
+<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0.00" stop-color="#9fd0ea"/><stop offset="0.50" stop-color="#e8f4fb"/><stop offset="1.00" stop-color="#d5e6ef"/></linearGradient></defs>
+<rect width="800" height="500" fill="url(#sky)"/>
+
+    <radialGradient id="sun" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff"/><stop offset=".4" stop-color="#fff"/><stop offset="1" stop-color="#d5eefb" stop-opacity="0"/></radialGradient>
+  <circle cx="120" cy="80" r="72.8" fill="url(#sun)"/>
+  <circle cx="120" cy="80" r="28" fill="#fff"/>
+    <path d="M0 280 L70 160 L130 250 L210 90 L280 240 L360 70 L450 230 L540 100 L640 220 L720 140 L800 230 L800 360 L0 360 Z" fill="#8ea4b3"/>
+    <path d="M190 150 L210 90 L230 150 Z M340 130 L360 70 L380 130 Z" fill="#f7f4ef"/>
+    <path d="M0 320 L90 250 L160 310 L250 230 L340 320 L430 240 L540 330 L640 250 L800 320 L800 400 L0 400 Z" fill="#5e7384"/>
+    <ellipse cx="400" cy="390" rx="220" ry="28" fill="#3f7ea1"/>
+    <ellipse cx="400" cy="394" rx="180" ry="14" fill="#d5eef8" opacity=".55"/>
+    <rect x="77" y="360" width="6" height="32" fill="#3a2a1c"/><ellipse cx="80" cy="360" rx="22.400000000000002" ry="36" fill="#2f4a38"/><rect x="127" y="370" width="6" height="24" fill="#3a2a1c"/><ellipse cx="130" cy="370" rx="16.8" ry="27" fill="#1e3a2c"/>
+<rect x="28" y="28" width="180" height="40" fill="#1b140f" opacity=".88"/>
+  <text x="42" y="56" fill="#f6edd6" font-family="Georgia, 'Times New Roman', serif" font-size="22" letter-spacing="3">DOLOMITES</text>
+<rect x="12" y="12" width="776" height="476" fill="none" stroke="#1b140f" stroke-opacity=".55" stroke-width="4"/>
+</svg>

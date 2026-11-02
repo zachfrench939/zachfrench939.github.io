@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img">
+<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0.00" stop-color="#f0a06a"/><stop offset="0.50" stop-color="#f6d2a4"/><stop offset="1.00" stop-color="#1f6f62"/></linearGradient></defs>
+<rect width="800" height="500" fill="url(#sky)"/>
+<radialGradient id="sun" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff4df"/><stop offset=".4" stop-color="#fff4df"/><stop offset="1" stop-color="#f0a06a" stop-opacity="0"/></radialGradient>
+  <circle cx="620" cy="90" r="83.2" fill="url(#sun)"/>
+  <circle cx="620" cy="90" r="32" fill="#fff4df"/><path d="M80 200 L160 80 L200 200 Z" fill="#1f4d3a"/><path d="M200 210 L300 60 L340 210 Z" fill="#16382a"/><path d="M360 190 L430 100 L470 190 Z" fill="#2f6a4a"/><rect y="280" width="800" height="220" fill="#0e4e68"/><path d="M0 298 C140 290, 260 308, 420 298 S 680 292, 800 298" fill="none" stroke="#f6d2a4" stroke-opacity="0.35" stroke-width="2"/><path d="M0 314 C140 306, 260 324, 420 314 S 680 308, 800 314" fill="none" stroke="#f6d2a4" stroke-opacity="0.31999999999999995" stroke-width="2"/><path d="M0 330 C140 322, 260 340, 420 330 S 680 324, 800 330" fill="none" stroke="#f6d2a4" stroke-opacity="0.29" stroke-width="2"/><path d="M0 346 C140 338, 260 356, 420 346 S 680 340, 800 346" fill="none" stroke="#f6d2a4" stroke-opacity="0.26" stroke-width="2"/><path d="M0 362 C140 354, 260 372, 420 362 S 680 356, 800 362" fill="none" stroke="#f6d2a4" stroke-opacity="0.22999999999999998" stroke-width="2"/><path d="M0 378 C140 370, 260 388, 420 378 S 680 372, 800 378" fill="none" stroke="#f6d2a4" stroke-opacity="0.19999999999999998" stroke-width="2"/><path d="M0 394 C140 386, 260 404, 420 394 S 680 388, 800 394" fill="none" stroke="#f6d2a4" stroke-opacity="0.16999999999999998" stroke-width="2"/><path d="M80 340 L140 300 L150 360 Z" fill="#f4e6c8"/><path d="M70 348 H220 L200 370 H90 Z" fill="#6b3a2a"/>
+<rect x="28" y="28" width="164" height="40" fill="#1b140f" opacity=".88"/>
+  <text x="42" y="56" fill="#f6edd6" font-family="Georgia, 'Times New Roman', serif" font-size="22" letter-spacing="3">THAILAND</text>
+<rect x="12" y="12" width="776" height="476" fill="none" stroke="#1b140f" stroke-opacity=".55" stroke-width="4"/>
+</svg>

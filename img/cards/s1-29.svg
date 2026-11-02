@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img">
+<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0.00" stop-color="#6ea86a"/><stop offset="0.50" stop-color="#d7e6b4"/><stop offset="1.00" stop-color="#3d6b3a"/></linearGradient></defs>
+<rect width="800" height="500" fill="url(#sky)"/>
+<radialGradient id="sun" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff8d8"/><stop offset=".4" stop-color="#fff8d8"/><stop offset="1" stop-color="#d7e6b4" stop-opacity="0"/></radialGradient>
+  <circle cx="100" cy="70" r="62.400000000000006" fill="url(#sun)"/>
+  <circle cx="100" cy="70" r="24" fill="#fff8d8"/><path d="M300 200 L420 60 L540 200 Z" fill="#4d6b48"/><path d="M180 240 H620" stroke="#3d6b3a" stroke-width="16"/><path d="M180 268 H620" stroke="#6b5430" stroke-width="16"/><path d="M180 296 H620" stroke="#3d6b3a" stroke-width="16"/><path d="M180 324 H620" stroke="#6b5430" stroke-width="16"/><path d="M180 352 H620" stroke="#3d6b3a" stroke-width="16"/><rect x="340" y="180" width="80" height="40" fill="#c4b49a"/>
+<rect x="28" y="28" width="228" height="40" fill="#1b140f" opacity=".88"/>
+  <text x="42" y="56" fill="#f6edd6" font-family="Georgia, 'Times New Roman', serif" font-size="22" letter-spacing="3">MACHU PICCHU</text>
+<rect x="12" y="12" width="776" height="476" fill="none" stroke="#1b140f" stroke-opacity=".55" stroke-width="4"/>
+</svg>

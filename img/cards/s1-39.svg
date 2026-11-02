@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img">
+<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0.00" stop-color="#f2e6c8"/><stop offset="0.50" stop-color="#fffaf0"/><stop offset="1.00" stop-color="#e8dcc0"/></linearGradient></defs>
+<rect width="800" height="500" fill="url(#sky)"/>
+<radialGradient id="sun" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff"/><stop offset=".4" stop-color="#fff"/><stop offset="1" stop-color="#f2e6c8" stop-opacity="0"/></radialGradient>
+  <circle cx="400" cy="80" r="78" fill="url(#sun)"/>
+  <circle cx="400" cy="80" r="30" fill="#fff"/><path d="M0 200 L800 160 L800 280 L0 300 Z" fill="#c4b49a"/><polygon points="60,300 100,340 60,380 20,340" fill="#f7f4ef" stroke="#c4b49a"/><polygon points="180,300 220,340 180,380 140,340" fill="#f7f4ef" stroke="#c4b49a"/><polygon points="300,300 340,340 300,380 260,340" fill="#f7f4ef" stroke="#c4b49a"/><polygon points="440,300 480,340 440,380 400,340" fill="#f7f4ef" stroke="#c4b49a"/><polygon points="580,300 620,340 580,380 540,340" fill="#f7f4ef" stroke="#c4b49a"/><polygon points="700,300 740,340 700,380 660,340" fill="#f7f4ef" stroke="#c4b49a"/><path d="M80 250 C160 180, 200 180, 260 250" fill="#7eb8c8" opacity=".8"/>
+<rect x="28" y="28" width="148" height="40" fill="#1b140f" opacity=".88"/>
+  <text x="42" y="56" fill="#f6edd6" font-family="Georgia, 'Times New Roman', serif" font-size="22" letter-spacing="3">ATACAMA</text>
+<rect x="12" y="12" width="776" height="476" fill="none" stroke="#1b140f" stroke-opacity=".55" stroke-width="4"/>
+</svg>
