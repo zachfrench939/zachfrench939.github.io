@@ -15,8 +15,8 @@
 .pass-head b{color:#b42316}
 .pass-class{display:flex;justify-content:space-between;align-items:baseline;border:1.5px solid #1c2744;padding:3px 6px;font:700 .62rem 'Space Mono',monospace;text-transform:uppercase;letter-spacing:.04em}
 .pass-class i{font-style:normal;opacity:.7}
-.pass-art{position:relative;border:2px solid #1c2744;background:#1b140f;aspect-ratio:5/4;overflow:hidden;flex:1 1 auto;min-height:150px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
-.pass-art img{width:100%;height:100%;object-fit:cover;display:block}
+.pass-art{position:relative;border:2px solid #1c2744;background:#1b140f;aspect-ratio:8/5;overflow:hidden;flex:0 0 auto;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
+.pass-art img{width:100%;height:100%;object-fit:contain;object-position:center;display:block}
 .pass-art .foil{position:absolute;inset:0;pointer-events:none;opacity:0}
 .pass-art::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.22;mix-blend-mode:multiply;background-image:repeating-linear-gradient(115deg, transparent 0 3px, rgba(40,24,10,.18) 3px 4px)}
 .pass-name{font-family:'Archivo Black',sans-serif;font-size:1.15rem;line-height:.95;letter-spacing:-.02em;margin-top:2px}
