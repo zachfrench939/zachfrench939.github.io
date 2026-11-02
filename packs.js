@@ -630,9 +630,11 @@ const codeMsg = $('#codeMsg');
 const REASONS = {
   empty: 'Enter a code first.',
   unknown: 'That code is not valid.',
+  invalid: 'That code is not valid.',
   expired: 'That code has expired.',
-  used: 'That code was already used in this browser.',
-  unsupported: 'This browser cannot check codes (no secure crypto). Open the site over HTTPS.'
+  used: 'That code has already been used.',
+  unsupported: 'This browser cannot check codes (no secure crypto). Open the site over HTTPS.',
+  network: 'Could not reach the code server. Check your connection and try again.'
 };
 if (codeForm) codeForm.addEventListener('submit', async e => {
   e.preventDefault();
@@ -647,7 +649,7 @@ if (codeForm) codeForm.addEventListener('submit', async e => {
   } else {
     const q = queue();
     const n = Math.max(1, Math.min(100, entry.packs || 1));
-    for (let i = 0; i < n; i++) q.push({ type: entry.type || 'extra', boost: entry.boost || null, packType: entry.packType || 'standard', label: entry.label || 'Special pack' });
+    for (let i = 0; i < n; i++) q.push({ type: entry.type || 'packs', boost: entry.boost || null, packType: entry.packType || 'standard', label: entry.label || 'Special pack' });
     saveQueue(q);
     if (codeMsg) codeMsg.textContent = `${entry.label || 'Special pack'} · ${n} added. They skip the hour cooldown.`;
   }
