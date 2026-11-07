@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Wick — a 15-minute quiz</title>
-  <meta name="description" content="Wick is a 15-minute general knowledge quiz in the browser. No account, no cookies, no tracking.">
+  <title>Wick — a 1-minute quiz</title>
+  <meta name="description" content="Wick is a 1-minute general knowledge quiz. Up to 100 questions. No account, no cookies, no tracking.">
   <meta name="theme-color" content="#2046c7">
-  <link rel="canonical" href="https://zachfrench939.github.io/quiz/">
+  <link rel="canonical" href="./">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -18,7 +18,7 @@
         <h1>Wick</h1>
         <div class="tools">
           <p class="timer" id="timer" hidden>
-            <span class="visually-hidden">Time left </span><span id="timer-clock">15:00</span>
+            <span class="visually-hidden">Time left </span><span id="timer-clock">1:00</span>
           </p>
           <button type="button" id="sound-toggle" aria-pressed="false" aria-label="Sound off">Sound off</button>
         </div>
@@ -27,8 +27,8 @@
     </header>
     <main id="main" tabindex="-1">
       <section id="screen-start">
-        <p class="lede">Fifteen minutes. How far does the wick burn?</p>
-        <p>Answer as many general knowledge questions as you can. The run ends when time runs out, the questions run out, or you tap End game.</p>
+        <p class="lede">One minute. One hundred questions.</p>
+        <p>A random draw from the full bank, with no repeats. The round ends when the minute runs out, you finish 100, or you tap End game.</p>
         <ul class="rules">
           <li>Four answers. Tap one, or press 1, 2, 3, or 4.</li>
           <li>A correct answer is 100 points. A streak scores more, up to 250.</li>
@@ -60,7 +60,7 @@
         <p id="new-best" class="new-best" hidden>New best on this device.</p>
         <dl class="results">
           <div><dt>Accuracy</dt><dd id="end-acc">—</dd></div>
-          <div><dt>Correct</dt><dd id="end-correct">0 of 0</dd></div>
+          <div><dt>Answered</dt><dd id="end-correct">0 of 100</dd></div>
           <div><dt>Best streak</dt><dd id="end-streak">0</dd></div>
           <div><dt>Your best</dt><dd id="end-best">—</dd></div>
         </dl>

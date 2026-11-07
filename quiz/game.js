@@ -1,8 +1,9 @@
 (function () {
   "use strict";
 
-  var DURATION_MS = 15 * 60 * 1000;
-  var ADVANCE_MS = 1100;
+  var DURATION_MS = 60 * 1000;
+  var ROUND_SIZE = 100;
+  var ADVANCE_MS = 380;
   var BEST_KEY = "wick-best-score";
   var SOUND_KEY = "wick-sound";
 
@@ -64,7 +65,6 @@
   var endAt = 0;
   var timerId = 0;
   var advanceId = 0;
-  var warnedMinute = false;
   var warnedTen = false;
   var soundOn = false;
   var audioCtx = null;
@@ -98,9 +98,14 @@
     var total = Math.ceil(Math.max(0, ms) / 1000);
     var m = Math.floor(total / 60);
     var s = total % 60;
-    var mm = m < 10 ? "0" + m : String(m);
-    var ss = s < 10 ? "0" + s : String(s);
-    return mm + ":" + ss;
+    return m + ":" + (s < 10 ? "0" + s : String(s));
+  }
+
+  function pageUrl() {
+    var url = new URL("./", window.location.href);
+    url.search = "";
+    url.hash = "";
+    return url.href;
   }
 
   function bank() {
@@ -125,18 +130,14 @@
   }
 
   function pointsFor(n) {
-    if (n >= 8) return 250;
-    if (n >= 5) return 200;
-    if (n >= 4) return 170;
-    if (n >= 3) return 140;
-    if (n >= 2) return 120;
+    if (n >= 4) return 250;
+    if (n >= 3) return 200;
+    if (n >= 2) return 150;
     return 100;
   }
 
   function labelFor(n) {
-    if (n >= 8) return "BLAZING";
-    if (n >= 5) return "ON FIRE";
-    if (n >= 4) return "HOT";
+    if (n >= 4) return "BLAZING";
     if (n >= 3) return "SHARP";
     if (n >= 2) return "NICE";
     return "GOT IT";
@@ -204,11 +205,14 @@
     var playing = name === "play";
     timer.hidden = !playing;
     wickWrap.hidden = !playing;
+    if (!playing) document.body.classList.remove("is-urgent");
   }
 
   function renderTimer(ms) {
+    var low = ms > 0 && ms <= 10000;
     timerClock.textContent = formatClock(ms);
-    timer.classList.toggle("is-low", ms > 0 && ms <= 10000);
+    timer.classList.toggle("is-low", low);
+    document.body.classList.toggle("is-urgent", low);
     var pct = Math.max(0, Math.min(100, (ms / DURATION_MS) * 100));
     wickBar.style.width = pct + "%";
   }
@@ -276,7 +280,7 @@
     renderChoices();
     renderStatus();
     renderTimer(Math.max(0, endAt - Date.now()));
-    questionEl.focus();
+    if (questionEl.focus) questionEl.focus({ preventScroll: true });
   }
 
   function choose(i) {
@@ -309,10 +313,7 @@
     }
     paintChoices(i);
     renderStatus();
-    var moreLeft = index < deck.length && Date.now() < endAt;
-    nextBtn.hidden = false;
-    nextBtn.textContent = moreLeft ? "Next question" : "See results";
-    nextBtn.focus();
+    nextBtn.hidden = true;
     clearTimeout(advanceId);
     advanceId = setTimeout(advance, ADVANCE_MS);
   }
@@ -343,7 +344,7 @@
   }
 
   function reasonLabel(reason) {
-    if (reason === "bank") return "Bank cleared";
+    if (reason === "bank") return "All 100 done";
     if (reason === "end") return "You ended it";
     return "Time's up";
   }
@@ -354,9 +355,9 @@
   }
 
   function buildShare(result) {
-    var lines = ["WICK", "Score " + formatScore(result.score)];
+    var lines = ["WICK", "1 minute · " + result.roundSize + " questions", "Score " + formatScore(result.score)];
     if (result.newBest) lines.push("New best on this device");
-    lines.push(result.correct + "/" + result.answered + " correct · " + result.accuracy);
+    lines.push(result.answered + " of " + result.roundSize + " · " + result.accuracy);
     lines.push("Best streak " + result.bestStreak);
     lines.push("");
     if (result.results.length) {
@@ -367,7 +368,7 @@
       }
       lines.push("");
     }
-    lines.push("https://zachfrench939.github.io/quiz/");
+    lines.push(pageUrl());
     return lines.join("\n");
   }
 
@@ -393,7 +394,7 @@
     closeConfirmQuiet();
     if (mode === "feedback" && !ended) {
       clearTimeout(advanceId);
-      advanceId = setTimeout(advance, 800);
+      advanceId = setTimeout(advance, ADVANCE_MS);
     }
     if (!screens.play.hidden) endBtn.focus();
   }
@@ -429,6 +430,7 @@
       accuracy: accuracy,
       bestStreak: bestStreak,
       results: results.slice(),
+      roundSize: deck.length,
       newBest: better,
       reason: reason
     };
@@ -436,7 +438,7 @@
     verdictEl.textContent = verdictFor(reason);
     endScore.textContent = formatScore(score);
     endAcc.textContent = accuracy;
-    endCorrect.textContent = correct + " of " + answered;
+    endCorrect.textContent = answered + " of " + deck.length;
     endStreak.textContent = String(bestStreak);
     endBest.textContent = savedBest === null ? "—" : formatScore(savedBest);
     newBestEl.hidden = !better;
@@ -461,11 +463,7 @@
     renderTimer(left);
     if (!warnedTen && left <= 10000) {
       warnedTen = true;
-      warnedMinute = true;
       say("Ten seconds left.");
-    } else if (!warnedMinute && left <= 60000) {
-      warnedMinute = true;
-      say("One minute left.");
     }
   }
 
@@ -480,7 +478,7 @@
     }
     mode = "starting";
     loadError.hidden = true;
-    deck = shuffle(source).map(function (item) {
+    deck = shuffle(source).slice(0, ROUND_SIZE).map(function (item) {
       return {
         category: item.category,
         q: item.q,
@@ -498,7 +496,6 @@
     current = null;
     locked = false;
     ended = false;
-    warnedMinute = false;
     warnedTen = false;
     endAt = Date.now() + DURATION_MS;
     clearInterval(timerId);
@@ -508,8 +505,11 @@
     renderTimer(DURATION_MS);
     timerId = setInterval(tick, 200);
     showQuestion();
-    say("Game started. Fifteen minutes. " + deck.length + " questions.");
+    say("Game started. One minute. " + deck.length + " questions.");
   }
+
+  var canon = document.querySelector('link[rel="canonical"]');
+  if (canon) canon.setAttribute("href", pageUrl());
 
   soundOn = false;
   try {
