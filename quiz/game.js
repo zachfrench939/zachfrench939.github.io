@@ -4,6 +4,7 @@
   var DURATION_MS = 60 * 1000;
   var ROUND_SIZE = 100;
   var ADVANCE_MS = 380;
+  var COOLDOWN_MS = 2000;
   var BEST_KEY = "wick-best-score";
   var SOUND_KEY = "wick-sound";
 
@@ -19,8 +20,24 @@
   var soundBtn = document.getElementById("sound-toggle");
   var timer = document.getElementById("timer");
   var timerClock = document.getElementById("timer-clock");
-  var wickWrap = document.getElementById("wick-wrap");
-  var wickBar = document.getElementById("wick-bar");
+  var candle = document.getElementById("candle");
+  var openPanel = document.getElementById("daily-open");
+  var donePanel = document.getElementById("daily-done");
+  var dayOpen = document.getElementById("day-open");
+  var dayDone = document.getElementById("day-done");
+  var openStreak = document.getElementById("open-streak");
+  var doneScore = document.getElementById("done-score");
+  var doneAnswered = document.getElementById("done-answered");
+  var doneAcc = document.getElementById("done-acc");
+  var doneRun = document.getElementById("done-run");
+  var doneDaily = document.getElementById("done-daily");
+  var nextOpen = document.getElementById("next-open");
+  var nextDone = document.getElementById("next-done");
+  var nextEnd = document.getElementById("next-end");
+  var practiceBtn = document.getElementById("practice-btn");
+  var practiceNote = document.getElementById("practice-note");
+  var endDaily = document.getElementById("end-daily");
+  var confirmCopy = document.getElementById("confirm-copy");
   var counterEl = document.getElementById("counter");
   var scoreEl = document.getElementById("score");
   var streakEl = document.getElementById("streak");
@@ -67,6 +84,16 @@
   var advanceId = 0;
   var warnedTen = false;
   var soundOn = false;
+  var practice = false;
+  var blowingOut = false;
+  var clockId = 0;
+  var cooldownUntil = 0;
+  var cooldownId = 0;
+  var cooldownEl = document.getElementById("cooldown");
+  var cooldownLabel = document.getElementById("cooldown-label");
+  var cooldownBar = document.getElementById("cooldown-bar");
+  var compareEl = document.getElementById("compare");
+  var compareDone = document.getElementById("compare-done");
   var audioCtx = null;
   var lastResult = null;
 
@@ -95,10 +122,7 @@
   }
 
   function formatClock(ms) {
-    var total = Math.ceil(Math.max(0, ms) / 1000);
-    var m = Math.floor(total / 60);
-    var s = total % 60;
-    return m + ":" + (s < 10 ? "0" + s : String(s));
+    return String(Math.ceil(Math.max(0, ms) / 1000));
   }
 
   function pageUrl() {
@@ -116,17 +140,6 @@
         item.choices && item.choices.length === 4 &&
         item.choices.indexOf(item.answer) !== -1;
     });
-  }
-
-  function shuffle(list) {
-    var copy = list.slice();
-    for (var i = copy.length - 1; i > 0; i -= 1) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var tmp = copy[i];
-      copy[i] = copy[j];
-      copy[j] = tmp;
-    }
-    return copy;
   }
 
   function pointsFor(n) {
@@ -204,17 +217,22 @@
     document.body.classList.add("is-" + name);
     var playing = name === "play";
     timer.hidden = !playing;
-    wickWrap.hidden = !playing;
     if (!playing) document.body.classList.remove("is-urgent");
+    if (playing) renderCountdown();
+  }
+
+  function renderCandle(ms) {
+    var pct = Math.max(0, Math.min(100, (ms / DURATION_MS) * 100));
+    candle.style.setProperty("--burn", pct + "%");
+    candle.classList.toggle("is-out", ms <= 0);
   }
 
   function renderTimer(ms) {
     var low = ms > 0 && ms <= 10000;
     timerClock.textContent = formatClock(ms);
     timer.classList.toggle("is-low", low);
-    document.body.classList.toggle("is-urgent", low);
-    var pct = Math.max(0, Math.min(100, (ms / DURATION_MS) * 100));
-    wickBar.style.width = pct + "%";
+    document.body.classList.toggle("is-urgent", low && ms > 0);
+    renderCandle(ms);
   }
 
   function renderStatus() {
@@ -277,13 +295,36 @@
     pop.textContent = "";
     pop.classList.remove("is-show", "is-bad");
     nextBtn.hidden = true;
+    clearCooldown();
     renderChoices();
     renderStatus();
     renderTimer(Math.max(0, endAt - Date.now()));
     if (questionEl.focus) questionEl.focus({ preventScroll: true });
   }
 
+  function clearCooldown() {
+    clearInterval(cooldownId);
+    cooldownUntil = 0;
+    if (cooldownEl) cooldownEl.hidden = true;
+  }
+
+  function paintCooldown() {
+    var left = cooldownUntil - Date.now();
+    if (left < 0) left = 0;
+    if (cooldownBar) cooldownBar.style.width = ((left / COOLDOWN_MS) * 100) + "%";
+    if (cooldownLabel) cooldownLabel.textContent = "Wait " + Math.max(1, Math.ceil(left / 1000));
+  }
+
+  function startCooldown() {
+    cooldownUntil = Date.now() + COOLDOWN_MS;
+    if (cooldownEl) cooldownEl.hidden = false;
+    paintCooldown();
+    clearInterval(cooldownId);
+    cooldownId = setInterval(paintCooldown, 100);
+  }
+
   function choose(i) {
+    if (Date.now() < cooldownUntil) return;
     if (mode !== "play" || locked || !current) return;
     if (i < 0 || i > 3) return;
     var choice = current.choices[i];
@@ -315,7 +356,16 @@
     renderStatus();
     nextBtn.hidden = true;
     clearTimeout(advanceId);
-    advanceId = setTimeout(advance, ADVANCE_MS);
+    if (right) {
+      clearCooldown();
+      advanceId = setTimeout(advance, ADVANCE_MS);
+    } else {
+      startCooldown();
+      advanceId = setTimeout(function () {
+        clearCooldown();
+        advance();
+      }, COOLDOWN_MS);
+    }
   }
 
   function advance() {
@@ -355,10 +405,18 @@
   }
 
   function buildShare(result) {
-    var lines = ["WICK", "1 minute · " + result.roundSize + " questions", "Score " + formatScore(result.score)];
+    var lines = ["Wick #" + result.dayNumber];
+    lines.push(result.practice ? "Practice · not scored" : "1 minute · " + result.roundSize + " questions");
+    if (!result.practice && result.tierLabel) {
+      lines[0] = "Wick #" + result.dayNumber + ", " + result.correct + " correct, " + result.tierLabel;
+    } else if (!result.practice) {
+      lines[0] = "Wick #" + result.dayNumber + ", " + result.correct + " correct";
+    }
+    lines.push("Score " + formatScore(result.score));
     if (result.newBest) lines.push("New best on this device");
     lines.push(result.answered + " of " + result.roundSize + " · " + result.accuracy);
     lines.push("Best streak " + result.bestStreak);
+    if (!result.practice) lines.push("Daily streak " + result.dailyStreak);
     lines.push("");
     if (result.results.length) {
       for (var i = 0; i < result.results.length; i += 8) {
@@ -394,18 +452,138 @@
     closeConfirmQuiet();
     if (mode === "feedback" && !ended) {
       clearTimeout(advanceId);
-      advanceId = setTimeout(advance, ADVANCE_MS);
+      var wait = cooldownUntil > Date.now() ? (cooldownUntil - Date.now()) : ADVANCE_MS;
+      advanceId = setTimeout(function () {
+        clearCooldown();
+        advance();
+      }, wait);
     }
     if (!screens.play.hidden) endBtn.focus();
   }
 
   function openConfirm() {
-    if (ended || mode === "start" || mode === "end") return;
+    if (ended || mode === "start" || mode === "end" || mode === "ending") return;
     clearTimeout(advanceId);
+    confirmCopy.textContent = practice
+      ? "This practice run is not scored."
+      : "This is your one scored Wick for today.";
     confirmEl.hidden = false;
     document.body.classList.add("modal-open");
     wrap.inert = true;
     confirmYes.focus();
+  }
+
+  function tierFromRank(correctCount, dist, rank) {
+    var count = Number(dist && dist.count);
+    if (!isFinite(count) || count < 1) return null;
+    if (count < 5) {
+      return {
+        tierLabel: "",
+        text: "You're one of the first " + count + (count === 1 ? " player" : " players") + " today."
+      };
+    }
+    var fraction = Number(rank && rank.fraction);
+    if (!isFinite(fraction)) return null;
+    var average = dist.average == null ? "—" : dist.average;
+    var label = "";
+    var text = "";
+    if (fraction >= 0.99) {
+      label = "top 1%";
+      text = "Top 1%";
+    } else if (fraction >= 0.95) {
+      label = "top 5%";
+      text = "Top 5%";
+    } else if (fraction >= 0.9) {
+      label = "top 10%";
+      text = "Top 10%";
+    } else if (fraction >= 0.75) {
+      label = "top 25%";
+      text = "Top 25%";
+    } else if (fraction >= 0.5) {
+      label = "better than 50%";
+      text = "Better than 50% of players";
+    } else {
+      text = "Keep going, today's average was " + average + ".";
+    }
+    if (label) text += ". Today's average is " + average + " across " + count + " players.";
+    else text += " " + count + " players today.";
+    return { tierLabel: label, text: text };
+  }
+
+  function showComparison(el, dayNumber, correctCount, isPractice, doSubmit) {
+    if (!el) return;
+    el.hidden = true;
+    el.textContent = "";
+    if (isPractice) return;
+    var stats = window.WickStats;
+    if (!stats || !stats.configured()) return;
+    var score = Math.max(0, Math.min(100, Math.round(Number(correctCount)) || 0));
+    var start;
+    try {
+      start = doSubmit ? stats.submitDailyScore(dayNumber, score) : Promise.resolve({ ok: true });
+    } catch (err) {
+      return;
+    }
+    start.then(function (sent) {
+      if (doSubmit && sent && sent.ok === false && !sent.duplicate) return null;
+      return Promise.all([
+        stats.getDailyDistribution(dayNumber),
+        stats.getDailyRank(dayNumber, score)
+      ]);
+    }).then(function (pair) {
+      if (!pair || !pair[0] || !pair[1]) return;
+      var tier = tierFromRank(score, pair[0], pair[1]);
+      if (!tier) return;
+      if (lastResult && !lastResult.practice && lastResult.dayNumber === dayNumber) {
+        lastResult.tierLabel = tier.tierLabel;
+      }
+      el.hidden = false;
+      el.textContent = tier.text;
+    }).catch(function () {});
+  }
+
+  var homeDate = "";
+
+  function renderCountdown() {
+    var now = new Date();
+    var today = window.WickDaily.londonDate(now);
+    if (homeDate && today !== homeDate && mode !== "play" && mode !== "feedback" && mode !== "ending" && mode !== "starting") {
+      paintHome();
+      return;
+    }
+    var left = window.WickDaily.nextMidnight(now) - now.getTime();
+    var text = "Next Wick in " + window.WickDaily.formatRemaining(Math.max(0, left));
+    nextOpen.textContent = text;
+    nextDone.textContent = text;
+    nextEnd.textContent = text;
+  }
+
+  function paintHome() {
+    var now = new Date();
+    var daily = window.WickDaily;
+    var today = daily.londonDate(now);
+    homeDate = today;
+    var label = "Wick #" + daily.dayNumber(today);
+    var result = daily.todayResult(now);
+    var streak = daily.currentStreak(now);
+    dayOpen.textContent = label;
+    dayDone.textContent = label;
+    openStreak.textContent = String(streak);
+    if (result) {
+      openPanel.hidden = true;
+      donePanel.hidden = false;
+      doneScore.textContent = formatScore(result.score);
+      doneAnswered.textContent = result.answered + " of " + result.roundSize;
+      doneAcc.textContent = result.accuracy;
+      doneRun.textContent = String(result.bestStreak);
+      doneDaily.textContent = String(streak);
+      showComparison(compareDone, result.dayNumber, result.correct, false, false);
+    } else {
+      openPanel.hidden = false;
+      donePanel.hidden = true;
+    }
+    renderBest();
+    renderCountdown();
   }
 
   function finish(reason) {
@@ -413,16 +591,31 @@
     ended = true;
     clearInterval(timerId);
     clearTimeout(advanceId);
+    clearCooldown();
     mode = "end";
     closeConfirmQuiet();
     var had = readBest();
-    var better = score > (had === null ? 0 : had);
+    var better = !practice && score > (had === null ? 0 : had);
     var savedBest = had;
     if (better) {
       if (writeBest(score)) savedBest = score;
       else better = false;
     }
     var accuracy = accuracyText();
+    var now = new Date();
+    var dailyStreak = window.WickDaily.currentStreak(now);
+    if (!practice) {
+      var saved = window.WickDaily.record({
+        score: score,
+        answered: answered,
+        correct: correct,
+        accuracy: accuracy,
+        bestStreak: bestStreak,
+        results: results.slice(),
+        roundSize: deck.length
+      }, now);
+      dailyStreak = saved.streak;
+    }
     lastResult = {
       score: score,
       correct: correct,
@@ -432,32 +625,45 @@
       results: results.slice(),
       roundSize: deck.length,
       newBest: better,
-      reason: reason
+      reason: reason,
+      practice: practice,
+      dayNumber: window.WickDaily.dayNumber(window.WickDaily.londonDate(now)),
+      dailyStreak: dailyStreak
     };
-    endReason.textContent = reasonLabel(reason);
-    verdictEl.textContent = verdictFor(reason);
+    endReason.textContent = practice ? "Practice" : reasonLabel(reason);
+    verdictEl.textContent = practice ? "Not scored. Have another look." : verdictFor(reason);
     endScore.textContent = formatScore(score);
     endAcc.textContent = accuracy;
     endCorrect.textContent = answered + " of " + deck.length;
     endStreak.textContent = String(bestStreak);
-    endBest.textContent = savedBest === null ? "—" : formatScore(savedBest);
+    endDaily.textContent = String(dailyStreak);
     newBestEl.hidden = !better;
+    practiceNote.hidden = !practice;
+    showComparison(compareEl, lastResult.dayNumber, correct, practice, !practice);
     renderGrid(results);
     shareStatus.textContent = "";
     shareFallback.hidden = true;
     shareText.value = "";
     renderBest();
+    renderCountdown();
+    paintHome();
     showScreen("end");
     verdictEl.focus();
-    say(reasonLabel(reason) + ". Score " + formatScore(score) + ". " + verdictEl.textContent);
+    say((practice ? "Practice. " : "") + reasonLabel(reason) + ". Score " + formatScore(score) + ". " + verdictEl.textContent);
   }
 
   function tick() {
-    if (ended) return;
+    if (ended || blowingOut) return;
     var left = endAt - Date.now();
     if (left <= 0) {
+      blowingOut = true;
+      locked = true;
+      mode = "ending";
+      clearInterval(timerId);
+      clearTimeout(advanceId);
       renderTimer(0);
-      finish("time");
+      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      setTimeout(function () { finish("time"); }, reduce ? 0 : 900);
       return;
     }
     renderTimer(left);
@@ -467,25 +673,26 @@
     }
   }
 
-  function startGame() {
-    if (mode === "play" || mode === "feedback" || mode === "starting") return;
+  function startGame(asPractice) {
+    if (mode === "play" || mode === "feedback" || mode === "starting" || mode === "ending") return;
     var source = bank();
-    if (!source.length) {
+    if (!source.length || !window.WickDaily) {
       mode = "start";
       loadError.hidden = false;
       showScreen("start");
       return;
     }
+    var now = new Date();
+    if (!asPractice && window.WickDaily.todayResult(now)) {
+      paintHome();
+      showScreen("start");
+      return;
+    }
+    practice = !!asPractice;
     mode = "starting";
     loadError.hidden = true;
-    deck = shuffle(source).slice(0, ROUND_SIZE).map(function (item) {
-      return {
-        category: item.category,
-        q: item.q,
-        answer: item.answer,
-        choices: shuffle(item.choices)
-      };
-    });
+    var today = window.WickDaily.londonDate(now);
+    deck = window.WickDaily.pickQuestions(source, today, ROUND_SIZE);
     index = 0;
     score = 0;
     streak = 0;
@@ -496,7 +703,9 @@
     current = null;
     locked = false;
     ended = false;
+    blowingOut = false;
     warnedTen = false;
+    candle.classList.remove("is-out");
     endAt = Date.now() + DURATION_MS;
     clearInterval(timerId);
     clearTimeout(advanceId);
@@ -505,7 +714,7 @@
     renderTimer(DURATION_MS);
     timerId = setInterval(tick, 200);
     showQuestion();
-    say("Game started. One minute. " + deck.length + " questions.");
+    say((practice ? "Practice. " : "Wick " + window.WickDaily.dayNumber(today) + ". ") + "Sixty seconds. " + deck.length + " questions.");
   }
 
   var canon = document.querySelector('link[rel="canonical"]');
@@ -518,8 +727,12 @@
     soundOn = false;
   }
   renderSound();
-  renderBest();
+  paintHome();
   showScreen("start");
+  clockId = setInterval(function () {
+    if (mode === "play" || mode === "feedback" || mode === "ending") return;
+    renderCountdown();
+  }, 1000);
 
   soundBtn.addEventListener("click", function () {
     soundOn = !soundOn;
@@ -533,8 +746,9 @@
     }
   });
 
-  startBtn.addEventListener("click", startGame);
-  againBtn.addEventListener("click", startGame);
+  startBtn.addEventListener("click", function () { startGame(false); });
+  practiceBtn.addEventListener("click", function () { startGame(true); });
+  againBtn.addEventListener("click", function () { startGame(true); });
   nextBtn.addEventListener("click", advance);
   endBtn.addEventListener("click", openConfirm);
   confirmYes.addEventListener("click", function () {
@@ -575,6 +789,7 @@
   document.addEventListener("keydown", function (event) {
     if (event.metaKey || event.ctrlKey || event.altKey) return;
     if (!confirmEl.hidden) return;
+    if (Date.now() < cooldownUntil) return;
     if (mode === "play" && !locked) {
       var map = { "1": 0, "2": 1, "3": 2, "4": 3 };
       if (Object.prototype.hasOwnProperty.call(map, event.key)) {
